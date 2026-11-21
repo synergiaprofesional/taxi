@@ -1,41 +1,38 @@
 # 🏛️ CONTEXT.md — Contexto Central de Arquitectura y Reglas
 
-**Proyecto:** Synergia Móvil (FUNDETAXCOL)  
-**Versión Actual:** `v2.1.25+27`  
+**Proyecto:** Taxi — PídemeAquí  
+**Versión Actual:** `v3.0.0+1`  
 **Framework:** Flutter SDK `^3.12.2` / Dart  
 **Gestor de Estado:** GetX (`^4.7.3`)  
-**Backend:** Odoo 11 EE (`fundetaxcol.co`, JSON-RPC) + Node.js Socket.IO (`fundetaxcol.co:3000`)
+**Backend:** Google Cloud Firestore + Firebase Auth + Firebase Functions  
+**Plataforma Web y Servidor VPS:** `https://pidemeaqui.com` (`80.190.75.49` con Caddy v2 y Docker)
 
 ---
 
 ## 📦 Paquetes y Versiones Clave (`pubspec.yaml`)
+- `firebase_core`, `cloud_firestore`, `firebase_auth`, `firebase_messaging` (Backend reactivo en la nube)
+- `google_mobile_ads: ^5.1.0` (Monetización con enclavamiento de seguridad vial)
 - `get: ^4.7.3` (Gestión de estado reactivo, inyección de dependencias `Get.put`/`Get.find`, enrutamiento)
-- `http: ^1.6.0` (Cliente HTTP para JSON-RPC hacia Odoo 11)
-- `socket_io_client: ^1.0.2` (WebSockets en tiempo real hacia `server_rt_odoo`)
 - `shared_preferences: ^2.5.6` (Persistencia local en disco)
 - `intl: ^0.20.3` (Formateo de moneda `es_CO` y fechas)
-- `cupertino_icons: ^1.0.8`
 
 ---
 
 ## 🧱 Estructura Canónica de Directorios
-- `lib/core/` -> Configuración, red (`NetworkConfig`), tema (`AppColors`, `AppTheme`), utilidades (`LocalStorage`).
-- `lib/models/` -> Modelos puros e inmutables (`TurnoModel`, `PagoRecaudoModel`, `TarifaSectorModel`, etc.).
-- `lib/services/` -> Servicios de comunicación y hardware (`OdooService`, `SocketService`, `PrinterService`).
+- `lib/core/` -> Configuración, red (`NetworkConfig`), tema (`AppColors`, `AppTheme`), utilidades (`LocalStorage`, `WhatsAppTrackingHelper`).
+- `lib/models/` -> Modelos puros e inmutables (`UserModel`, `ViajeModel`, `TurnoModel`, `OrganizacionModel`, `TarifaSectorModel`, `RecaudoModel`).
+- `lib/services/` -> Servicios de datos y hardware (`FirestoreRepository`, `FirebaseService`, `PrinterService`).
 - `lib/controllers/` -> Lógica de negocio reactiva (`TurnoController`, `ThemeController`).
-- `lib/ui/views/` -> Pantallas de la aplicación (`auth/`, `bahia/`, `form/`, `home/`, `list/`, `main/`, `settings/`).
-- `lib/ui/widgets/` -> Tarjetas y componentes reutilizables (`pago_card_widget.dart`, `turno_card_widget.dart`, etc.).
-- `scripts/` -> Scripts de compilación y despliegue automatizado (**PROHIBIDO BORRAR**).
-- `Bitacoras/` -> Documentación dual de sesiones (`Bitacora ddmmaaa.md` y `Bitacora YYYYMMDD HHmmss.md`).
-- `docs/` -> Documentación técnica persistente (`contexto_tecnico_synergia_movil.md`).
+- `lib/ui/views/` -> Pantallas multi-rol (`auth/`, `bahia/`, `driver/`, `passenger/`, `form/`, `home/`, `list/`, `settings/`).
+- `lib/ui/widgets/` -> Componentes visuales (`admob_banner_widget.dart`, `despacho_card_widget.dart`, etc.).
+- `scripts/` -> Scripts de despliegue y validación del VPS `pidemeaqui.com`.
+- `Bitacoras/` -> Tríada obligatoria de documentación.
+- `docs/` -> Memoria ontológica viva (LLM Wiki en `docs/wiki/`).
 
 ---
 
 ## 🛡️ Reglas Inviolables de Arquitectura y Código
-1. **Regla GetX Obx:** En cualquier `Obx(() { ... })`, la variable observable `.value` **DEBE LEERSE EN LA PRIMERA LÍNEA** antes de cualquier `if` o `return` condicional para evitar `improper use of GetX`.
-2. **Prohibido `setState()` en `build()`:** Nunca mutar controladores (`TextEditingController.text = ...`) dentro de constructores de vista o `fieldViewBuilder`.
-3. **Colores y Tipografía:** Usar siempre `AppColors` y `AppTheme` (prohibido quemar colores hexadecimales).
-4. **Odoo 11 Legacy:** Autenticación exclusiva por cookies `session_id`. Detección de sesión expirada mediante `error['code'] == 100` y `SessionExpiredException` en HTTP 200 con re-autenticación en caliente.
-5. **Hardware en Hilo de Fondo:** Cualquier operación de hardware (impresión térmica, Bluetooth RFCOMM, TCP) debe ejecutarse en hilos de fondo (`Executors.newSingleThreadExecutor()` / `Dispatchers.IO`) con timeout de 3.5s para no congelar la UI.
-6. **Versionamiento Continuo:** Incrementar obligatoriamente `pubspec.yaml` y `lib/core/config/app_version.dart` en cada ciclo.
-
+1. **Independencia Total de Marca:** Prohibido referenciar a dominios o sistemas legacy externos. La plataforma oficial es `pidemeaqui.com`.
+2. **Seguridad Vial:** Prohibición estricta de anuncios o popups mientras el conductor esté en movimiento (`en_camino`, `a_bordo`).
+3. **Ancla Legal Oficial:** Las tarifas están ancladas al decreto distrital oficial por sectores; cero cobros arbitrarios o tarifas dinámicas sin piso.
+4. **La Tripleta Obligatoria:** Todo cambio sigue OpenSpec $\to$ Bitácoras (Diaria + Sesión + Monolito) $\to$ Engram.

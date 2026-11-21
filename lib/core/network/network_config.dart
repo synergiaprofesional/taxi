@@ -7,8 +7,8 @@ class NetworkConfig {
   int _port;
 
   NetworkConfig({
-    String host = 'fundetaxcol.co',
-    bool useHttps = false,
+    String host = 'pidemeaqui.com',
+    bool useHttps = true,
     int? port,
   })  : _host = sanitizeHost(host),
         _useHttps = useHttps,
@@ -48,7 +48,7 @@ class NetworkConfig {
     String clean = rawHost.trim();
     clean = clean.replaceFirst(RegExp(r'^https?:\/\/', caseSensitive: false), '');
     clean = clean.replaceAll(RegExp(r'\/.*$'), ''); // Remueve rutas accidentales
-    return clean.isEmpty ? 'fundetaxcol.co' : clean;
+    return clean.isEmpty ? 'pidemeaqui.com' : clean;
   }
 
   /// Construye la URL Base para HTTP o HTTPS.

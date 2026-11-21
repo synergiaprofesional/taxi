@@ -15,7 +15,7 @@ void main() {
 
     setUp(() async {
       SharedPreferences.setMockInitialValues({
-        'odoo_login': 'operador@fundetaxcol.co',
+        'odoo_login': 'operador@pidemeaqui.com',
         'odoo_password': 'password123',
         'odoo_cookie': 'session_id=invalida_corrupta_123',
       });
@@ -35,7 +35,7 @@ void main() {
         // Petición a /web/session/authenticate (Re-autenticación silenciosa)
         if (request.url.path.contains('/web/session/authenticate')) {
           final body = jsonDecode(request.body);
-          expect(body['params']['login'], 'operador@fundetaxcol.co');
+          expect(body['params']['login'], 'operador@pidemeaqui.com');
           expect(body['params']['password'], 'password123');
 
           return http.Response(
@@ -106,7 +106,7 @@ void main() {
     });
 
     test('Verifica que reautenticarSilencioso() no exponga error si credenciales son correctas', () async {
-      expect(LocalStorage.getString('odoo_login'), 'operador@fundetaxcol.co');
+      expect(LocalStorage.getString('odoo_login'), 'operador@pidemeaqui.com');
       expect(LocalStorage.getString('odoo_password'), 'password123');
     });
   });

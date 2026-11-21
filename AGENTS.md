@@ -86,11 +86,11 @@ Queda **ESTRICTAMENTE PROHIBIDO** quemar variables, rutas locales absolutas, IPs
 
 ---
 
-## 6. Servidor de Producción: Perímetro de Solo Consulta (Estricto Read-Only)
+## 6. Independencia Total y Dominio Oficial: PídemeAquí (pidemeaqui.com)
 
-1. **PROHIBICIÓN ABSOLUTA DE MODIFICACIÓN EN EL SERVIDOR:** El acceso SSH al servidor de producción (`fundetaxcol.co` / IP `149.22.88.135`) es **ÚNICA Y EXCLUSIVAMENTE PARA CONSULTA Y LECTURA**.
-2. **Cero Escritura:** Queda terminantemente prohibido ejecutar `mkdir`, `rm`, `touch`, `nano`, `sed`, `systemctl restart`, `git pull`, `pip install`, `npm install` o cualquier comando de mutación o escritura en el servidor.
-3. **Custodia en Carpeta Local `reference/`:** Los addons de Odoo, Node.js (`server_rt_odoo`) y configuraciones del servidor se descargan en local a la carpeta `reference/` para análisis y compatibilidad.
+1. **Sin relación con fundetaxcol.co:** El proyecto `Taxi` es 100% independiente. Queda terminantemente prohibido incluir referencias a `fundetaxcol.co` en el código fuente, configuraciones activas o variables de entorno.
+2. **Infraestructura VPS Propia:** El servidor de despliegue y backend web oficial es el VPS `80.190.75.49` bajo el dominio canónico `https://pidemeaqui.com` gestionado con Caddy y Docker.
+3. **Custodia en Carpeta Local `reference/`:** El código heredado se conserva únicamente en local para análisis de compatibilidad operativa.
 
 ---
 

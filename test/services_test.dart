@@ -6,17 +6,17 @@ import 'package:taxi/services/printer_service.dart';
 void main() {
   group('NetworkConfig Tests', () {
     test('Normaliza host eliminando http:// previo', () {
-      final config = NetworkConfig(host: 'http://fundetaxcol.co', useHttps: true);
-      expect(config.rawHost, 'fundetaxcol.co');
-      expect(config.buildUrl('/web/login'), 'https://fundetaxcol.co/web/login');
+      final config = NetworkConfig(host: 'http://pidemeaqui.com', useHttps: true);
+      expect(config.rawHost, 'pidemeaqui.com');
+      expect(config.buildUrl('/web/login'), 'https://pidemeaqui.com/web/login');
     });
 
     test('Alterna entre HTTPS y HTTP correctamente', () {
-      final config = NetworkConfig(host: 'fundetaxcol.co', useHttps: false);
-      expect(config.buildUrl('/web/login'), 'http://fundetaxcol.co/web/login');
+      final config = NetworkConfig(host: 'pidemeaqui.com', useHttps: false);
+      expect(config.buildUrl('/web/login'), 'http://pidemeaqui.com/web/login');
 
       config.setUseHttps(true);
-      expect(config.buildUrl('/web/login'), 'https://fundetaxcol.co/web/login');
+      expect(config.buildUrl('/web/login'), 'https://pidemeaqui.com/web/login');
     });
   });
 

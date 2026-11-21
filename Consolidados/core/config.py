@@ -12,11 +12,12 @@ if env_path.exists():
 
 @dataclass(frozen=True)
 class ServerConfig:
-    host: str = os.getenv("PROD_SERVER_HOST", "fundetaxcol.co")
-    ip: str = os.getenv("PROD_SERVER_IP", "149.22.88.135")
-    user: str = os.getenv("PROD_SERVER_USER", "root")
-    password: str = os.getenv("PROD_SERVER_PASSWORD", "2QoRhncZ")
-    read_only: bool = True  # Regla Inviolable: Siempre Read-Only
+    host: str = os.getenv("SERVER_HOST", "pidemeaqui.com")
+    ip: str = os.getenv("SERVER_HOST", "80.190.75.49")
+    user: str = os.getenv("SERVER_USER", "root")
+    password: str = os.getenv("SERVER_PASS", "")
+    port: int = int(os.getenv("SERVER_PORT", "22"))
+    read_only: bool = False
 
 @dataclass(frozen=True)
 class FirebaseConfig:

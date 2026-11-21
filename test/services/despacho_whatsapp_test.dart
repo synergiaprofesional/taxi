@@ -27,7 +27,7 @@ void main() {
         conductor: 'Antonio Banderas',
         destino: 'Bocagrande',
         valorTotal: 18000.0,
-        urlTracking: 'https://taxi.fundetaxcol.co/t/viaje_123',
+        urlTracking: 'https://pidemeaqui.com/t/viaje_123',
       );
 
       expect(mensaje, contains('¡Tu Taxi Formal en Bahía Caribe Plaza está listo!'));
@@ -35,7 +35,7 @@ void main() {
       expect(mensaje, contains('Antonio Banderas'));
       expect(mensaje, contains('Bocagrande'));
       expect(mensaje, contains('18.000 COP'));
-      expect(mensaje, contains('https://taxi.fundetaxcol.co/t/viaje_123'));
+      expect(mensaje, contains('https://pidemeaqui.com/t/viaje_123'));
     });
 
     test('generarUrlWhatsApp codifica apropiadamente la URI con el prefijo telefónico', () {

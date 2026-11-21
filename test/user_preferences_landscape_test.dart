@@ -28,11 +28,11 @@ void main() {
         autoCorte: true,
       );
 
-      await printerService.saveUserConfig('29d@fundetaxcol.co', configOperador1);
+      await printerService.saveUserConfig('29d@pidemeaqui.com', configOperador1);
 
       // Verificamos en un nuevo servicio que cargue la configuración de ese usuario
       final nuevoPrinterService = PrinterService();
-      final loaded = await nuevoPrinterService.loadUserConfig('29d@fundetaxcol.co');
+      final loaded = await nuevoPrinterService.loadUserConfig('29d@pidemeaqui.com');
 
       expect(loaded.tipo, TipoImpresora.spoolerWindows);
       expect(loaded.nombreODireccion, 'TIQUETES');
@@ -57,14 +57,14 @@ void main() {
         autoCorte: false,
       );
 
-      await printerService.saveUserConfig('user_a@fundetaxcol.co', configUserA);
-      await printerService.saveUserConfig('user_b@fundetaxcol.co', configUserB);
+      await printerService.saveUserConfig('user_a@pidemeaqui.com', configUserA);
+      await printerService.saveUserConfig('user_b@pidemeaqui.com', configUserB);
 
-      final loadedA = await printerService.loadUserConfig('user_a@fundetaxcol.co');
+      final loadedA = await printerService.loadUserConfig('user_a@pidemeaqui.com');
       expect(loadedA.nombreODireccion, 'TIQUETES');
       expect(loadedA.anchoPapel, 80);
 
-      final loadedB = await printerService.loadUserConfig('user_b@fundetaxcol.co');
+      final loadedB = await printerService.loadUserConfig('user_b@pidemeaqui.com');
       expect(loadedB.nombreODireccion, '66:32:88:AB:12:90');
       expect(loadedB.anchoPapel, 58);
       expect(loadedB.autoCorte, isFalse);

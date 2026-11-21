@@ -7,7 +7,7 @@ void main() {
       final now = DateTime(2026, 11, 21, 10, 0, 0);
       final user = UserModel(
         id: 'usr_cond_101',
-        email: 'conductor@fundetaxcol.co',
+        email: 'conductor@pidemeaqui.com',
         nombre: 'Carlos Ramírez',
         telefono: '3001234567',
         cedula: '1047896541',
@@ -41,7 +41,7 @@ void main() {
     test('Identificación de conductor privado para convenios VIP', () {
       final conductorPrivado = UserModel(
         id: 'cond_priv_02',
-        email: 'vip@fundetaxcol.co',
+        email: 'vip@pidemeaqui.com',
         nombre: 'Mario Estrada',
         rol: UserRole.conductor,
         esConductorPrivado: true,

@@ -8,9 +8,9 @@ class SocketService extends GetxService {
   var eventSequence = 0.obs;
   var lastEventName = ''.obs;
   var lastEventData = <String, dynamic>{}.obs;
-  String serverUrl = 'http://fundetaxcol.co:3000';
+  String serverUrl = 'https://pidemeaqui.com';
 
-  void conectar({String host = 'http://fundetaxcol.co:3000'}) {
+  void conectar({String host = 'https://pidemeaqui.com'}) {
     serverUrl = host;
     try {
       _socket?.dispose();

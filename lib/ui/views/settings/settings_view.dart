@@ -43,9 +43,9 @@ class _SettingsViewState extends State<SettingsView> {
     super.initState();
     _hostCtrl = TextEditingController(text: odooService.networkConfig.rawHost);
     _dbCtrl = TextEditingController(text: odooService.dbName.value);
-    _userCtrl = TextEditingController(text: LocalStorage.getString('odoo_login') ?? '29d@fundetaxcol.co');
+    _userCtrl = TextEditingController(text: LocalStorage.getString('odoo_login') ?? '29d@pidemeaqui.com');
     _passCtrl = TextEditingController(text: LocalStorage.getString('odoo_password') ?? '');
-    _socketCtrl = TextEditingController(text: 'http://fundetaxcol.co:3000');
+    _socketCtrl = TextEditingController(text: 'https://pidemeaqui.com');
     _printerAddressCtrl = TextEditingController(text: printerService.config.nombreODireccion);
     _tipoImpresora = printerService.config.tipo;
     _anchoPapel = printerService.config.anchoPapel;
@@ -206,7 +206,7 @@ class _SettingsViewState extends State<SettingsView> {
                       controller: _hostCtrl,
                       decoration: const InputDecoration(
                         labelText: 'Host / Dominio del Servidor',
-                        hintText: 'ej. fundetaxcol.co',
+                        hintText: 'ej. pidemeaqui.com',
                         prefixIcon: Icon(Icons.language),
                       ),
                     ),
@@ -291,7 +291,7 @@ class _SettingsViewState extends State<SettingsView> {
                       controller: _socketCtrl,
                       decoration: const InputDecoration(
                         labelText: 'URL de server_rt_odoo',
-                        hintText: 'http://fundetaxcol.co:3000',
+                        hintText: 'https://pidemeaqui.com',
                         prefixIcon: Icon(Icons.bolt),
                       ),
                     ),

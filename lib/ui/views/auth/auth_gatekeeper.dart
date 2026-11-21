@@ -7,7 +7,7 @@ import 'login_view.dart';
 
 /// Control de Acceso Raíz (Gatekeeper):
 /// Bloquea completamente el acceso a HomeView hasta que el usuario se haya autenticado
-/// exitosamente contra fundetaxcol.co en Odoo.
+/// exitosamente en el sistema.
 /// Si se cierra la sesión o se sale del sistema, retorna inmediatamente a LoginView.
 class AuthGatekeeper extends StatelessWidget {
   final bool autoConnectSockets;
@@ -33,7 +33,7 @@ class AuthGatekeeper extends StatelessWidget {
                 Icon(Icons.local_taxi, color: AppColors.primary, size: 48),
                 SizedBox(height: 16),
                 Text(
-                  'SYNERGIA MÓVIL',
+                  'TAXI',
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
@@ -43,7 +43,7 @@ class AuthGatekeeper extends StatelessWidget {
                 ),
                 SizedBox(height: 8),
                 Text(
-                  'Conectando a fundetaxcol.co...',
+                  'Conectando a pidemeaqui.com...',
                   style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
                 ),
                 SizedBox(height: 24),

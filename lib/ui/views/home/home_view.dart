@@ -993,7 +993,7 @@ class _HomeViewState extends State<HomeView> {
                   controller.odooService.usuarioActivo.value,
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
-                subtitle: const Text('Operador autenticado en Odoo (fundetaxcol.co)'),
+                subtitle: const Text('Operador autenticado en Central PídemeAquí'),
               ),
               const Divider(),
               ListTile(

@@ -29,17 +29,17 @@ class _LoginDialogState extends State<LoginDialog> {
   String? _errorMessage;
 
   final List<Map<String, String>> _usuariosSugeridos = [
-    {'label': '29D', 'login': '29d@fundetaxcol.co'},
-    {'label': 'Garita', 'login': 'garita@fundetaxcol.co'},
-    {'label': 'Av. Lago', 'login': 'lago@fundetaxcol.co'},
-    {'label': 'Frank', 'login': 'frank@fundetaxcol.co'},
-    {'label': 'Synergia', 'login': 'synergiaprofesional@gmail.com'},
+    {'label': '29D', 'login': '29d@pidemeaqui.com'},
+    {'label': 'Garita', 'login': 'garita@pidemeaqui.com'},
+    {'label': 'Av. Lago', 'login': 'lago@pidemeaqui.com'},
+    {'label': 'Frank', 'login': 'frank@pidemeaqui.com'},
+    {'label': 'Admin', 'login': 'admin@pidemeaqui.com'},
   ];
 
   @override
   void initState() {
     super.initState();
-    final savedLogin = LocalStorage.getString('odoo_login') ?? '29d@fundetaxcol.co';
+    final savedLogin = LocalStorage.getString('odoo_login') ?? '29d@pidemeaqui.com';
     _usuarioCtrl.text = savedLogin;
     _passwordCtrl.text = LocalStorage.getString('odoo_password') ?? '';
   }
@@ -129,7 +129,7 @@ class _LoginDialogState extends State<LoginDialog> {
                         ),
                       ),
                       Text(
-                        'Servidor fundetaxcol.co',
+                        'Servidor pidemeaqui.com',
                         style: TextStyle(
                           fontSize: 12,
                           color: isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary,

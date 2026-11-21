@@ -24,17 +24,17 @@ class _LoginViewState extends State<LoginView> {
   String? _errorMessage;
 
   final List<Map<String, String>> _bahias = [
-    {'label': 'Bahía 29D', 'login': '29d@fundetaxcol.co', 'icon': 'local_taxi'},
-    {'label': 'Bahía Garita', 'login': 'garita@fundetaxcol.co', 'icon': 'shield'},
-    {'label': 'Bahía Av. Lago', 'login': 'lago@fundetaxcol.co', 'icon': 'water'},
-    {'label': 'Frank Operador', 'login': 'frank@fundetaxcol.co', 'icon': 'badge'},
-    {'label': 'Synergia Profesional', 'login': 'synergiaprofesional@gmail.com', 'icon': 'person'},
+    {'label': 'Bahía 29D', 'login': '29d@pidemeaqui.com', 'icon': 'local_taxi'},
+    {'label': 'Bahía Garita', 'login': 'garita@pidemeaqui.com', 'icon': 'shield'},
+    {'label': 'Bahía Av. Lago', 'login': 'lago@pidemeaqui.com', 'icon': 'water'},
+    {'label': 'Frank Operador', 'login': 'frank@pidemeaqui.com', 'icon': 'badge'},
+    {'label': 'Admin Central', 'login': 'admin@pidemeaqui.com', 'icon': 'person'},
   ];
 
   @override
   void initState() {
     super.initState();
-    final savedLogin = LocalStorage.getString('odoo_login') ?? '29d@fundetaxcol.co';
+    final savedLogin = LocalStorage.getString('odoo_login') ?? '29d@pidemeaqui.com';
     _usuarioCtrl.text = savedLogin;
     _passwordCtrl.text = LocalStorage.getString('odoo_password') ?? '';
   }
@@ -69,7 +69,7 @@ class _LoginViewState extends State<LoginView> {
 
     if (!exito && mounted) {
       setState(() {
-        _errorMessage = 'Credenciales no válidas en fundetaxcol.co. Verifica tu usuario y clave.';
+        _errorMessage = 'Credenciales no válidas. Verifica tu usuario y clave.';
       });
     }
   }
@@ -273,7 +273,7 @@ class _LoginViewState extends State<LoginView> {
                     ],
                   ),
                   const Text(
-                    'Terminal de Bahías y Turnos • fundetaxcol.co',
+                    'Terminal de Bahías y Turnos • PídemeAquí',
                     style: TextStyle(fontSize: 11, color: AppColors.textSecondary),
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -377,7 +377,7 @@ class _LoginViewState extends State<LoginView> {
           decoration: const InputDecoration(
             labelText: 'Usuario / Correo Odoo',
             prefixIcon: Icon(Icons.person_outline),
-            hintText: 'ej. 29d@fundetaxcol.co',
+            hintText: 'ej. 29d@pidemeaqui.com',
           ),
           keyboardType: TextInputType.emailAddress,
         ),

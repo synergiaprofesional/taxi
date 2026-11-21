@@ -58,11 +58,11 @@ Queda **ESTRICTAMENTE PROHIBIDO** quemar variables, rutas locales absolutas, IPs
 
 ---
 
-## 6. Servidor de Producción: Perímetro de Solo Consulta (Estricto Read-Only)
+## 6. Independencia Total y Dominio Oficial: PídemeAquí (pidemeaqui.com)
 
-1. **PROHIBICIÓN TOTAL DE ESCRITURA EN EL SERVIDOR:** El servidor `fundetaxcol.co` es exclusivamente para consulta.
-2. Queda prohibida cualquier mutación o modificación en el servidor remoto.
-3. El código del servidor reside localmente como referencia en la carpeta `reference/`.
+1. **Sin relación con fundetaxcol.co:** El proyecto `Taxi` es 100% independiente. Queda terminantemente prohibido incluir referencias a `fundetaxcol.co` en el código fuente, configuraciones activas o variables de entorno.
+2. **Infraestructura VPS Propia:** El servidor de despliegue y backend web oficial es el VPS `80.190.75.49` bajo el dominio canónico `https://pidemeaqui.com` gestionado con Caddy y Docker.
+3. El código histórico reside localmente en la carpeta `reference/` únicamente para consulta.
 
 ---
 
