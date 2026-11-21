@@ -30,6 +30,7 @@
 - [Sesión 20261121 091500](file:///c:/Workspaces/taxi/Bitacoras/2026/11/21/Bitacoras%2020261121%20091500.md)
 - [Sesión 20261121 111500](file:///c:/Workspaces/taxi/Bitacoras/2026/11/21/Bitacoras%2020261121%20111500.md)
 - [Sesión 20261121 114500](file:///c:/Workspaces/taxi/Bitacoras/2026/11/21/Bitacoras%2020261121%20114500.md)
+- [Sesión 20261121 124500](file:///c:/Workspaces/taxi/Bitacoras/2026/11/21/Bitacoras%2020261121%20124500.md)
 
 
 ---
@@ -159,3 +160,15 @@
   5. Componente interactivo de ajuste de oferta con ancla legal de decreto distrital en `PassengerHomeView`.
   6. Suite TDD `test/models/categoria_oferta_test.dart` pasando 14/14 tests al 100%.
   7. Memoria en Engram registrada con ID `#658`.
+
+---
+
+### [2026-11-21 12:45:00] Tripleta Sprint B: Despacho en Bahía con Enlace WhatsApp para Pasajeros sin App
+* **Problema:** Los pasajeros en bahías físicas (centros comerciales, terminales, aeropuertos) abordan a pie sin haber descargado la app móvil; Uber e inDrive no pueden atenderlos sin obligarlos a registrarse.
+* **Solución:**
+  1. Campo opcional de celular en `TurnoFormView` durante el despacho en garita con autocompletado +57.
+  2. Generación automática del viaje en Firestore (`categoria: bahiaPrioritaria`) en `FirestoreRepository`.
+  3. Helper `WhatsAppTrackingHelper` para formatear el mensaje enriquecido y generar el enlace web de tracking canónico `https://taxi.fundetaxcol.co/t/{viajeId}`.
+  4. Pantalla responsive de ticket digital `WebTicketTrackingView` con sello de verificación, placa colombiana, tarifa decretada desglosada y botón de auxilio SOS.
+  5. Suite TDD `test/services/despacho_whatsapp_test.dart` y catalogación en `tests/COMPENDIO_TESTS.md`.
+  6. Memoria en Engram registrada con ID `#660`.

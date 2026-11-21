@@ -4,10 +4,12 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import '../../../controllers/turno_controller.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/utils/whatsapp_tracking_helper.dart';
 import '../../../models/tarifa_sector_model.dart';
 import '../../../models/ticket_data_model.dart';
 import '../../../models/turno_model.dart';
 import '../../../models/vehicle_model.dart';
+import '../../../services/firestore_repository.dart';
 import '../../../services/odoo_service.dart';
 
 class TurnoFormView extends StatefulWidget {
@@ -40,6 +42,7 @@ class _TurnoFormViewState extends State<TurnoFormView> {
   final TextEditingController _destinoCtrl = TextEditingController();
   final TextEditingController _tarifaBaseCtrl = TextEditingController();
   final TextEditingController _direccionCtrl = TextEditingController();
+  final TextEditingController _celularPasajeroCtrl = TextEditingController();
   double _tarifaBase = 18000.0;
   bool _aplicaRecargoNocturno = false;
   final double _valorRecargo = 1100.0;
@@ -266,6 +269,7 @@ class _TurnoFormViewState extends State<TurnoFormView> {
     final destinoNombre = _destinoCtrl.text.trim().isNotEmpty
         ? _destinoCtrl.text.trim()
         : (_tarifaSeleccionada?.name ?? 'Despacho Salida');
+    final celular = _celularPasajeroCtrl.text.trim();
 
     // Actualiza el turno en el servidor con tarifaId oficial o nota personalizada
     await turnoController.despacharTurno(
@@ -276,6 +280,23 @@ class _TurnoFormViewState extends State<TurnoFormView> {
           ? '${_direccionCtrl.text.trim()} ($destinoNombre)'
           : destinoNombre,
     );
+
+    // Si se especificó celular de pasajero, generamos el viaje de bahía para tracking web
+    String? viajeId;
+    if (celular.isNotEmpty) {
+      final firestoreRepo = FirestoreRepository();
+      viajeId = await firestoreRepo.despacharTurnoConViaje(
+        turnoId: turno.id.toString(),
+        tarifaId: _tarifaSeleccionada?.id ?? 0,
+        tarifaNombre: destinoNombre,
+        valorTotal: total,
+        bahiaNombre: turno.bahiaNombre,
+        placa: turno.placaVisible,
+        conductorNombre: turno.conductorNombre,
+        telefonoPasajero: celular,
+        nota: _direccionCtrl.text.trim(),
+      );
+    }
 
     final ticket = TicketDataModel(
       bahiaNombre: turno.bahiaNombre,
@@ -292,8 +313,39 @@ class _TurnoFormViewState extends State<TurnoFormView> {
     await turnoController.printerService.imprimirTicket(ticket);
 
     Get.back();
-    Get.snackbar('Turno Despachado', 'Despacho a $destinoNombre registrado e impreso exitosamente',
-        backgroundColor: AppColors.success, colorText: Colors.black);
+
+    if (viajeId != null) {
+      final urlTracking = WhatsAppTrackingHelper.generarUrlWebTracking(viajeId);
+      final mensajeWA = WhatsAppTrackingHelper.construirMensajeDespacho(
+        bahiaNombre: turno.bahiaNombre,
+        placa: turno.placaVisible,
+        conductor: turno.conductorNombre,
+        destino: destinoNombre,
+        valorTotal: total,
+        urlTracking: urlTracking,
+      );
+      final urlWhatsApp = WhatsAppTrackingHelper.generarUrlWhatsApp(
+        telefono: celular,
+        mensaje: mensajeWA,
+      );
+
+      Get.snackbar(
+        '📱 Ticket Digital Generado',
+        'Despachado a $destinoNombre. Toca para enviar WhatsApp al pasajero.',
+        backgroundColor: const Color(0xFF25D366),
+        colorText: Colors.black,
+        duration: const Duration(seconds: 8),
+        mainButton: TextButton(
+          onPressed: () {
+            debugPrint('[WhatsApp] Enlace generado: $urlWhatsApp');
+          },
+          child: const Text('ENLACE WA', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+        ),
+      );
+    } else {
+      Get.snackbar('Turno Despachado', 'Despacho a $destinoNombre registrado e impreso exitosamente',
+          backgroundColor: AppColors.success, colorText: Colors.black);
+    }
   }
 
   void _cancelarTurno() async {
@@ -631,6 +683,21 @@ class _TurnoFormViewState extends State<TurnoFormView> {
             labelText: 'Dirección o Punto de Llegada',
             hintText: 'Ej: Hotel Hilton Cra 1 # 1-1, Calle 30 # 20-15',
             prefixIcon: Icon(Icons.location_on_outlined, color: AppColors.primary),
+            filled: true,
+            fillColor: AppColors.surface,
+          ),
+        ),
+
+        const SizedBox(height: 14),
+
+        // Celular del Pasajero para Ticket Digital vía WhatsApp
+        TextFormField(
+          controller: _celularPasajeroCtrl,
+          keyboardType: TextInputType.phone,
+          decoration: const InputDecoration(
+            labelText: 'Celular Pasajero (Opcional - WhatsApp)',
+            hintText: 'Ej: 300 123 4567 para tracking digital sin app',
+            prefixIcon: Icon(Icons.phone_android, color: Color(0xFF25D366)),
             filled: true,
             fillColor: AppColors.surface,
           ),

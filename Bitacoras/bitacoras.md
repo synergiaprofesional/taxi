@@ -2,6 +2,13 @@
 
 Registro cronológico resumido de análisis, diseño e implementaciones técnicas bajo la Constitución de La Tripleta.
 
+### [2026-11-21 12:45] Tripleta Sprint B: Despacho en Bahía con Enlace WhatsApp para Pasajeros sin App
+* **Problema:** Los pasajeros en bahías físicas (centros comerciales, terminales, aeropuertos) abordan a pie sin haber descargado la app móvil; Uber e inDrive no pueden atenderlos sin obligarlos a registrarse.
+* **Solución:** Campo opcional de celular en `TurnoFormView` durante el despacho en garita con autocompletado +57; generación automática del viaje en Firestore (`categoria: bahiaPrioritaria`) en `FirestoreRepository`; helper `WhatsAppTrackingHelper` para formatear el mensaje enriquecido y generar el enlace web de tracking canónico `https://taxi.fundetaxcol.co/t/{viajeId}`; pantalla responsive de ticket digital `WebTicketTrackingView` con sello de verificación, placa colombiana, tarifa decretada desglosada y botón de auxilio SOS; suite TDD `test/services/despacho_whatsapp_test.dart` y catalogación en `tests/COMPENDIO_TESTS.md`; memoria en Engram registrada con ID `#660`.
+* **Enlaces:** [Bitácora Monolito Mensual](file:///c:/Workspaces/taxi/Bitacoras/2026/11/bitacora.md) | [Bitácora Diaria 21/11/2026](file:///c:/Workspaces/taxi/Bitacoras/2026/11/21/Bitacoras%2020261121.md) | [Bitácora Sesión 124500](file:///c:/Workspaces/taxi/Bitacoras/2026/11/21/Bitacoras%2020261121%20124500.md) | [OpenSpec Sprint B](file:///c:/Workspaces/taxi/openspec/changes/sprint-b-despacho-bahia-whatsapp-tracking/)
+
+---
+
 ### [2026-11-21 11:45] Tripleta Sprint A: Categorías, Oferta con Ancla Legal y Selección de Conductor
 * **Problema:** Diseñar e implementar el flujo de solicitud de carreras incorporando la simplicidad de categorías de Uber y la negociación transparente de inDrive sin caer en tarifas predatorias.
 * **Solución:** Especificación formal OpenSpec en `sprint-a-categorias-ofertas-seleccion-conductor`; modelos `CategoriaViaje` y `ConductorOfertaModel` en `lib/models/viaje_model.dart`; métodos de marketplace en `FirestoreRepository`; hoja reactiva `DriverOffersSheet` para elegir conductor en tiempo real; ajuste de oferta interactiva con ancla legal por decreto en `PassengerHomeView`; suite TDD `test/models/categoria_oferta_test.dart` pasando 14/14 tests al 100%.

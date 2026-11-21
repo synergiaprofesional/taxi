@@ -4,6 +4,13 @@ Historial inmutable de actualizaciones, ingestas y modificaciones ontológicas e
 
 ---
 
+## [2026-11-21] update | Sprint B: Despacho en Bahía con Enlace WhatsApp para Pasajeros sin App
+- **Alcance:** Despacho híbrido desde garita que genera automáticamente un enlace de tracking web y mensaje preformateado de WhatsApp para pasajeros que abordan físicamente en bahía sin tener la app móvil instalada.
+- **Componentes:** `WhatsAppTrackingHelper`, `WebTicketTrackingView`, `FirestoreRepository.despacharTurnoConViaje(...)`, y suite TDD `despacho_whatsapp_test.dart`.
+- **Estado:** Gobernanza ontológica sincronizada y validada bajo La Tripleta.
+
+---
+
 ## [2026-11-21] ingest | Constitución Inicial del Proyecto Taxi y Repositorio de Referencia
 - **Alcance:** Creación de la Wiki Maestro para el proyecto `Taxi`.
 - **Entidades registradas:** `servidor_produccion.md` (Modo Solo Lectura), `firebase_backend.md` (Arquitectura Objetivo).

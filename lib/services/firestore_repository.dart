@@ -115,6 +115,57 @@ class FirestoreRepository {
     });
   }
 
+  /// Despacha un turno de bahía y, si se suministra celular, crea automáticamente el ViajeModel en /viajes
+  /// retornando el ID del viaje generado (para el enlace de WhatsApp y tracking web).
+  Future<String?> despacharTurnoConViaje({
+    required String turnoId,
+    required int tarifaId,
+    required String tarifaNombre,
+    required double valorTotal,
+    required String bahiaNombre,
+    required String placa,
+    required String conductorNombre,
+    String? telefonoPasajero,
+    String? nota,
+  }) async {
+    await despacharTurno(
+      turnoId,
+      tarifaId: tarifaId,
+      tarifaNombre: tarifaNombre,
+      valorTotal: valorTotal,
+    );
+
+    final celLimpio = telefonoPasajero?.trim() ?? '';
+    if (celLimpio.isEmpty) {
+      return null;
+    }
+
+    final docRef = _viajesCol.doc();
+    final viaje = ViajeModel(
+      id: docRef.id,
+      pasajeroId: 'pasajero_bahia_$celLimpio',
+      pasajeroNombre: 'Pasajero Bahía $bahiaNombre',
+      pasajeroTelefono: celLimpio,
+      categoria: CategoriaViaje.bahiaPrioritaria,
+      estado: EstadoViaje.asignado,
+      origen: 'Bahía $bahiaNombre',
+      destino: tarifaNombre,
+      precioSugerido: valorTotal,
+      precioAcordado: valorTotal,
+      conductorId: 'conductor_turno_$turnoId',
+      conductorNombre: conductorNombre,
+      conductorTelefono: '',
+      vehiculoPlaca: placa,
+      vehiculoModelo: 'Taxi Formal',
+      fechaSolicitud: DateTime.now(),
+      fechaAsignacion: DateTime.now(),
+      metodoPago: 'efectivo',
+    );
+
+    await docRef.set(viaje.toFirestore());
+    return docRef.id;
+  }
+
   /// Cancelar un turno
   Future<void> cancelarTurno(String turnoId, {String motivo = ''}) async {
     await _turnosCol.doc(turnoId).update({

@@ -8,9 +8,19 @@ Este archivo consolida todas las sesiones de trabajo técnico del mes de Noviemb
 
 ## 📌 Índice de Sesiones de Noviembre 2026
 
+- **2026-11-21:** [Sesión 124500 - Tripleta Sprint B: Despacho en Bahía con Enlace WhatsApp para Pasajeros sin App](file:///c:/Workspaces/taxi/Bitacoras/2026/11/21/Bitacoras%2020261121%20124500.md)
 - **2026-11-21:** [Sesión 114500 - Tripleta Sprint A: Categorías, Oferta con Ancla Legal y Selección de Conductor](file:///c:/Workspaces/taxi/Bitacoras/2026/11/21/Bitacoras%2020261121%20114500.md)
 - **2026-11-21:** [Sesión 111500 - Desarrollo e Implementación de Modelos Firestore, Vistas Conductor/Pasajero y TDD](file:///c:/Workspaces/taxi/Bitacoras/2026/11/21/Bitacoras%2020261121%20111500.md)
 - **2026-11-21:** [Sesión 091500 - Instanciación de Constitución Taxi, Repositorio de Referencia y Gobernanza](file:///c:/Workspaces/taxi/Bitacoras/2026/11/21/Bitacoras%2020261121%20091500.md)
+
+---
+
+## 📝 Sesión: 2026-11-21 12:45:00 — Tripleta Sprint B: Despacho en Bahía con Enlace WhatsApp para Pasajeros sin App
+
+### 1. Resumen Ejecutivo
+- **Contexto:** Atención a pasajeros en bahías físicas (centros comerciales, terminales, aeropuertos) que abordan a pie sin haber descargado previamente la app móvil, superando la limitación de Uber e inDrive.
+- **Acción:** Campo opcional de celular en `TurnoFormView`, creación automática del viaje en Firestore (`categoria: bahiaPrioritaria`) en `FirestoreRepository`, helper `WhatsAppTrackingHelper` para formateo de URLs de WhatsApp y tracking web (`https://taxi.fundetaxcol.co/t/{viajeId}`), visor web responsive `WebTicketTrackingView` y suite TDD `despacho_whatsapp_test.dart`.
+- **TDD:** Suite unitaria `test/services/despacho_whatsapp_test.dart` con 5 tests verificados y catalogados en `tests/COMPENDIO_TESTS.md`.
 
 ---
 
