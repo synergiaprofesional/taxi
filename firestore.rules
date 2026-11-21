@@ -1,0 +1,104 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function getUserData() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+
+    function isAdminGarita() {
+      return isAuthenticated() && (
+        getUserData().rol == 'admin_garita' || 
+        request.auth.token.admin == true
+      );
+    }
+
+    function isConductor() {
+      return isAuthenticated() && (
+        getUserData().rol == 'conductor' ||
+        request.auth.token.conductor == true
+      );
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // 1. Colección de Usuarios
+    match /users/{userId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated() && isOwner(userId);
+      allow update: if isOwner(userId) || isAdminGarita();
+      allow delete: if isAdminGarita();
+    }
+
+    // 2. Bahías y Sesiones de Bahía
+    match /bahias/{bahiaId} {
+      allow read: if true; // Lectura pública para saber bahías activas
+      allow write: if isAdminGarita();
+    }
+
+    // 3. Turnos en Bahía (Capa 0 y Capa 1)
+    match /turnos/{turnoId} {
+      allow read: if isAuthenticated();
+      allow create: if isAdminGarita() || isConductor();
+      allow update: if isAdminGarita() || isConductor();
+      allow delete: if isAdminGarita();
+    }
+
+    // 4. Tarifas Legales de Sectores (Públicas e Inmutables por cliente)
+    match /tarifas_sector/{tarifaId} {
+      allow read: if true; // Consulta pública para cotizador de tarifas
+      allow write: if isAdminGarita(); // Solo admin puede actualizar decreto distrital
+    }
+
+    // 5. Viajes (Capa 2 Pasajero, Capa 1 Conductor, Capa 0 Garita)
+    match /viajes/{viajeId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated() && (
+        isAdminGarita() ||
+        resource.data.pasajero_id == request.auth.uid ||
+        resource.data.conductor_id == request.auth.uid ||
+        resource.data.conductor_id == '' // Para tomar carreras disponibles
+      );
+      allow delete: if isAdminGarita();
+    }
+
+    // 6. Recaudos de Caja
+    match /recaudos/{recaudoId} {
+      allow read: if isAdminGarita() || (isConductor() && resource.data.conductor_id == request.auth.uid);
+      allow create, update: if isAdminGarita();
+      allow delete: if false; // Inmutable para auditoría contable
+    }
+
+    // 7. Alertas de Pánico Vial
+    match /alertas_panico/{alertaId} {
+      allow read: if isAdminGarita() || (isConductor() && resource.data.conductor_id == request.auth.uid);
+      allow create: if isConductor();
+      allow update: if isAdminGarita();
+      allow delete: if isAdminGarita();
+    }
+
+    // 8. Organizaciones y Gremios
+    match /organizaciones/{orgId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdminGarita();
+    }
+
+    // 9. Vehículos y Conductores registrados
+    match /vehiculos/{vehiculoId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdminGarita();
+    }
+    match /conductores/{conductorId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdminGarita();
+    }
+  }
+}

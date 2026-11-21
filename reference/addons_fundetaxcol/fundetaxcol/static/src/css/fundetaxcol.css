@@ -1,0 +1,293 @@
+body {
+	font-family: sans-serif !important;
+	overflow: hidden;
+	background: #000;
+}
+
+.o_fundetaxcol_print_ticket {
+	display: flex;
+	justify-content: center;
+}
+
+.o_fundetaxcol_print_ticket_client {
+	display: flex;
+	justify-content: center;
+}
+
+.o_fundetaxcol_print_ticket .receipt {
+	width: 80mm;
+	background: #ffdb42;
+	display: flex;
+	justify-content: center;
+	padding: 8px;
+}
+
+.o_fundetaxcol_print_ticket_client .receipt {
+	width: 80mm;
+	background: #ffdb42;
+	display: flex;
+	justify-content: center;
+	padding: 8px;
+}
+
+
+.f_content {
+	height: 80vh;
+}
+
+.f_header header {
+	width: 100%;
+	background: #000;
+	height: 45px;
+}
+
+.f_header header h3 {
+	color: #fff;
+}
+
+#btn-menu {
+	display: none;
+}
+
+.f_header header label {
+	display: none;
+	width: 30px;
+	height: 30px;
+	padding: 10px;
+}
+
+.menu {
+	z-index: 1;
+}
+
+.menu ul {
+	margin: 0;
+	list-style: none;
+	padding: 0;
+	display: flex;
+}
+
+.menu li:hover {
+	background: rgba(0,0,0,0.3);
+}
+
+.menu li a {
+	display: block;
+	padding: 15px 20px;
+	color: #ffdb42;
+	text-decoration: none;
+	text-transform: uppercase;
+	font-weight: bold;
+}
+
+.o_fundetaxcol_tablero_turnos {
+	width: 100%;
+}
+
+.o_div_tablero_turnos {
+}
+
+.o_turno_list {
+}
+
+.o_turno_actual_container {
+	padding: 2rem;
+	
+}
+
+.o_turno_actual_internal {
+	background: #ffdb42;
+	color: #000;
+	border-radius: 2rem;
+	padding: 2rem;
+	animation-name: alternarColor;
+	animation-duration: 3s;
+	animation-iteration-count: 2;
+	animation-play-state: paused;
+}
+
+hr {
+	background: #ffdb42;
+	border: none;
+	padding: 1px;
+}
+
+@keyframes alternarColor {
+	0% {
+		background: #ffdb42;
+		color: #000;
+	}
+	25% {
+		background: #000;
+		color: #ffdb42;
+	}
+	50% {
+		background: #ffdb42;
+		color: #000;
+	}
+	75% {
+		background: #000;
+		color: #ffdb42;
+	}
+	100% {
+		background: #ffdb42;
+		color: #000;
+	}
+}
+
+.o_turno_actual_table {
+	font-size: 3.8rem;
+}
+
+.o_turno_actual {
+	padding: 16px;
+	margin: auto;
+	left: 0;
+	right: 0;
+}
+
+#o_turno_actual_top {
+}
+
+.o_turno_top {
+	color: #000;
+	background: #ffdb42;
+}
+
+.o_turno_top_inverse {
+	color: #ffdb42 !important;
+	background: #000 !important;
+}
+
+.box {
+	font-weight: bold;
+	font-size: 1em;
+}
+
+.num-turno {
+	font-size: 1.3em !important;
+	align-content: center;
+}
+
+.text-capitalize {
+	text-transform: capitalize;
+}
+
+.title {
+	margin-top: 20px;
+	text-align: center;
+    color: #ffdb42;
+    font-size: 4.5rem;
+	font-weight: bold;
+}
+
+.turno-titulo, .turno-contenido {
+	display: grid;
+	grid-template-columns: 1fr 1fr 3fr 1fr;
+	font-size: 2em;
+	margin-bottom: 20px;
+	color: #ffdb42;
+	line-height: 0.5;
+}
+
+.o_turno_top, .o_turno_top_inverse {
+	width: 100%;
+	height: 200px;
+	display: grid;
+	grid-template-columns: 1fr 2fr 5fr;
+	grid-template-rows: 1fr 1fr;
+	grid-row-gap: 10px;
+	border-radius: 5px;
+	transition: all 0.5s;
+	padding: 8px;
+	font-size: 2.5em;
+}
+
+@media (max-width: 960px) {
+	.o_turno_top, .o_turno_top_inverse, .o_turno_actual_table {
+		height: auto;
+		grid-template-rows: 1fr 2fr;
+		font-size: 1.2em !important;
+	}
+
+	.turno-titulo, .turno-contenido {
+		font-size: 1em !important;
+	}
+}
+
+@media (max-width: 500px) {
+	.f_header header label {
+		display: block;
+	}
+
+	.menu {
+		position: absolute;
+		background: #000;
+		width: 70%;
+		height: 100%;
+		margin-left: -70%;
+		transition: all 0.5s;
+	}
+
+	.menu ul {
+		flex-direction: column;
+	}
+
+	#btn-menu:checked ~ .menu {
+		margin: 0;
+	}
+
+	.o_turno_top, .o_turno_top_inverse {
+		grid-row-gap: 5px;
+	}
+
+	.turno-titulo, .turno-contenido {
+		font-size: 0.8em !important;
+	}
+}
+
+.border-lr5 {
+	border: 1px solid rgba(0,0,0,.04);
+	border-radius: 5px;
+	display: flex;
+	margin-top: 8px;
+	padding: 5px;
+	height: 18vh;
+}
+
+.border-lr5 .card-img-20 {
+	width: 20%;
+	box-sizing: border-box;
+	background: #000;
+	border-radius: 10%;
+	color:#ffdb42;
+	font-size: 1.5em;
+}
+
+.border-lr5 .card-content {
+	padding-left: 8px;
+	width: 80%;
+	display: grid;
+}
+
+@media (max-width: 350px) {
+	.border-lr5 {
+		width: 345px;
+	}
+}
+
+.para_imprimir {
+	display: none;
+}
+
+@media print {
+
+	.no_imprimir {
+		display: none !important;
+	}
+
+	.printable {
+		position: fixed;
+		display: block;
+	}
+}

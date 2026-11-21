@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="view_filter_conductor" model="ir.ui.view">
+            <field name="name">Conductor Filtros</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name" />
+                    <field name="identificacion" />
+                    <separator />
+                    <filter name="filter_ahorro" string="Con Ahorros" domain="[('ahorro','>',0)]" />
+                </search>
+            </field>
+        </record>
+
+    	<record model="ir.ui.view" id="conductor_tree">
+    		<field name="name">conductor.tree</field>
+    		<field name="model">res.partner</field>
+    		<field name="arch" type='xml'>
+    			<tree>
+    				<field name="name"/>
+    				<field name="identificacion"/>
+    				<field name="fecha_vinculacion"/>
+    				<field name="numero_licencia"/>
+    				<field name="fecha_renovacion_licencia"/>
+                    <field name="grupo_sanguineo"/>
+    				<field name="ahorro" groups="base.group_system,fundetaxcol.group_administrador" />
+                    <field name="conductor" invisible="1"/>
+    			</tree>
+    		</field>
+    	</record>
+
+    	<record model="ir.ui.view" id="conductor_form">
+    		<field name="name">conductor.form</field>
+    		<field name="model">res.partner</field>
+    		<field name="arch" type="xml">
+    			<form>
+    				<field name="conductor" invisible="1"/>
+    				<sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="toggle_active" type="object"
+                                    class="oe_stat_button" icon="fa-archive">
+                                <field name="active" widget="boolean_button"
+                                    options='{"terminology": "archive"}'/>
+                            </button>
+                        </div>
+    					<group>
+    						<group>
+		    					<field name="name" required="1"/>
+		    					<field name="identificacion"/>
+		    					<field name="street" string="Dirección"/>
+							<field name="mobile"/>
+							<field name="permitir_mensaje"/>
+                                			<field name="template_concepto_id"/>
+		    				</group>
+		    				<group>
+		    					<field name="fecha_vinculacion"/>
+		    					<field name="numero_licencia"/>
+		    					<field name="fecha_renovacion_licencia"/>
+                                <field name="grupo_sanguineo"/>
+                                <field name="ahorro" string="Total Ahorros" readonly="1" groups="base.group_system,fundetaxcol.group_administrador" />
+		    				</group>
+		    			</group>
+                        <notebook>
+                            <page name="contacto" string="Contactos">
+                                <field name="contacto_ids" nolabel="1">
+                                    <tree editable="bottom">
+                                        <field name="name"/>
+                                        <field name="telefono"/>
+                                    </tree>
+                                </field>
+                            </page>
+							<page string="Pagos" groups="base.group_system,fundetaxcol.group_administrador">
+								<field name="pago_ids" readonly="1">
+                                    <tree default_order="fecha desc">
+                                        <field name="consecutivo"/>
+                                        <field name="fecha"/>
+                                        <field name="vehiculo_id"/>
+                                        <field name="valor" sum="Total"/>
+                                    </tree>
+                                </field>
+							</page>
+                            <page name="ahorro" string="Ahorros" groups="base.group_system,fundetaxcol.group_administrador">
+                                <field name="pago_ahorro_ids" readonly="1">
+                                    <tree>
+                                        <field name="pago_id" />
+                                        <field name="concepto_id" />
+                                        <field name="cantidad" />
+                                        <field name="valor" />
+                                        <field name="subtotal" sum="Total Ahorros" />
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+    				</sheet>
+    			</form>
+    		</field>
+    	</record>
+
+        <record id="action_conductor" model="ir.actions.act_window">
+        	<field name="name">Conductor</field>
+        	<field name="res_model">res.partner</field>
+        	<field name="view_type">form</field>
+        	<field name="view_mode">tree,form</field>
+        	<field name="domain">[('conductor','=',1)]</field>
+        	<field name="context">{'default_conductor':1}</field>
+        	<field name="help" type="html">
+        		<p>
+        			Sin registros
+        		</p>
+        	</field>
+        	<field name="view_ids" eval="[
+		        (5, 0, 0),
+		        (0, 0, {'view_mode': 'tree', 'view_id': ref('conductor_tree')}),
+		        (0, 0, {'view_mode': 'form', 'view_id': ref('conductor_form')})
+		        ]"/>
+        	</record>
+
+        <menuitem id="conductor_menu" name="Conductores" parent="fundetaxcol.administracion_menu" action="action_conductor"/>
+    </data>
+</odoo>

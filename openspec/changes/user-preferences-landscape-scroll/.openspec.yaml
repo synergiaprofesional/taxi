@@ -1,0 +1,12 @@
+schema: "1.0"
+name: "user-preferences-landscape-scroll"
+title: "Persistencia de Preferencias de Impresión por Usuario y Scroll Lateral en Landscape"
+status: "in-progress"
+created: "2026-10-18T17:46:00-05:00"
+author: "Antigravity Pair Programmer"
+tags:
+  - "settings"
+  - "printing"
+  - "local-storage"
+  - "responsive-layout"
+  - "tablet-landscape"

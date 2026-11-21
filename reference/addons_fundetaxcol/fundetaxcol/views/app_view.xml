@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+  <record model="ir.ui.view" id="app_fundetaxcol_form">
+    <field name="name">app.fundetaxcol.form</field>
+    <field name="model">fundetaxcol.fundetaxcol</field>
+    <field name="arch" type="xml">
+      <form>
+        <sheet>
+          <group>
+            <group>
+              <field name="name" />
+            </group>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <record model="ir.ui.view" id="app_fundetaxcol_kanban">
+    <field name="name">fundetaxcol.kanban</field>
+    <field name="model">fundetaxcol.fundetaxcol</field>
+    <field name="arch" type="xml">
+      <kanban create="false" class="o_kanban_dashboard">
+        <field name="name" />
+        <field name="sesion_id" />
+        <field name="descripcion" />
+        <templates>
+          <t t-name="kanban-box">
+            <div>
+              <div class="o_kanban_card_header">
+                <div class="o_kanban_card_header_title">
+                  <div class="o_primary">
+                    <strong>
+                      <t t-esc="record.name.value" />
+                    </strong>
+                    <br />
+                    <h6>
+                      <i>
+                        <t t-esc="record.descripcion.value" />
+                      </i>
+                    </h6>
+                  </div>
+                </div>
+              </div>
+              <div class="container o_kanban_card_content o_visible"></div>
+              <div class="o_kanban_card_footer">
+                <button t-if="record.sesion_id.raw_value != false" class="btn btn-primary" name="load_bahias" type="object">Bahías</button>
+                <button t-if="record.sesion_id.raw_value == false" class="btn btn-primary" name="abrir_sesion" type="object">Abrir Sesión</button>
+
+                <button t-if="record.sesion_id.raw_value != false" class="btn btn-default" name="cerrar_sesion" type="object">Cerrar Sesión</button>
+              </div>
+            </div>
+          </t>
+        </templates>
+      </kanban>
+    </field>
+  </record>
+
+  <record id="action_app_fundetaxcol" model="ir.actions.act_window">
+    <field name="name">Tablero</field>
+    <field name="res_model">fundetaxcol.fundetaxcol</field>
+    <field name="view_type">form</field>
+    <field name="view_mode">kanban,tree,form</field>
+  </record>
+
+  <menuitem id="app_fundetaxcol_menu" name="Tablero" parent="root_menu" action="action_app_fundetaxcol" sequence="1" />
+</odoo>

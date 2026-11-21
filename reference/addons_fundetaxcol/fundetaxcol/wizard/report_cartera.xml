@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="wizard_report_cartera" model="ir.ui.view">
+        <field name="name">Reporte de cartera</field>
+        <field name="model">wizard.report.cartera</field>
+        <field name="arch" type="xml">
+            <form>
+            	<sheet>
+                    <group>
+                		<group>
+    		            </group>
+                    </group>
+            	</sheet>
+                <footer>
+                    <button name="generate_report" string="Aceptar" type="object" class="btn-primary"/>
+                    <button string="Cancelar" class="btn-default" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_wizard_report_cartera" model="ir.actions.act_window">
+        <field name="name">Cartera</field>
+        <field name="res_model">wizard.report.cartera</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem name="Cartera" id="menu_action_wizard_report_cartera" action="action_wizard_report_cartera" parent="informe_menu"/>
+
+    <report
+        id="menu_reporte_cartera"
+        string="Reporte Cartera"
+        model="wizard.report.cartera"
+        report_type="qweb-pdf"
+        name="fundetaxcol.reporte_cartera"
+    />
+
+    <template id="reporte_cartera">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <div>
+                            <h3>Reporte de cartera</h3>
+                        </div>
+                        <table class="table" width="100%">
+                            <thead>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="o.item_ids" t-as="item">
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+	</template>
+
+</odoo>

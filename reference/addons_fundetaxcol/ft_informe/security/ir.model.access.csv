@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_ft_informe_ft_informe,ft_informe.ft_informe,model_ft_informe_ft_informe,,1,0,0,0

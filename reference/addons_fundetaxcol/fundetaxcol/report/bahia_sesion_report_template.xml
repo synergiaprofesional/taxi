@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<template id="report_sesion_bahia">
+		<t t-call="web.html_container">
+			<t t-foreach="docs" t-as="o">
+				<t t-call="web.external_layout">
+					<div class="page">
+						<h2>
+							Reporte de Sesiones por Bahía [
+							<span t-field="o.name_sec" />
+							]
+						</h2>
+
+						<h2 class="text-center">Pagos</h2>
+						<table class="table">
+							<thead>
+								<th>Consecutivo</th>
+								<th>Fecha</th>
+								<th>Vehículo</th>
+								<th>Conductor</th>
+								<th class="text-right">Ingreso</th>
+								<th class="text-right">Crédito</th>
+								<th class="text-right">Valor</th>
+							</thead>
+							<tbody>
+								<t t-set="ingreso" t-value="0" />
+								<t t-set="credito" t-value="0" />
+								<tr t-foreach="o.pago_ids" t-as="pago">
+									<t t-set="ingreso" t-value="ingreso + pago.obtener_ingreso()" />
+									<t t-set="credito" t-value="credito + pago.obtener_credito()" />
+									<td t-esc="pago.consecutivo" />
+									<td t-esc="context_timestamp(datetime.datetime.strptime(pago.fecha, '%Y-%m-%d %H:%M:%S')).strftime('%Y-%m-%d %H:%M:%S')" />
+									<td t-esc="pago.vehiculo_id.name" />
+									<td t-esc="pago.conductor_id.name" />
+									<td class="text-right" t-esc="pago.obtener_ingreso()" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}" />
+									<td class="text-right" t-esc="pago.obtener_credito()" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}" />
+									<td class="text-right">
+										<t t-esc="pago.valor" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}" />
+									</td>
+								</tr>
+								<tr>
+									<th colspan="4">Total</th>
+									<th class="text-right">
+										<t t-esc="ingreso" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}" />
+									</th>
+									<th class="text-right">
+										<t t-esc="credito" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}" />
+									</th>
+									<th class="text-right">
+										<t t-esc="o.total_pago" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}" />
+									</th>
+								</tr>
+							</tbody>
+						</table>
+
+						<t t-set="result" t-value="o.obtener_conceptos()" />
+						<h2 class="text-center">Conceptos de pago</h2>
+						<table class="table">
+							<thead>
+								<th>Concepto</th>
+								<th class="text-right">Cantidad</th>
+								<th class="text-right">Valor</th>
+								<th class="text-right">Total</th>
+							</thead>
+							<tbody>
+								<tr t-foreach="result['conceptos']" t-as="concepto">
+									<td t-esc="concepto['concepto']" />
+									<td class="text-right">
+										<t t-esc="concepto['cantidad']" />
+									</td>
+									<td class="text-right" t-esc="concepto['valor']" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}" />
+									<td class="text-right" t-esc="concepto['total']" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}" />
+								</tr>
+								<tr>
+									<th colspan="3">Total Conceptos</th>
+									<th class="text-right">
+										<t t-esc="result['total']" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}" />
+									</th>
+								</tr>
+							</tbody>
+						</table>
+
+						<h2 class="text-center">Transacciones</h2>
+						<table class="table">
+							<thead>
+								<th>Consecutivo</th>
+								<th>Fecha</th>
+								<th>Tercero</th>
+								<th>Concepto</th>
+								<th>Detalle</th>
+								<th class="text-right">Valor</th>
+							</thead>
+							<tbody>
+								<tr t-foreach="o.transaccion_ids" t-as="transaccion">
+									<td t-esc="transaccion.consecutivo" />
+									<td t-esc="transaccion.fecha" />
+									<td t-esc="transaccion.res_partner_id.name" />
+									<td t-esc="transaccion.concepto_id.name" />
+									<td t-esc="transaccion.detalle" />
+									<td class="text-right">
+										<t t-esc="transaccion.valor_real" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}" />
+									</td>
+								</tr>
+								<tr>
+									<th colspan="5">Total Transacciones</th>
+									<th class="text-right">
+										<t t-esc="o.total_transaccion" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}" />
+									</th>
+								</tr>
+							</tbody>
+						</table>
+
+						<h2 class="text-center">Despachos</h2>
+						<table class="table">
+							<thead>
+								<th>Número</th>
+								<th>Fecha Despacho</th>
+								<th>Placa</th>
+								<th>Conductor</th>
+								<th>Ruta</th>
+								<th class="text-right">Valor</th>
+							</thead>
+							<tbody>
+								<t t-foreach="o.turno_ids" t-as="turno">
+									<tr t-if="turno.state == 'despachado'">
+										<td t-esc="turno.sequence" />
+										<td t-esc="context_timestamp(datetime.datetime.strptime(turno.fecha_despacho, '%Y-%m-%d %H:%M:%S')).strftime('%Y-%m-%d %H:%M:%S')" />
+										<td t-if="turno.vehiculo_id" t-esc="turno.vehiculo_id.name" />
+										<td t-if="turno.placa_anonima" t-esc="turno.placa_anonima" />
+										<td t-esc="turno.conductor_id.name" />
+										<td t-esc="turno.tarifa_id.name" />
+										<td class="text-right">
+											<t t-esc="turno.valor" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}" />
+										</td>
+									</tr>
+								</t>
+								<tr>
+									<th colspan="5">Total Despachos</th>
+									<th class="text-right">
+										<t t-esc="o.total_turno" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}" />
+									</th>
+								</tr>
+							</tbody>
+						</table>
+
+					</div>
+				</t>
+			</t>
+		</t>
+	</template>
+</odoo>

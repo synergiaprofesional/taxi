@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+		<record model="ir.ui.view" id="impresora_tree_view">
+			<field name="name">impresora.tree</field>
+			<field name="model">impresora</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="name" />
+					<field name="proxy_ip" />
+				</tree>
+			</field>
+		</record>
+
+	  	<record model="ir.ui.view" id="impresora_form_view">
+	  		<field name="name">impresora.form</field>
+	  		<field name="model">impresora</field>
+	  		<field name="arch" type="xml">
+	  			<form string="Formulario Impresora">
+	  				<header>
+	  					<field name="predeterminada" invisible="1" />
+	  					<button class="btn btn-primary" name="action_pred" type="object" string="Predeterminada" attrs="{'invisible': [('predeterminada','=',True)]}" />
+	  				</header>
+	  				<sheet>
+	  					<group>
+	  						<group>
+	  							<field name="name" />
+	  						</group>
+	  						<group>
+	  							<field name="proxy_ip" />
+	  						</group>
+	  					</group>
+	  				</sheet>
+	  			</form>
+	  		</field>
+	  	</record>
+
+	  	<record id="impresora_action" model="ir.actions.act_window">
+	  		<field name="name">Impresoras</field>
+	  		<field name="res_model">impresora</field>
+	  		<field name="view_type">form</field>
+	  		<field name="view_mode">tree,form</field>
+	  	</record>
+
+	  	<menuitem 
+	  		id="impresora_menu" 
+	  		name="Impresoras" 
+	  		parent="print_javascript.print_javascript_menu_root" 
+	  		action="impresora_action"
+	  	/>
+
+	</data>
+</odoo>

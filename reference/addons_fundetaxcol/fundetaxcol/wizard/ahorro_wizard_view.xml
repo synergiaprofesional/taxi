@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="retiro_ahorro_tree" model="ir.ui.view">
+            <field name="name">retiro.ahorro.tree</field>
+            <field name="model">fundetaxcol.retiro.ahorro</field>
+            <field name="arch" type="xml">
+                <tree colors="blue:state=='aprobado'">
+                    <field name="conductor_id" />
+                    <field name="valor" />
+                    <field name="state" invisible="0" />
+                </tree>
+            </field>
+        </record>
+
+		<record id="retiro_ahorro_form" model="ir.ui.view">
+        	<field name="name">retiro_ahorro.form</field>
+        	<field name="model">fundetaxcol.retiro.ahorro</field>
+        	<field name="arch" type="xml">
+        		<form>
+                    <header>
+                        <button string="Revertir" type="object" name="action_revertir" class="btn btn-default" states="aprobado" confirm="Está seguro que desea revertir el retiro?" />
+                        <field name="state" widget="statusbar" statusbar_visible="aprobado,revertido" />
+                    </header>
+        			<sheet>
+	        			<h2>Ahorro registrado: $ <field name="ahorro_total" readonly="1" /></h2>
+	        			<group>
+	        				<group>
+	        					<field name="conductor_id" domain="[('conductor','=',True),('ahorro','>',0)]" options="{'no_create': True, 'no_open': True, 'no_create_edit': True}" />
+                                <field name="concepto_final_id" />
+	        				</group>
+	        				<group>
+                                <field name="nota" />    
+	        					<field name="valor" readonly="1"/>
+	        				</group>
+	        			</group>
+                        <notebook>
+                            <page string="Conceptos" attrs="{'invisible': [('state','=','revertido')]}">
+                                <field name="pago_ahorro_ids">
+                                    <tree create="false" editable="bottom">
+                                        <field name="concepto_id" domain="[('id','=',concepto_id)]" options="{'no_create': True, 'no_open': True, 'no_create_edit': True}" />
+                                        <field name="valor" sum="Total Ahorros" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <!--attrs="{'invisible': [('state','=','aprobado')]}"-->
+                            <page string="Conceptos" attrs="{'invisible': [('state','=','aprobado')]}">
+                                <field name="pago_ahorro_ids_copy">
+                                    <tree create="false" editable="bottom">
+                                        <field name="concepto_id" />
+                                        <field name="_subtotal" sum="Total Ahorros" />
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+	        		</sheet>
+	        		<!--footer>
+	        			<button string="Aceptar" type="object" name="action_aceptar" class="oe_highlight"/>
+          				<button string="Cancelar" type="object" name="cancel" class="oe_link" special="cancel"/>
+	        		</footer-->
+        		</form>
+        	</field>
+        </record>
+
+		<record id="action_retirar_ahorro" model="ir.actions.act_window">
+        	<field name="name">Retiros De Ahorro</field>
+        	<field name="res_model">fundetaxcol.retiro.ahorro</field>
+        	<field name="view_type">form</field>
+        	<field name="view_mode">tree,form</field>
+        	<!--field name="target">current</field-->
+        </record>
+
+        <menuitem name="Ahorros" id="modulo_ahorro" parent="fundetaxcol.modulo_menu" sequence="100" />
+
+        <menuitem id="retiro_ahorro_menu" name="Retiro Ahorros" parent="modulo_ahorro" action="action_retirar_ahorro" />
+
+
+        <!--Ajustar ahorros-->
+        <record id="ahorro_ahorro_form" model="ir.ui.view">
+            <field name="name">ajuste.ahorro.form</field>
+            <field name="model">fundetaxcol.ajuste.ahorro</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="fecha" />
+                                <field name="concepto_id" options="{'no_create': True, 'no_open': True, 'no_create_edit': True}" readonly="1" />
+                                <field name="mantener_ajustes" />
+                            </group>
+                            <group>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Conductores">
+                                <field name="conductor_ids">
+                                    <tree editable="bottom">
+                                        <field name="conductor_id" domain="[('conductor','=',True)]" options="{'no_create': True, 'no_open': True, 'no_create_edit': True}" />
+                                        <field name="valor" sum="Total" />
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <footer>
+                        <button string="Aceptar" type="object" name="action_aceptar" class="oe_highlight"/>
+                        <button string="Cancelar" type="object" name="cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_ajustar_ahorro" model="ir.actions.act_window">
+            <field name="name">Ajustar Ahorros</field>
+            <field name="res_model">fundetaxcol.ajuste.ahorro</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="ajuste_ahorro_menu" name="Ajustar Ahorros" parent="modulo_ahorro" action="action_ajustar_ahorro" />
+
+    </data>
+</odoo>

@@ -1,0 +1,97 @@
+<odoo>
+  <data>
+
+    <record model="ir.ui.view" id="concepto_tree_view">
+      <field name="name">concepto.tree</field>
+      <field name="model">fundetaxcol.concepto</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="tipo"/>
+          <field name="afectacion"/>
+          <field name="clasificacion"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="template_concepto_tree_view">
+      <field name="name">template.concepto.tree</field>
+      <field name="model">fundetaxcol.concepto.conductor</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+        </tree>
+      </field>
+    </record>
+    
+    <record model="ir.ui.view" id="concepto_form_view">
+      <field name="name">concepto.form</field>
+      <field name="model">fundetaxcol.concepto</field>
+      <field name="arch" type="xml">
+        <form string="Concepto">
+          <header>
+          </header>
+          <sheet>
+            <group>
+              <group>
+                <field name="name"/>
+                <field name="afectacion" widget="radio"/>
+                <!--field name="is_transaccion"/-->
+                <field name="clasificacion" widget="radio" />
+              </group>
+              <group>
+                <field name="tipo" widget="radio"/>
+                <field name="valor" attrs="{'invisible':[('tipo','=','valor_varible')],'required':[('tipo','!=','valor_variable')]}"/>
+              </group>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="template_concepto_form_view">
+      <field name="name">template.concepto.form</field>
+      <field name="model">fundetaxcol.concepto.conductor</field>
+      <field name="arch" type="xml">
+        <form>
+          <sheet>
+            <group>
+              <group>
+                <field name="name"/>
+                <field name="concepto_ids" widget="many2many_tags" domain="[('clasificacion','!=','transaccion')]" />
+              </group>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <record id="concepto_action" model="ir.actions.act_window">
+      <field name="name">Conceptos</field>
+      <field name="res_model">fundetaxcol.concepto</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+      <field name="help" type="html">
+        <p>
+          Sin registros
+        </p>
+      </field>
+    </record>
+
+    <record id="template_concepto_action" model="ir.actions.act_window">
+      <field name="name">Plantilla Conceptos</field>
+      <field name="res_model">fundetaxcol.concepto.conductor</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+      <field name="help" type="html">
+        <p>
+          Sin registros
+        </p>
+      </field>
+    </record>
+
+    <menuitem id="concepto_menu" name="Conceptos" action="concepto_action" parent="fundetaxcol.administracion_menu"/>
+    <menuitem id="template_concepto_menu" name="Plantilla Conceptos" action="template_concepto_action" parent="fundetaxcol.administracion_menu"/>
+
+  </data>
+</odoo>

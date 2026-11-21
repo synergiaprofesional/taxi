@@ -1,0 +1,15 @@
+[Unit]
+Description=Instancia en puerto 80 (fundetaxcol)
+After=multi-user.target
+
+[Service]
+Type=simple
+ExecStart=/opt/synergia/odoo-11.0/odoo-bin -c /opt/synergia/odoo-11.0/odoo_80.conf
+User=root
+WorkingDirectory=/opt/synergia/odoo-11.0
+Restart=on-failure
+StandardOutput=syslog
+StandardError=syslog
+
+[Install]
+WantedBy=nulti-user.target

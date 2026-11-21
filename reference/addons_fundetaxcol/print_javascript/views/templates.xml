@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="impresion_assets" inherit_id='web.assets_backend' name="impresion js">
+            <xpath expr="." position="inside">
+            	<script type="text/javascript" src="/print_javascript/static/src/lib/jspdf.min.js"></script>
+                <script type="text/javascript" src="/print_javascript/static/src/lib/jspdf.plugin.autotable.min.js"></script>
+
+                <script type="text/javascript" src="/print_javascript/static/src/js/script.js"></script>
+            </xpath>
+        </template>
+    </data>
+</odoo>

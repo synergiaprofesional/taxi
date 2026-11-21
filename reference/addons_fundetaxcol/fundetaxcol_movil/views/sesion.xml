@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        
+        <record model="ir.ui.view" id="sesion_form">
+        	<field name="name">sesion.form</field>
+        	<field name="model">fundetaxcol.sesion</field>
+            <field name="inherit_id" ref="fundetaxcol.sesion_form" />
+        	<field name="arch" type="xml">
+                <button name="cerrar_sesion_confirm" position="before">
+                    <button name="verificar_sesion" type="object" string="Test" class="btn btn-primary" />
+                </button>
+                <!--field name="bahia_ids" position="replace"></field>
+                <field name="fecha_apertura" position="replace"></field>
+                <field name="name" position="after">
+                    <group>
+                        <group>
+                            <field name="fecha_apertura"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Bahías">
+                            <field name="sesion_bahia_ids">
+                                <tree editable="bottom">
+                                    <field name="bahia_id" />
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </field-->
+        	</field>
+        </record>
+
+    </data>
+</odoo>

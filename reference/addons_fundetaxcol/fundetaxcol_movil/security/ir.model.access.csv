@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_model_fundetaxcol_settings_mobile_admon,fundetaxcol.settings.mobile,model_fundetaxcol_settings_mobile,fundetaxcol.group_administrador,1,1,1,1
+access_model_fundetaxcol_settings_mobile_empleado,fundetaxcol.settings.mobile,model_fundetaxcol_settings_mobile,fundetaxcol.group_empleado,1,1,1,0

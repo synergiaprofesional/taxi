@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+		<record id="utilidad_concepto_clasificacion_form" model="ir.ui.view">
+        	<field name="name">utilidad_concepto_clasificacion_form</field>
+        	<field name="model">wizard.ft_cpto_clasificacion</field>
+        	<field name="arch" type="xml">
+        		<form>
+        			<sheet>
+	        			<group>
+	        				<group>
+                                <field name="clasificacion" />
+                                <field name="concepto_ids" widget="many2many_tags" options="{'no_create': True, 'no_open': True, 'no_create_edit': True}" />
+	        				</group>
+	        			</group>
+	        		</sheet>
+	        		<footer>
+	        			<button string="Aceptar" type="object" name="btn_aceptar" class="oe_highlight" confirm="Está seguro de ejecutar esta acción?" />
+          				<button string="Cancelar" type="object" name="cancel" class="oe_link" special="cancel"/>
+	        		</footer>
+        		</form>
+        	</field>
+        </record>
+
+		<record id="utilidad_concepto_clasificacion_action" model="ir.actions.act_window">
+        	<field name="name">Clasificar conceptos</field>
+        	<field name="res_model">wizard.ft_cpto_clasificacion</field>
+        	<field name="view_type">form</field>
+        	<field name="view_mode">form</field>
+        	<field name="target">new</field>
+        </record>
+
+        <menuitem id="utilidad_menu" name="Utilidad" parent="fundetaxcol.modulo_menu" sequence="200" groups="base.group_system,fundetaxcol.group_administrador" />
+
+        <menuitem id="utilidad_concepto_clasificacion_menu" name="Clasificar conceptos" parent="utilidad_menu" action="utilidad_concepto_clasificacion_action" />
+
+        </data>
+</odoo>

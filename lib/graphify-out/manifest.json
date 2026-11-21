@@ -1,0 +1,197 @@
+{
+  "controllers/theme_controller.dart": {
+    "mtime": 1792286329.3815093,
+    "ast_hash": "132f6fd58d14e2d50ad296763c4757e0",
+    "semantic_hash": "132f6fd58d14e2d50ad296763c4757e0"
+  },
+  "controllers/turno_controller.dart": {
+    "mtime": 1793635026.7136183,
+    "ast_hash": "6ed481b6db33ce076ca572b363e1ffcc",
+    "semantic_hash": "6ed481b6db33ce076ca572b363e1ffcc"
+  },
+  "core/config/app_version.dart": {
+    "mtime": 1793637827.758782,
+    "ast_hash": "236d65fa0773c476a9c4e1e76533d782",
+    "semantic_hash": "236d65fa0773c476a9c4e1e76533d782"
+  },
+  "core/network/network_config.dart": {
+    "mtime": 1792292340.9036596,
+    "ast_hash": "97581189d9cc4994447f2f1da84211bd",
+    "semantic_hash": "97581189d9cc4994447f2f1da84211bd"
+  },
+  "core/theme/app_colors.dart": {
+    "mtime": 1792364171.3125207,
+    "ast_hash": "12ee69770f8e981a6d2d54af9a3425ad",
+    "semantic_hash": "12ee69770f8e981a6d2d54af9a3425ad"
+  },
+  "core/theme/app_theme.dart": {
+    "mtime": 1792364245.1476014,
+    "ast_hash": "a08134953c7f5414993b2bfecd112b6d",
+    "semantic_hash": "a08134953c7f5414993b2bfecd112b6d"
+  },
+  "core/utils/local_storage.dart": {
+    "mtime": 1792281947.594916,
+    "ast_hash": "dcda483b6f860c991f62d994f5edaa7d",
+    "semantic_hash": "dcda483b6f860c991f62d994f5edaa7d"
+  },
+  "main.dart": {
+    "mtime": 1792293409.4289951,
+    "ast_hash": "4aa9014d81e402c7f318dc6f1b53c5bc",
+    "semantic_hash": "4aa9014d81e402c7f318dc6f1b53c5bc"
+  },
+  "models/bay_model.dart": {
+    "mtime": 1792301292.1257195,
+    "ast_hash": "fedb82005d853892ff2c90a6ffc70a25",
+    "semantic_hash": "fedb82005d853892ff2c90a6ffc70a25"
+  },
+  "models/payment_model.dart": {
+    "mtime": 1793635134.8400588,
+    "ast_hash": "6f84717dc10b8fe606dae4b591a0a812",
+    "semantic_hash": "6f84717dc10b8fe606dae4b591a0a812"
+  },
+  "models/printer_config_model.dart": {
+    "mtime": 1792365856.2880044,
+    "ast_hash": "bd22a854f1bf76d2a3dc2290946862c8",
+    "semantic_hash": "bd22a854f1bf76d2a3dc2290946862c8"
+  },
+  "models/tarifa_sector_model.dart": {
+    "mtime": 1793621641.0270464,
+    "ast_hash": "c19d28a39c402204d09aae2a6dee370e",
+    "semantic_hash": "c19d28a39c402204d09aae2a6dee370e"
+  },
+  "models/ticket_data_model.dart": {
+    "mtime": 1792365870.77222,
+    "ast_hash": "bd27e2b1829dac87ddae70b8b57d5216",
+    "semantic_hash": "bd27e2b1829dac87ddae70b8b57d5216"
+  },
+  "models/turno_model.dart": {
+    "mtime": 1793635134.9124453,
+    "ast_hash": "e24f06ad6073e6e3c84f0a5035c8b1a0",
+    "semantic_hash": "e24f06ad6073e6e3c84f0a5035c8b1a0"
+  },
+  "models/vehicle_model.dart": {
+    "mtime": 1792932231.2991486,
+    "ast_hash": "71fdb123d6907f4d039964e33b165f77",
+    "semantic_hash": "71fdb123d6907f4d039964e33b165f77"
+  },
+  "services/odoo_service.dart": {
+    "mtime": 1793621400.814206,
+    "ast_hash": "9e44a570cd73702513e2e48341c4ee27",
+    "semantic_hash": "9e44a570cd73702513e2e48341c4ee27"
+  },
+  "services/printer_service.dart": {
+    "mtime": 1793625427.3750465,
+    "ast_hash": "0dd9f6765295c8103bbdaf72577fcafb",
+    "semantic_hash": "0dd9f6765295c8103bbdaf72577fcafb"
+  },
+  "services/socket_service.dart": {
+    "mtime": 1792302290.7855108,
+    "ast_hash": "e6f65ed000913647b781f0d67ed46398",
+    "semantic_hash": "e6f65ed000913647b781f0d67ed46398"
+  },
+  "ui/views/auth/auth_gatekeeper.dart": {
+    "mtime": 1792293395.2297559,
+    "ast_hash": "c0bb138ad9f524918824e25b9c45e58c",
+    "semantic_hash": "c0bb138ad9f524918824e25b9c45e58c"
+  },
+  "ui/views/auth/login_dialog.dart": {
+    "mtime": 1792368799.7205708,
+    "ast_hash": "ffc598b5cc59b6c8f8fbfd20ee0945c7",
+    "semantic_hash": "ffc598b5cc59b6c8f8fbfd20ee0945c7"
+  },
+  "ui/views/auth/login_view.dart": {
+    "mtime": 1793625723.0156188,
+    "ast_hash": "0d0b432653dbbe4f55b62d84c0fd822d",
+    "semantic_hash": "0d0b432653dbbe4f55b62d84c0fd822d"
+  },
+  "ui/views/bahia/bahia_selector_dialog.dart": {
+    "mtime": 1792301474.361926,
+    "ast_hash": "a70593927c59a1ee89bd312b058c5cd7",
+    "semantic_hash": "a70593927c59a1ee89bd312b058c5cd7"
+  },
+  "ui/views/form/payment_concept_form.dart": {
+    "mtime": 1792302304.2036817,
+    "ast_hash": "388e9e31caa309b6e382754bb2236f00",
+    "semantic_hash": "388e9e31caa309b6e382754bb2236f00"
+  },
+  "ui/views/form/payment_form_view.dart": {
+    "mtime": 1792932138.5162504,
+    "ast_hash": "7c37f0f9b8ea8c6a3f23e32d580666a9",
+    "semantic_hash": "7c37f0f9b8ea8c6a3f23e32d580666a9"
+  },
+  "ui/views/form/turno_form_view.dart": {
+    "mtime": 1793630274.0655277,
+    "ast_hash": "7f5d47a15cd66594bd07ce3c1596d5a6",
+    "semantic_hash": "7f5d47a15cd66594bd07ce3c1596d5a6"
+  },
+  "ui/views/home/home_view.dart": {
+    "mtime": 1792363788.7954938,
+    "ast_hash": "bd69ec11b55932e95778e17b02361cbb",
+    "semantic_hash": "bd69ec11b55932e95778e17b02361cbb"
+  },
+  "ui/views/list/despacho_history_view.dart": {
+    "mtime": 1792363248.4493923,
+    "ast_hash": "7dc51fbd0e0c4966b6d6aae4f47138ca",
+    "semantic_hash": "7dc51fbd0e0c4966b6d6aae4f47138ca"
+  },
+  "ui/views/list/despacho_list_view.dart": {
+    "mtime": 1793632827.9593575,
+    "ast_hash": "f1ec92281f59f6f555241f0f0aedda23",
+    "semantic_hash": "f1ec92281f59f6f555241f0f0aedda23"
+  },
+  "ui/views/list/pago_list_view.dart": {
+    "mtime": 1792936565.7595615,
+    "ast_hash": "7e7d57243de064f5cfb380afe8635ba1",
+    "semantic_hash": "7e7d57243de064f5cfb380afe8635ba1"
+  },
+  "ui/views/list/turno_list_view.dart": {
+    "mtime": 1792932092.626466,
+    "ast_hash": "80769549392a712c07486e6621a1ebe0",
+    "semantic_hash": "80769549392a712c07486e6621a1ebe0"
+  },
+  "ui/views/main/bahia_selected_view.dart": {
+    "mtime": 1793625234.7746465,
+    "ast_hash": "1dfa9049d47424c41c72411ea813ebf5",
+    "semantic_hash": "1dfa9049d47424c41c72411ea813ebf5"
+  },
+  "ui/views/pago/pago_dialog.dart": {
+    "mtime": 1792287452.8441844,
+    "ast_hash": "a8d41a86de585d4a40bca98825bb2910",
+    "semantic_hash": "a8d41a86de585d4a40bca98825bb2910"
+  },
+  "ui/views/settings/setting_info_extra_view.dart": {
+    "mtime": 1793625723.3016596,
+    "ast_hash": "288d555fa9e9f9e81df24436aa1a45fc",
+    "semantic_hash": "288d555fa9e9f9e81df24436aa1a45fc"
+  },
+  "ui/views/settings/settings_view.dart": {
+    "mtime": 1793625371.6654744,
+    "ast_hash": "e620c3062a7db6bab7d6b8e730c5e64e",
+    "semantic_hash": "e620c3062a7db6bab7d6b8e730c5e64e"
+  },
+  "ui/widgets/despacho_card_widget.dart": {
+    "mtime": 1793636351.1418388,
+    "ast_hash": "a9bb3ad0b041646d08cc11b6a8996776",
+    "semantic_hash": "a9bb3ad0b041646d08cc11b6a8996776"
+  },
+  "ui/widgets/pago_card_widget.dart": {
+    "mtime": 1793631923.8063722,
+    "ast_hash": "7dc3842d09c1ea76ac9745040c6f1cd0",
+    "semantic_hash": "7dc3842d09c1ea76ac9745040c6f1cd0"
+  },
+  "ui/widgets/search_generic_widget.dart": {
+    "mtime": 1792302232.761579,
+    "ast_hash": "4821d0ec1a5e71800c86b622f04613f7",
+    "semantic_hash": "4821d0ec1a5e71800c86b622f04613f7"
+  },
+  "ui/widgets/ticket_preview_dialog.dart": {
+    "mtime": 1792365966.0022185,
+    "ast_hash": "2ae6ee68e0bb94bba95b1fd6b42a1aca",
+    "semantic_hash": "2ae6ee68e0bb94bba95b1fd6b42a1aca"
+  },
+  "ui/widgets/turno_card_widget.dart": {
+    "mtime": 1793637827.882845,
+    "ast_hash": "6eee000f0117038d0a89ddc76d8d0b59",
+    "semantic_hash": "6eee000f0117038d0a89ddc76d8d0b59"
+  }
+}

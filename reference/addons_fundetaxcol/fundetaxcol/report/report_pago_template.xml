@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<template id="report_pago">
+	    <!-- <t t-call="web.html_container"> -->
+	    	<t t-foreach="docs" t-as="o">
+	            <t t-call="web.internal_layout">
+	                <div class="page">
+	                    <table width="100%" class="text-center">
+							<tr>
+								<td>Consecutivo: <t t-esc="o.consecutivo" /></td>
+							</tr>
+							<tr>
+								<td>Fecha: <t t-esc="context_timestamp(datetime.datetime.strptime(o.create_date, '%Y-%m-%d %H:%M:%S')).strftime('%Y-%m-%d %H:%M:%S')" /></td>
+							</tr>
+							<tr>
+								<td>Usuario: <t t-esc="o.create_uid.name" /></td>
+							</tr>
+							<tr>
+								<td>Vehículo: <t t-esc="o.vehiculo_id.name" /></td>
+							</tr>
+							<tr>
+								<td>Conductor: <t t-esc="o.conductor_id.name" /></td>
+							</tr>
+						</table>
+						<br/>
+						<table width="100%">
+							<t t-if="len(o.concepto_ids) != 0">
+								<tr>
+									<td><strong>Concepto</strong></td>
+									<td class="text-right"><strong>Valor</strong></td>
+								</tr>
+							</t>
+							<tr t-foreach="o.concepto_ids" t-as="concepto">
+								<td><t t-esc="concepto.concepto_id.name" /></td>
+								<td class="text-right"><t t-esc="concepto.valor" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}" /></td>
+							</tr>
+						</table>
+						<br/>
+						<table width="100%">
+							<tr>
+								<td><strong>Total pago</strong></td>
+								<td class="text-right"><strong><t t-esc="o.valor" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}" /></strong></td>
+							</tr>
+						</table>
+						<br/>
+						<table width="100%">
+							<t t-if="len(o.conductor_id.get_ahorro()) != 0">
+								<tr>
+									<td colspan="2" class="text-center"><strong>Ahorros</strong></td>
+								</tr>
+								<tr>
+									<td><strong>Concepto</strong></td>
+									<td class="text-right"><strong>Valor</strong></td>
+								</tr>
+							</t>
+							<tr t-foreach="o.conductor_id.get_ahorro()" t-as="concepto">
+								<td><t t-esc="concepto.get('concepto')" /></td>
+								<td class="text-right"><t t-esc="concepto.get('valor')" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}" /></td>
+							</tr>
+							<tr>
+								<td><strong>Total ahorros</strong></td>
+								<td class="text-right"><strong><t t-esc="o.conductor_id.ahorro" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}" /></strong></td>
+							</tr>
+						</table>
+						<br/>
+						<table width="100%">
+							<tr t-if="o.saldo_cr_ingreso > 0">
+								<td>Saldo Ingreso</td>
+								<td class="text-right"><t t-esc="o.saldo_cr_ingreso" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}" /></td>
+							</tr>
+							<tr t-if="o.saldo_cr_prestamo > 0">
+								<td>Saldo Préstamo</td>
+								<td class="text-right"><t t-esc="o.saldo_cr_prestamo" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}" /></td>
+							</tr>
+							<tr>
+								<td colspan="2"><br/></td>
+							</tr>
+						</table>
+						<table width="100%" class="text-center">
+							<t t-set="limpieza" t-value="o.obtener_limpieza()" />
+							<tr t-if="limpieza">
+								<td>
+									<span>Últ. limpieza: <t t-esc="context_timestamp(datetime.datetime.strptime(limpieza, '%Y-%m-%d %H:%M:%S')).strftime('%Y-%m-%d %H:%M:%S')" /></span>
+								</td>
+							</tr>
+							<tr>
+								<td>Ingresos (<t t-esc="o.ingreso" />)</td>
+							</tr>
+						</table>
+						<br/>
+						<table width="100%" class="text-center" style="font-style:italic;">
+							<tr>
+								<td>Tels: <t t-esc="o.company_id.phone" /></td>
+							</tr>
+							<tr>
+								<td><t t-esc="o.company_id.email" /></td>
+							</tr>
+							<tr>
+								<td><t t-esc="o.company_id.website" /></td>
+							</tr>
+							<tr>
+								<td><t t-esc="o.company_id.report_footer" /></td>
+							</tr>
+						</table>
+						<div class="text-center">
+							<br />
+							<span style="font-style:italic;font-size:9px;"><t t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M:%S')" /></span>
+						</div>
+	                </div>
+	            </t>
+	        </t>
+		<!-- </t> -->
+	</template>
+</odoo>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="sesion_tree">
+            <field name="name">sesion.tree</field>
+            <field name="model">fundetaxcol.sesion</field>
+            <field name="arch" type="xml">
+                <tree create="false" delete="false">
+                    <field name="name"/>
+                    <field name="cantidad_pago" sum="Cantidad pagos"/>
+                    <field name="total_pago" sum="Total pagos"/>
+                    <field name="cantidad_transaccion" sum="Cantidad transacciones"/>
+                    <field name="total_transaccion" sum="Total transacciones"/>
+                    <field name="cantidad_turno" sum="Cantidad turnos"/>
+                    <field name="total_turno" sum="Total turnos"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="sesion_form">
+        	<field name="name">sesion.form</field>
+        	<field name="model">fundetaxcol.sesion</field>
+        	<field name="arch" type="xml">
+        		<form create="false" edit="false" delete="false">
+                    <field name="create_date" invisible="1"/>
+        			<field name="fundetaxcol_id" invisible="1"/>
+	        		<field name="state" invisible="1"/>
+	        		<header>
+	        			<button class="btn btn-default" name="cerrar_sesion_confirm" confirm="Confirme el cierre de Sesión" states="progreso" string="Cerrar Sesión" type="object"/>
+                        <field name="state" widget="statusbar" statusbar_visible="progreso,cerrado"/>
+	        		</header>
+        			<sheet>
+        				<h3><field name="name" class="oe_read_only"/></h3>
+        				<group>
+        					<field name="fecha_apertura" readonly="1"/>
+                            <field name="bahia_ids" widget="many2many_tags" attrs="{'readonly': [('create_date','!=',False)]}"/>
+        				</group>
+                        <group string="Bahías" attrs="{'invisible': [('create_date','=',False)]}">
+                            <field name="sesion_bahia_ids" nolabel="1">
+                                <kanban class="o_kanban_dashboard">
+                                    <templates>
+                                        <t t-name="kanban-box">
+                                            <div>
+                                                <div class="o_kanban_card_header">
+                                                    <div class="o_kanban_card_header_title">
+                                                        <div class="o_primary">
+                                                            <strong><field name="name_sec"/></strong>
+                                                        </div>
+                                                        <a style="float:right;position:absolute;margin-right:16px;margin-top:8px;top:0;right:0;" name="print_sesion_bahia" type="object"><small><i>Imprimir</i></small></a>
+                                                    </div>
+                                                </div>
+                                                <div class="container o_kanban_card_content" style="margin-bottom:16px;min-height:auto;">
+                                                    <strong><i>Resumen de pagos: $<field name="total_pago"/></i></strong>
+                                                    <strong><i>Resumen de transacciones: $<field name="total_transaccion"/></i></strong>
+                                                    <strong><i>Resumen de despachos: $<field name="total_turno"/></i></strong>
+                                                </div>
+                                                <div class="o_kanban_card_footer">
+                                                    <button class="btn btn-primary" name="btn_pagos" type="object">Pagos</button>
+                                                    <button class="btn btn-default" name="btn_transacciones" type="object">Transacciones</button>
+                                                    <button class="btn btn-default" name="btn_turnos" type="object">Despachos</button>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                            </field>
+                        </group>
+                        <!--notebook attrs="{'invisible': [('create_date','==',False)]}">
+                            <page name="pagos" string="Pagos">
+                            </page>
+                            <page name="turnos" string="Despachos">
+                            </page>
+                        </notebook-->
+        			</sheet>
+        		</form>
+        	</field>
+        </record>
+
+        <record model="ir.ui.view" id="confirm_cerrar_sesion_form">
+            <field name="name">confirm_cerrar_sesion.form</field>
+            <field name="model">fundetaxcol.sesion</field>
+            <field name="arch" type="xml">
+                <form string="Confirmacion cierre sesion">
+                    <sheet>
+                        <h3>Seguro que desea cerrar la sesión actual?</h3>
+                    </sheet>
+                    <footer>
+                        <button class="btn btn-primary" name="cerrar_sesion" string="Aceptar" type="object"/>
+                        <button class="btn btn-default" string="Cancelar" special="cancel" type="object"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_modulo_sesion" model="ir.actions.act_window">
+            <field name="name">Sesión</field>
+            <field name="res_model">fundetaxcol.sesion</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="limit">20</field>
+            <field name="view_ids" eval="[
+                (5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('sesion_tree')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('sesion_form')}),
+            ]"/>
+            <field name="help" type="html">
+                <p>
+                    Sin sesiones
+                </p>
+            </field>
+        </record>
+
+        <menuitem 
+            id="modulo_sesion_menu" 
+            name="Sesiones" 
+            parent="fundetaxcol.modulo_menu" 
+            action="action_modulo_sesion"
+        />
+
+    </data>
+</odoo>

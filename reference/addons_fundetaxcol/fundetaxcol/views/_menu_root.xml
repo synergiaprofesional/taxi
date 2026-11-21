@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <menuitem id="root_menu" name="Fundetaxcol" web_icon="fundetaxcol,static/description/icon.png" sequence="-100" />
+        <menuitem id="administracion_menu" name="Administración" parent="root_menu" />
+        <menuitem id="modulo_menu" name="Módulos" parent="root_menu" />
+        <menuitem id="informe_menu" name="Informes" parent="root_menu" />
+    </data>
+</odoo>

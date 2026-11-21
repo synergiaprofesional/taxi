@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        
+        <record model="ir.ui.view" id="automatizacion_mensaje_tree">
+        	<field name="name">automatizacion_mensaje.tree</field>
+        	<field name="model">mensaje.automatizacion</field>
+        	<field name="arch" type="xml">
+        		<tree string="Lista de automatización de mensajes">
+        			<field name="name"/>
+        			<field name="model_id"/>
+        		</tree>
+        	</field>
+        </record>
+
+        <record model="ir.ui.view" id="automatizacion_mensaje_form">
+        	<field name="name">automatizacion_mensaje.form</field>
+        	<field name="model">mensaje.automatizacion</field>
+        	<field name="arch" type="xml">
+        		<form string="Formulario de automatización de mensajes">
+        			<header>
+        				<button name="run_task" class="btn btn-primary" string="Ejecutar manualmente" type="object"/>
+        			</header>
+        			<sheet>
+        				<group>
+	        				<group>
+	        					<field name="name"/>
+	        					<field name="model_id"/>
+	        					<field name="to"/>
+	        					<field name="relacion"/>
+	        				</group>
+	        				<group>
+	        					<field class="oe_inline" name="dia" placeholder="de cada mes..."/>
+	        					<field class="oe_inline" name="hora"/>
+	        					<field name="dominio"/>
+	        					<field name="mensaje"/>
+	        				</group>
+	        			</group>
+	        			<notebook>
+	        				<page string="Campos">
+	        					<field name="campos"/>
+	        				</page>
+	        				<page string="Ayuda">
+        						<div style="padding:16px;">
+        							<h3>Como crear registros de automaización</h3>
+	        						<p>Encerrar variables con ${}! por ejemplo: ${res_partner}!</p>
+	        						<p>La variable debe estar en el modelo seleccionado o en la relación</p>
+	        						<p>El dominio indica a que registros se le aplica la acción, [('variable','condición','valor')]</p>
+	        					</div>
+        					</page>
+	        			</notebook>
+        			</sheet>
+        		</form>
+        	</field>
+        </record>
+
+        <record id="action_mensaje_auto" model="ir.actions.act_window">
+        	<field name="name">Automatización</field>
+        	<field name="res_model">mensaje.automatizacion</field>
+        	<field name="view_type">form</field>
+        	<field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="mensaje_auto_menu" name="Automatizaciones" parent="menu_root" action="action_mensaje_auto" sequence="3"/>
+    </data>
+</odoo>

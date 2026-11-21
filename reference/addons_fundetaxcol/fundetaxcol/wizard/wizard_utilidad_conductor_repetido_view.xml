@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+		<record id="utilidad_conductor_repetido_form" model="ir.ui.view">
+        	<field name="name">utilidad_conductor_repetido_form</field>
+        	<field name="model">wizard.fundetaxcol_conductor_repetido</field>
+        	<field name="arch" type="xml">
+        		<form>
+        			<sheet>
+	        			<group>
+	        				<group>
+                                <field name="partner_exclude_ids" widget="many2many_tags" invisible="1" />
+                                <field name="vehiculo_id" options="{'no_create': True, 'no_open': True, 'no_create_edit': True}" />
+	        					<field name="conductor_id" domain="[('is_company','=',False),('id','not in',partner_exclude_ids)]" options="{'no_create': True, 'no_open': True, 'no_create_edit': True}" />
+                                <field name="conductor_ids" domain="[('id','!=',conductor_id),('is_company','=',False),('id','not in',partner_exclude_ids)]" options="{'no_create': True, 'no_open': True, 'no_create_edit': True}" widget="many2many_tags" />
+	        				</group>
+	        			</group>
+                        <strong><h2></h2></strong>
+	        		</sheet>
+	        		<footer>
+	        			<button string="Aceptar" type="object" name="btn_aceptar" class="oe_highlight" confirm="Está seguro de ejecutar esta acción?" />
+          				<button string="Cancelar" type="object" name="cancel" class="oe_link" special="cancel"/>
+	        		</footer>
+        		</form>
+        	</field>
+        </record>
+
+		<record id="utilidad_conductor_repetido_action" model="ir.actions.act_window">
+        	<field name="name">Revisar Conductores Repetidos</field>
+        	<field name="res_model">wizard.fundetaxcol_conductor_repetido</field>
+        	<field name="view_type">form</field>
+        	<field name="view_mode">form</field>
+        	<field name="target">new</field>
+        </record>
+
+        <menuitem id="utilidad_menu" name="Utilidad" parent="fundetaxcol.modulo_menu" sequence="200" groups="base.group_system,fundetaxcol.group_administrador" />
+
+        <menuitem id="utilidad_conductor_repetido_menu" name="Revisar Conductores Repetidos" parent="utilidad_menu" action="utilidad_conductor_repetido_action" />
+
+        </data>
+</odoo>

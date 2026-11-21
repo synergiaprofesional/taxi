@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+    	<!--Inicial-->
+    	<menuitem id="menu_root" name="Mensajería" groups="base.group_system"/>
+        <!--Configuración-->
+        <record id="mensaje_config_view" model="ir.ui.view">
+	        <field name="name">Mensaje Ajuste Form</field>
+	        <field name="model">mensaje.ajuste</field>
+	        <field name="arch" type="xml">
+	            <form class="oe_form_configuration">
+	                <header>
+	                    <button string="Aplicar" type="object" name="execute" class="oe_highlight"/>
+	                    <button string="Cancelar" type="object" name="cancel" special="cancel"/>
+	                </header>
+	                <group name="config_mensaje" string="Configuración Mensaje">
+	                    <group>
+	                        <field name="url"/>
+	                        <field name="usuario"/>
+	                        <field name="password" password="True"/>
+	                        <field name="contador_mensaje" readonly="0"/>
+	                    </group>
+	                </group>
+	            </form>
+	        </field>
+	    </record>
+
+	    <record id="mensaje_config_act" model="ir.actions.act_window">
+	        <field name="name">Ajustes</field>
+	        <field name="res_model">mensaje.ajuste</field>
+	        <field name="view_mode">form</field>
+	        <field name="target">inline</field>
+	    </record>
+
+	    <menuitem id="mensaje_ajuste" name="Ajustes" parent="menu_root" action="mensaje_config_act" sequence="10"/>
+        <!--Mensaje-->
+        <record model="ir.ui.view" id="mensaje_tree">
+        	<field name="name">mensaje.tree</field>
+        	<field name="model">mensaje.mensaje</field>
+        	<field name="arch" type="xml">
+        		<tree string="Lista de mensajes">
+        			<field name="name"/>
+        		</tree>
+        	</field>
+        </record>
+
+        <record model="ir.ui.view" id="mensaje_form">
+        	<field name="name">mensaje.form</field>
+        	<field name="model">mensaje.mensaje</field>
+        	<field name="arch" type="xml">
+        		<form string="Formulario de mensajes">
+        			<header>
+        				<field name="state" widget="statusbar"/>
+        			</header>
+        			<sheet>
+        				<group>
+        					<group>
+        						<field name="name"/>
+        						<field name="partner_id"/>
+        					</group>
+        					<group>
+        						<field name="celular"/>
+        						<field name="mensaje"/>
+        					</group>
+        				</group>
+        				<notebook>
+        					<page string="Vista previa">
+        						<field name="mensaje_format" readonly="1"/>
+        					</page>
+        				</notebook>
+        			</sheet>
+        		</form>
+        	</field>
+        </record>
+
+        <record id="action_mensaje" model="ir.actions.act_window">
+        	<field name="name">Mensaje</field>
+        	<field name="res_model">mensaje.mensaje</field>
+        	<field name="view_type">form</field>
+        	<field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="mensaje_menu" name="Mensajes" parent="menu_root" action="action_mensaje" sequence="1"/>
+
+        <!--Plantilla-->
+        <record model="ir.ui.view" id="plantilla_mensaje_tree">
+        	<field name="name">plantilla_mensaje.tree</field>
+        	<field name="model">mensaje.plantilla</field>
+        	<field name="arch" type="xml">
+        		<tree string="Lista de plantillas de mensaje">
+        			<field name="name"/>
+        		</tree>
+        	</field>
+        </record>
+
+        <record model="ir.ui.view" id="plantilla_mensaje_form">
+        	<field name="name">plantilla_mensaje.form</field>
+        	<field name="model">mensaje.plantilla</field>
+        	<field name="arch" type="xml">
+        		<form string="description">
+        			<sheet>
+        				<div class="oe_button_box" name="button_box">
+			              <button name="crear_menu_contextual" type="object" class="oe_stat_button">
+			              	<field name="menu" widget="boolean_button" options="{'terminology': { 
+			              		'string_true': 'Menú creado', 
+			              		'hover_true': 'Eliminar menú', 
+			              		'string_false': 'Sin menú',
+			              		'hover_false': 'Crear menú'
+			              	}}"/>
+			              </button>
+			            </div>
+        				<group>
+        					<group>
+        						<field name="name"/>
+        						<field name="model_id" options="{'no_quick_create':True,'no_create_edit':True}"/>
+        						<field name="campo_tercero"/>
+        						<!--field name="nombre_completo"/-->
+        					</group>
+        					<group>
+        						<field name="cabecera"/>
+	        					<field name="cuerpo"/>
+	        					<field name="pie"/>
+        					</group>
+        				</group>
+        				<notebook>
+        					<page string="Campos del modelo">
+        						<field name="campos"/>
+        					</page>
+        					<page string="Vista previa">
+        						<field name="mensaje" />
+        					</page>
+        					<page string="Ayuda">
+        						<div style="padding:16px;">
+	        						<h2>Ayuda para la plantilla de mensajes</h2>
+	        						<p>Encerrar variables con ${}! por ejemplo: ${res_partner}!</p>
+	        						<p>La variable debe estar en el modelo seleccionado.</p>
+	        					</div>
+        					</page>
+        					<!--page string="Modelos excluidos" invisible="1">
+        						<field name="model_ids" widget="many2many_tags"/>
+        					</page-->
+        				</notebook>
+        			</sheet>
+        		</form>
+        	</field>
+        </record>
+
+        <record id="action_plantilla_mensaje" model="ir.actions.act_window">
+        	<field name="name">Plantilla mensaje</field>
+        	<field name="res_model">mensaje.plantilla</field>
+        	<field name="view_type">form</field>
+        	<field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="plantilla_mensaje_menu" name="Plantillas" parent="menu_root" action="action_plantilla_mensaje" sequence="2"/>
+        <!--Res Partner-->
+        <record id="view_partner_form_inherit" model="ir.ui.view">
+	        <field name="name">res.partner.form.inherit</field>
+	        <field name="model">res.partner</field>
+	        <field name="inherit_id" ref="base.view_partner_form"/>
+	        <field name="arch" type="xml">
+	        	<field name="mobile" position="after">
+	        		<div>
+	        			<label for="permitir_mensaje" string="Permitir SMS"/>
+		        		<field name="permitir_mensaje"/>
+		        	</div>
+	        	</field>
+	        </field>
+        </record>
+    </data>
+</odoo>

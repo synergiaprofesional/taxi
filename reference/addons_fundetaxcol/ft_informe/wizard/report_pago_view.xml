@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="wizard_report_pago_por_periodo_view" model="ir.ui.view">
+        <field name="name">Pagos por periodo</field>
+        <field name="model">wizard.informe.fundetaxcol.pago</field>
+        <field name="arch" type="xml">
+            <form create="false" edit="false">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="start_at" />
+                            <field name="stop_at" />
+                            <field name="agrupar" />
+                            <field name="mostrar_ingresos_del_mes" attrs="{'invisible': [('agrupar','=',False)]}" />
+                        </group>
+                    </group>
+                    <small class="form-text text-muted" attrs="{'invisible': [('agrupar','=',False)]}">
+                        Este informe muestra las fechas de los pagos consultados.
+                        <br />
+                        Tenga en cuenta que los pagos están agrupados por Conductor, Placa
+                        <br />
+                        Por lo cual no se muestra la fecha exacta de cada registro.
+                    </small>
+                </sheet>
+                <footer>
+                    <button name="get_data_report" string="Descargar Archivo" type="object" class="btn-primary" />
+                    <button string="Cancelar" class="btn-default" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_wizard_report_pago_por_periodo" model="ir.actions.act_window">
+        <field name="name">Pagos Por Periodo</field>
+        <field name="res_model">wizard.informe.fundetaxcol.pago</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="wizard_report_pago_por_periodo_view" />
+        <field name="target">new</field>
+    </record>
+
+    <menuitem name="Pagos Por Periodo" id="menu_action_wizard_report_pago_por_periodo" action="action_wizard_report_pago_por_periodo" parent="fundetaxcol.informe_menu" />
+
+</odoo>

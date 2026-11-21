@@ -1,0 +1,1 @@
+{"nodes": [], "edges": [{"source": "bitacora_02112026_turno_controller", "target": "bitacora_02112026_turno_model", "relation": "shares_data_with", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "Bitacora 20261025 110500.md", "source_location": null, "weight": 1.0}], "hyperedges": []}

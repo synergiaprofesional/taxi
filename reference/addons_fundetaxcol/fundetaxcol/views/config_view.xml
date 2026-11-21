@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  
+  <record model="ir.ui.view" id="config_form_view">
+    <field name="name">config.form</field>
+    <field name="model">fundetaxcol.config.settings</field>
+    <field name="arch" type="xml">
+      <form string="Configuración">
+        <header>
+          <button string="Aplicar" type="object" name="execute" class="oe_highlight"/>
+          <button string="Cancelar" type="object" name="cancel" class="oe_link" special="cancel"/>
+        </header>
+        <sheet>
+          <group>
+          	<group>
+          		<field name="default_concepto_tarifa_base_id" domain="[('clasificacion','=','ingreso')]"/>
+
+              <!--field name="plantilla_ingreso_id" /-->
+
+          		<field name="default_secuencia_ticket_id" domain="[('id','not in',[default_secuencia_transaccion_id,default_secuencia_ajuste_id,default_secuencia_ajuste_transaccion_id])]"/>
+
+              <field name="default_secuencia_transaccion_id" domain="[('id','not in',[default_secuencia_ticket_id,default_secuencia_ajuste_id,default_secuencia_ajuste_transaccion_id])]"/>
+
+              <field name="default_secuencia_ajuste_id" domain="[('id','not in',[default_secuencia_ticket_id,default_secuencia_transaccion_id,default_secuencia_ajuste_transaccion_id])]"/>
+
+              <field name="default_secuencia_ajuste_transaccion_id" domain="[('id','not in',[default_secuencia_ticket_id,default_secuencia_transaccion_id,default_secuencia_ajuste_id])]"/>
+          	</group>
+          </group>
+          <group>
+          	<group>
+          		<field name="conductor_anonimo_id"/>
+          		<field name="hora_recargo"/>
+              <!--field name="plantilla_ahorro_id" /-->
+              <field name="concepto_ajuste_ahorro_id" />
+          	</group>
+          </group>
+          <group>
+          	<group>
+          		<field name="credito_cuenta_ingreso"/>
+          		<field name="num_max_credito"/>
+          		<field name="no_ingreso_antes_de_credito"/>
+          	</group>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <record id="config_action" model="ir.actions.act_window">
+      <field name="name">Configuración</field>
+      <field name="res_model">fundetaxcol.config.settings</field>
+      <field name="view_mode">form</field>
+      <field name="target">inline</field>
+  </record>
+
+  <menuitem 
+    id="config_menu" 
+    name="Configuración" 
+    action="config_action" 
+    parent="fundetaxcol.root_menu"
+    groups="base.group_system"
+    sequence="100"
+  />
+
+</odoo>

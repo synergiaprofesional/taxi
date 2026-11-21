@@ -1,0 +1,178 @@
+{
+  "communities": {
+    "0": [
+      "bitacora_20261017_183549_server_rt_odoo",
+      "bitacora_20261017_190133_network_config",
+      "bitacora_20261017_190133_turno_controller",
+      "bitacora_20261017_192500_odoo_service",
+      "bitacora_20261017_192500_socket_service",
+      "bitacora_20261017_222000_auth_gatekeeper",
+      "bitacora_20261018_114135_payment_model"
+    ],
+    "1": [
+      "bitacora_02112026_addons_fundetaxcol",
+      "bitacora_02112026_caddy_server",
+      "bitacora_02112026_fundetaxcol_flutter",
+      "bitacora_02112026_odoo_service",
+      "bitacora_02112026_server_rt_odoo",
+      "bitacora_02112026_synergia_movil"
+    ],
+    "2": [
+      "bitacora_20261017_192500_printer_service",
+      "bitacora_20261018_005000_bahia_selected_view",
+      "bitacora_20261018_171500_turno_card_widget",
+      "bitacora_20261018_201200_proxy_server",
+      "bitacora_20261102_081200_app_version",
+      "bitacora_20261102_101500_despacho_card_widget"
+    ],
+    "3": [
+      "bitacora_02112026_bahia_selected_view",
+      "bitacora_02112026_pago_recaudo_model",
+      "bitacora_02112026_turno_controller",
+      "bitacora_02112026_turno_model"
+    ],
+    "4": [
+      "bitacora_20261017_175430_caddy_server",
+      "bitacora_20261017_175430_odoo_80_service",
+      "bitacora_20261017_183200_fail2ban"
+    ],
+    "5": [
+      "bitacora_02112026_errores_md",
+      "bitacora_02112026_printer_service"
+    ],
+    "6": [
+      "bitacora_20261017_174030_fundetaxcol_flutter",
+      "bitacora_20261017_174030_synergia_movil"
+    ],
+    "7": [
+      "bitacora_20261017_174030_fundetaxcol"
+    ],
+    "8": [
+      "bitacora_20261017_202500_theme_controller"
+    ]
+  },
+  "cohesion": {
+    "0": 0.2857142857142857,
+    "1": 0.3333333333333333,
+    "2": 0.3333333333333333,
+    "3": 0.5,
+    "4": 0.6666666666666666,
+    "5": 1.0,
+    "6": 1.0,
+    "7": 1.0,
+    "8": 1.0
+  },
+  "gods": [
+    {
+      "id": "bitacora_20261017_190133_turno_controller",
+      "label": "TurnoController",
+      "degree": 6
+    },
+    {
+      "id": "bitacora_02112026_turno_controller",
+      "label": "TurnoController",
+      "degree": 4
+    },
+    {
+      "id": "bitacora_20261018_005000_bahia_selected_view",
+      "label": "BahiaSelectedView",
+      "degree": 4
+    },
+    {
+      "id": "bitacora_02112026_synergia_movil",
+      "label": "Synergia M\u00f3vil",
+      "degree": 3
+    },
+    {
+      "id": "bitacora_02112026_addons_fundetaxcol",
+      "label": "addons_fundetaxcol (Odoo 11)",
+      "degree": 3
+    },
+    {
+      "id": "bitacora_20261017_192500_printer_service",
+      "label": "PrinterService",
+      "degree": 3
+    },
+    {
+      "id": "bitacora_02112026_odoo_service",
+      "label": "OdooService",
+      "degree": 2
+    },
+    {
+      "id": "bitacora_20261017_175430_caddy_server",
+      "label": "Caddy Reverse Proxy",
+      "degree": 2
+    },
+    {
+      "id": "bitacora_20261017_192500_odoo_service",
+      "label": "OdooService",
+      "degree": 2
+    },
+    {
+      "id": "bitacora_20261017_192500_socket_service",
+      "label": "SocketService",
+      "degree": 2
+    }
+  ],
+  "surprises": [
+    {
+      "source": "Fail2ban Defense",
+      "target": "Caddy Reverse Proxy",
+      "source_files": [
+        "Bitacora 20261017 183200.md",
+        "Bitacora 20261017 175430.md"
+      ],
+      "confidence": "INFERRED",
+      "relation": "conceptually_related_to",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories"
+    },
+    {
+      "source": "TurnoController",
+      "target": "OdooService",
+      "source_files": [
+        "Bitacora 20261017 190133.md",
+        "Bitacora 20261017 192500.md"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; peripheral node `OdooService` unexpectedly reaches hub `TurnoController`"
+    },
+    {
+      "source": "TurnoController",
+      "target": "PrinterService",
+      "source_files": [
+        "Bitacora 20261017 190133.md",
+        "Bitacora 20261017 192500.md"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; bridges separate communities"
+    },
+    {
+      "source": "TurnoController",
+      "target": "SocketService",
+      "source_files": [
+        "Bitacora 20261017 190133.md",
+        "Bitacora 20261017 192500.md"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; peripheral node `SocketService` unexpectedly reaches hub `TurnoController`"
+    },
+    {
+      "source": "TurnoController",
+      "target": "PaymentModel",
+      "source_files": [
+        "Bitacora 20261017 190133.md",
+        "Bitacora 20261018 114135.md"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "shares_data_with",
+      "why": "connects across different repos/directories; peripheral node `PaymentModel` unexpectedly reaches hub `TurnoController`"
+    }
+  ],
+  "tokens": {
+    "input": 62303,
+    "output": 5134
+  }
+}

@@ -1,0 +1,12 @@
+schema: "1.0"
+name: "taxi-yellow-black-palette"
+title: "Armonización Visual Global: Identidad Amarillo Taxi y Negro con Alto Contraste Dual"
+status: "in-progress"
+created: "2026-10-18T17:55:00-05:00"
+author: "Antigravity Pair Programmer"
+tags:
+  - "theme"
+  - "branding"
+  - "taxi-yellow"
+  - "high-contrast"
+  - "accessibility-wcag"

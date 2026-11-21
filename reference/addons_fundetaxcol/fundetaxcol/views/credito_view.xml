@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="pago_taxi_form_inherit">
+        	<field name="name">pago_taxi.form</field>
+        	<field name="priority">1</field>
+        	<field name="model">fundetaxcol.pago</field>
+        	<field name="inherit_id" ref="fundetaxcol.pago_taxi_form" />
+        	<field name="arch" type="xml">
+        		<field name="nota" position="before">
+                    <field name="tiene_cr_ingreso" invisible="1" />
+                    <field name="tiene_cr_prestamo" invisible="1" />
+                    <field name="saldo_cr_ingreso" attrs="{'invisible': [('tiene_cr_ingreso','=', False)]}" />
+                    <field name="saldo_cr_prestamo" attrs="{'invisible': [('tiene_cr_prestamo','=', False)]}" />
+                </field>
+        	</field>
+        </record>
+
+        <record model="ir.ui.view" id="conductor_form_inherit">
+    		<field name="name">conductor.form.inherit</field>
+    		<field name="model">res.partner</field>
+            <field name="inherit_id" ref="fundetaxcol.conductor_form" />
+    		<field name="arch" type="xml">
+                <page name="contacto" position="before">
+                    <page name="info" string="Información de Créditos">
+                        <group>
+                            <group>
+                                <field name="total_credito" />
+                                <field name="total_prestamo" />
+                            </group>
+                            <group>
+                                <field name="num_credito" />
+                            </group>
+                        </group>
+                    </page>
+                </page>
+                <page name="ahorro" position="after">
+                    <page name="credito" string="Créditos">
+                        <field name="credito_ids" nolabel="1" readonly="1">
+                            <tree>
+                                <field name="concepto_id" />
+                                <field name="cantidad" />
+                                <field name="valor" />
+                                <field name="subtotal" />
+                            </tree>
+                        </field>
+                    </page>
+                    <page name="prestamo" string="Préstamos">
+                        <field name="prestamo_ids" nolabel="1" readonly="1">
+                            <tree>
+                                <field name="concepto_id" />
+                                <field name="cantidad" />
+                                <field name="valor" />
+                                <field name="subtotal" />
+                            </tree>
+                        </field>
+                    </page>
+                </page>
+            </field>
+        </record>
+
+    </data>
+</odoo>

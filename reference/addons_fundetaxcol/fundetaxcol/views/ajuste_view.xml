@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+    	<record model="ir.ui.view" id="ajuste_form">
+    		<field name="name">ajuste.form</field>
+    		<field name="model">fundetaxcol.ajuste</field>
+    		<field name="arch" type="xml">
+    			<form string="Formulario Ajuste">
+    				<sheet>
+    					<group>
+    						<field name="sesion_id" invisible="1"/>
+    						<field name="sesion_bahia_id" invisible="1"/>
+    						<field name="secuencia_ajuste_id" invisible="1"/>
+    						<field name="secuencia_ajuste_transaccion_id" invisible="1"/>
+    						<group>
+	    						<field name="fecha"/>
+	    					</group>
+	    					<group>
+	    						<field name="bahia_id"/>
+	    					</group>
+    					</group>
+    					<notebook>
+    						<page string="Pagos">
+    							<field name="pago_ids" nolabel="1" context="{
+    								'default_bahia_id': sesion_bahia_id,
+    								'default_secuencia_ticket_id':secuencia_ajuste_id,
+    								}">
+	    							<tree>
+	    								<field name="secuencia_ticket_id" invisible="1"/>
+	    								<field name="bahia_id" invisible="1"/>
+	    								<field name="consecutivo"/>
+	    								<field name="vehiculo_id"/>
+	    								<field name="conductor_id"/>
+	    								<field name="valor" sum="Total Pago"/>
+	    							</tree>
+	    						</field>
+    						</page>
+    						<page string="Transacciones">
+    							<field name="transaccion_ids" nolabel="1" context="{
+    								'default_bahia_id': sesion_bahia_id,
+    								'default_secuencia_transaccion_id':secuencia_ajuste_transaccion_id,
+    								}">
+	    							<tree>
+	    								<field name="secuencia_transaccion_id" invisible="1"/>
+	    								<field name="bahia_id" invisible="1"/>
+	    								<field name="consecutivo"/>
+	    								<field name="res_partner_id"/>
+	    								<field name="concepto_id"/>
+	    								<field name="valor" sum="Total Transacciones"/>
+	    							</tree>
+	    						</field>
+    						</page>
+    					</notebook>
+    					<blockquote>
+	    					<small><i><field name="nota" readonly="1"/></i></small>
+	    				</blockquote>
+    				</sheet>
+    			</form>
+    		</field>
+    	</record>
+        
+        <record id="action_modulo_ajuste" model="ir.actions.act_window">
+            <field name="name">Ajuste</field>
+            <field name="res_model">fundetaxcol.ajuste</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem 
+			id="modulo_ajuste_menu" 
+			name="Ajustar Sesiones" 
+			parent="fundetaxcol.modulo_menu" 
+			action="action_modulo_ajuste"
+			groups="base.group_system,fundetaxcol.group_administrador"
+		/>
+    </data>
+</odoo>

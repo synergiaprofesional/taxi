@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        
+    	<menuitem id="administracion_system_menu" name="Adiministración Sistema" parent="fundetaxcol.root_menu" sequence="20" groups="base.group_system"/>
+
+    	<!--importar sectores-->
+    	<record id="action_barrio_sectores" model="ir.actions.act_window">
+    		<field name="name">Sectores</field>
+    		<field name="res_model">fundetaxcol.barrio.sector</field>
+    		<field name="view_type">form</field>
+    		<field name="view_mode">tree</field>
+    	</record>
+    	<menuitem id="barrio_sectores_menu" name="Sectores" parent="administracion_system_menu" action="action_barrio_sectores"/>
+
+    	<!--importar tarifas-->
+    	<record id="action_tarifa_sectores" model="ir.actions.act_window">
+    		<field name="name">Tarifas</field>
+    		<field name="res_model">fundetaxcol.tarifa.sector</field>
+    		<field name="view_type">form</field>
+    		<field name="view_mode">tree</field>
+    	</record>
+    	<menuitem id="tarifa_sectores_menu" name="Tarifas" parent="administracion_system_menu" action="action_tarifa_sectores"/>
+
+    </data>
+</odoo>

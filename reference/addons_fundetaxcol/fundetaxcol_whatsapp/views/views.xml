@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_res_company_form" model="ir.ui.view">
+        <field name="name">res.company.inherit.view.form</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form" />
+        <field name="arch" type="xml">
+            <group name="social_media" position="before">
+                <group name="whatsapp" string="Whatsapp">
+                    <field name="host_whatsapp" />
+                    <field name="mobile" />
+                </group>
+            </group>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="fundetaxcol.app_fundetaxcol_kanban">
+        <field name="name">fundetaxcol.kanban</field>
+        <field name="model">fundetaxcol.fundetaxcol</field>
+        <field name="arch" type="xml">
+            <kanban create="false" class="o_kanban_dashboard">
+                <field name="name" />
+                <field name="sesion_id" />
+                <field name="descripcion" />
+                <field name="host_whatsapp" />
+                <field name="mobile" />
+                <templates>
+                    <t t-name="kanban-box">
+                        <div>
+                            <div class="o_kanban_card_header">
+                                <div class="o_kanban_card_header_title">
+                                    <div class="o_primary">
+                                        <strong>
+                                            <t t-esc="record.name.value" />
+                                        </strong>
+                                        <br />
+                                        <h6>
+                                            <i>
+                                                <t t-esc="record.descripcion.value" />
+                                            </i>
+                                        </h6>
+                                    </div>
+                                    <div style="position:absolute;float:right;top:0px;right:0px;">
+                                        <button attrs="{'invisible': ['|',('host_whatsapp','=',False),('mobile','=',False)]}" class="btn btn-link" name="open_scan_whatsapp" type="object">
+                                            <i class="fa fa-whatsapp" />
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container o_kanban_card_content o_visible"></div>
+                            <div class="o_kanban_card_footer">
+                                <button t-if="record.sesion_id.raw_value != false" class="btn btn-primary" name="load_bahias" type="object">Bahías</button>
+                                <button t-if="record.sesion_id.raw_value == false" class="btn btn-primary" name="abrir_sesion" type="object">Abrir Sesión</button>
+
+                                <button t-if="record.sesion_id.raw_value != false" class="btn btn-default" name="cerrar_sesion" type="object">Cerrar Sesión</button>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="report_ruta" model="ir.actions.report">
+        <field name="name">Despachos por Barrios</field>
+        <field name="model">report.fundetaxcol.report_rutas</field>
+        <field name="report_type">qweb-html</field>
+        <field name="report_name">fundetaxcol.report_rutas</field>
+        <field name="menu">0</field>
+    </record>
+
+    <template id="report_rutas">
+        <t t-call="web.html_container">
+            <t t-call="web.internal_layout">
+                <div class="page">
+                    <div class="text-right">
+                        <t t-esc="date_start"/> - <t t-esc="date_stop"/>
+                    </div>
+                    <br/>
+                    <h3>Informe de despachos por Barrios</h3><br/>
+
+                    <table t-if="not imprimir_sumario" class="table">
+                        <thead>
+                            <tr>
+                                <th>PLACA</th>
+                                <th>CONDUCTOR</th>
+                                <th>VALOR</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="turnos" t-as="turno">
+                                <tr><th class="text-center" colspan="3"><t t-esc="turno.get('header',False)"/></th></tr>
+                                <t t-foreach="turno.get('detail',False)" t-as="rec">
+                                    <tr>
+                                        <td t-if="rec.placa_anonima"><t t-esc="rec.placa_anonima"/></td>
+                                        <td t-if="not rec.placa_anonima"><t t-esc="rec.vehiculo_id.name"/></td>
+                                        <td><t t-esc="rec.conductor_id.name"/></td>
+                                        <td><t t-esc="rec.valor" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></td>
+                                    </tr>
+                                </t>
+                                <tr>
+                                    <td>TOTAL DESPACHOS: <t t-esc="turno.get('qty',False)"/></td>
+                                    <td/>
+                                    <td>TOTAL VALOR: <t t-esc="turno.get('price',False)" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+
+                    <br/>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>BARRIO</th>
+                                <th>CANTIDAD</th>
+                                <th>VALOR</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="sumario" t-as="rec">
+                                <tr>
+                                    <td><t t-esc="rec.get('header', False)"/></td>
+                                    <td><t t-esc="rec.get('qty', False)"/></td>
+                                    <td><t t-esc="rec.get('price', False)" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

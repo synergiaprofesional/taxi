@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<template id="report_sesion">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <h2><span t-field="o.name"/></h2>
+                    <br/>
+                    <div t-foreach="o.sesion_bahia_ids" t-as="bahia">
+                        <hr />
+                        <h2 t-esc="bahia.name_sec"/>
+                        <h3 class="text-center">Pagos</h3>
+                        <table class="table">
+                            <thead>
+                                <th>Consecutivo</th>
+                                <th>Fecha</th>
+                                <th>Vehículo</th>
+                                <th>Conductor</th>
+                                <th class="text-right">Ingreso</th>
+                                <th class="text-right">Crédito</th>
+                                <th class="text-right">Valor</th>
+                            </thead>
+                            <tbody>
+                                <t t-set="ingreso" t-value="0" />
+                                <t t-set="credito" t-value="0" />
+                                <tr t-foreach="bahia.pago_ids" t-as="pago">
+                                    <t t-set="ingreso" t-value="ingreso + pago.obtener_ingreso()" />
+                                    <t t-set="credito" t-value="credito + pago.obtener_credito()" />
+                                    <td t-esc="pago.consecutivo"/>
+                                    <td t-esc="pago.fecha"/>
+                                    <td t-esc="pago.vehiculo_id.name"/>
+                                    <td t-esc="pago.conductor_id.name"/>
+                                    <td class="text-right" t-esc="pago.obtener_ingreso()" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
+                                    <td class="text-right" t-esc="pago.obtener_credito()" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
+                                    <td class="text-right"><t t-esc="pago.valor" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></td>
+                                </tr>
+                                <tr>
+                                    <th colspan="4">Total</th>
+                                    <th class="text-right"><t t-esc="ingreso" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></th>
+                                    <th class="text-right"><t t-esc="credito" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></th>
+                                    <th class="text-right"><t t-esc="bahia.total_pago" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></th>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <t t-set="result" t-value="bahia.obtener_conceptos()" />
+                        <h3 class="text-center">Conceptos de pago</h3>
+                        <table class="table">
+                            <thead>
+                                <th>Concepto</th>
+                                <th class="text-right">Cantidad</th>
+                                <th class="text-right">Valor</th>
+                                <th class="text-right">Total</th>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="result['conceptos']" t-as="concepto">
+                                    <td t-esc="concepto['concepto']"/>
+                                    <td class="text-right"><t t-esc="concepto['cantidad']" /></td>
+                                    <td class="text-right" t-esc="concepto['valor']" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
+                                    <td class="text-right" t-esc="concepto['total']" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
+                                </tr>
+                                <tr>
+                                    <th colspan="3">Total Conceptos</th>
+                                    <th class="text-right"><t t-esc="result['total']" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></th>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <h3 class="text-center">Transacciones</h3>
+                        <table class="table">
+                            <thead>
+                                <th>Consecutivo</th>
+                                <th>Fecha</th>
+                                <th>Tercero</th>
+                                <th>Concepto</th>
+                                <th>Detalle</th>
+                                <th class="text-right">Valor</th>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="bahia.transaccion_ids" t-as="transaccion">
+                                    <td t-esc="transaccion.consecutivo"/>
+                                    <td t-esc="transaccion.fecha"/>
+                                    <td t-esc="transaccion.res_partner_id.name"/>
+                                    <td t-esc="transaccion.concepto_id.name"/>
+                                    <td t-esc="transaccion.detalle"/>
+                                    <td class="text-right"><t t-esc="transaccion.valor_real" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></td>
+                                </tr>
+                                <tr>
+                                    <th colspan="5">Total Transacciones</th>
+                                    <th class="text-right"><t t-esc="bahia.total_transaccion" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></th>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <h3 class="text-center">Despachos</h3>
+                        <table class="table">
+                            <thead>
+                                <th>Número</th>
+                                <th>Fecha Despacho</th>
+                                <th>Placa</th>
+                                <th>Conductor</th>
+                                <th>Ruta</th>
+                                <th class="text-right">Valor</th>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="bahia.turno_ids" t-as="turno">
+                                    <tr t-if="turno.state == 'despachado'">
+                                        <td t-esc="turno.sequence"/>
+                                        <td t-esc="turno.fecha_despacho"/>
+                                        <td t-if="turno.vehiculo_id" t-esc="turno.vehiculo_id.name"/>
+                                        <td t-if="turno.placa_anonima" t-esc="turno.placa_anonima"/>
+                                        <td t-esc="turno.conductor_id.name"/>
+                                        <td t-esc="turno.tarifa_id.name"/>
+                                        <td class="text-right"><t t-esc="turno.valor" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></td>
+                                    </tr>
+                                </t>
+                                <tr>
+                                    <th colspan="5">Total Despachos</th>
+                                    <th class="text-right"><t t-esc="bahia.total_turno" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></th>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <!-- <table class="table">
+                            <thead>
+                                <th width="20%">Descripción</th>
+                                <th width="10%" class="text-right">Cantidad</th>
+                                <th width="35%" class="text-right">Valor</th>
+                                <th width="35%" class="text-right">Promedio</th>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Pagos</strong></td>
+                                    <td class="text-right"><t t-esc="len(bahia.pago_ids)"/></td>
+                                    <td class="text-right"><t t-esc="bahia.total_pago" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></td>
+                                    <td class="text-right"><t t-esc="bahia.promedio_pago" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Transacciones</strong></td>
+                                    <td class="text-right"><t t-esc="len(bahia.transaccion_ids)"/></td>
+                                    <td class="text-right"><t t-esc="bahia.total_transaccion" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></td>
+                                    <td class="text-right"><t t-esc="bahia.promedio_transaccion" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Despachos</strong></td>
+                                    <td class="text-right"><t t-esc="len(bahia.turno_ids)"/></td>
+                                    <td class="text-right"><t t-esc="bahia.total_turno" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></td>
+                                    <td class="text-right"><t t-esc="bahia.promedio_turno" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></td>
+                                </tr>
+                            </tbody>
+                        </table> -->
+                        
+
+
+
+
+                        <!--br/><br/><br/>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th colspan="3" class="text-center">Pagos</th>
+                                </tr>
+                                <tr>
+                                    <th class="text-right">Número</th>
+                                    <th class="text-right">Valor</th>
+                                    <th class="text-right">Promedio</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-right"><t t-esc="len(bahia.pago_ids)"/></td>
+                                    <td class="text-right"><t t-esc="bahia.total_pago" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></td>
+                                    <td class="text-right"><t t-esc="bahia.promedio_pago" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></td>
+                                </tr>
+                            </tbody>
+                            <thead>
+                                <th colspan="3" class="text-center">Transacciones</th>
+                            </thead>
+                            <tbody>
+                                <td class="text-right"><t t-esc="len(bahia.transaccion_ids)"/></td>
+                                <td class="text-right"><t t-esc="bahia.total_transaccion" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></td>
+                                <td class="text-right"><t t-esc="bahia.promedio_transaccion" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></td>
+                            </tbody>
+                            <thead>
+                                <th colspan="3" class="text-center">Despachos</th>
+                            </thead>
+                            <tbody>
+                                <td class="text-right"><t t-esc="len(bahia.turno_ids)"/></td>
+                                <td class="text-right"><t t-esc="bahia.total_turno" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></td>
+                                <td class="text-right"><t t-esc="bahia.promedio_turno" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></td>
+                            </tbody>
+                        </table-->
+                    </div>
+                    <br/><br/><br/>
+                    <table class="table">
+                        <tr>
+                            <td width="20%"><strong>Total Pagos</strong></td>
+                            <td width="10%" class="text-right"><t t-esc="o.cantidad_pago"/></td>
+                            <td width="35%" class="text-right"><strong><t t-esc="o.total_pago" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></strong></td>
+                            <td width="35%"/>
+                        </tr>
+                        <tr>
+                            <td width="20%"><strong>Total Transacciones</strong></td>
+                            <td width="10%" class="text-right"><t t-esc="o.cantidad_transaccion"/></td>
+                            <td width="35%" class="text-right"><strong><t t-esc="o.total_transaccion" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></strong></td>
+                            <td width="35%"/>
+                        </tr>
+                        <tr>
+                            <td width="20%"><strong>Total Despachos</strong></td>
+                            <td width="10%" class="text-right"><t t-esc="o.cantidad_turno"/></td>
+                            <td width="35%" class="text-right"><strong><t t-esc="o.total_turno" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></strong></td>
+                            <td width="35%"/>
+                        </tr>
+                    </table>
+                    
+                    <!--h2 class="text-center">Pagos</h2>
+                    <table class="table">
+                    	<thead>
+                    		<th>Consecutivo</th>
+                    		<th>Fecha</th>
+                    		<th>Vehículo</th>
+                    		<th>Conductor</th>
+                    		<th class="text-right">Valor</th>
+                    	</thead>
+                    	<tbody>
+                    		<tr t-foreach="o.pago_ids" t-as="pago">
+                    			<td t-esc="pago.consecutivo"/>
+                    			<td t-esc="pago.fecha"/>
+                    			<td t-esc="pago.vehiculo_id.name"/>
+                    			<td t-esc="pago.conductor_id.name"/>
+                    			<td class="text-right">$<t t-esc="pago.valor"/></td>
+                    		</tr>
+                    		<tr>
+                    			<th colspan="4">Total Pagos</th>
+                    			<th class="text-right">$<t t-esc="o.total_pago"/></th>
+                    		</tr>
+                    	</tbody>
+                    </table>
+
+                    <h2 class="text-center">Transacciones</h2>
+                    <table class="table">
+                    	<thead>
+                    		<th>Consecutivo</th>
+                    		<th>Fecha</th>
+                    		<th>Tercero</th>
+                    		<th>Concepto</th>
+                    		<th>Detalle</th>
+                    		<th class="text-right">Valor</th>
+                    	</thead>
+                    	<tbody>
+                    		<tr t-foreach="o.transaccion_ids" t-as="transaccion">
+                    			<td t-esc="transaccion.consecutivo"/>
+                    			<td t-esc="transaccion.fecha"/>
+                    			<td t-esc="transaccion.res_partner_id.name"/>
+                    			<td t-esc="transaccion.concepto_id.name"/>
+                    			<td t-esc="transaccion.detalle"/>
+                    			<td class="text-right">$<t t-esc="transaccion.valor_real"/></td>
+                    		</tr>
+                    		<tr>
+                    			<th colspan="5">Total Transacciones</th>
+                    			<th class="text-right">$<t t-esc="o.total_transaccion"/></th>
+                    		</tr>
+                    	</tbody>
+                    </table>
+
+                    <h2 class="text-center">Despachos</h2>
+                    <table class="table">
+                    	<thead>
+                    		<th>Número</th>
+                    		<th>Fecha Despacho</th>
+                    		<th>Placa</th>
+                    		<th>Conductor</th>
+                    		<th class="text-right">Valor</th>
+                    	</thead>
+                    	<tbody>
+                    		<t t-foreach="o.turno_ids" t-as="turno">
+                    			<tr t-if="turno.state == 'despachado'">
+	                    			<td t-esc="turno.sequence"/>
+	                    			<td t-esc="turno.fecha_despacho"/>
+	                    			<td t-if="turno.vehiculo_id" t-esc="turno.vehiculo_id.name"/>
+	                    			<td t-if="turno.placa_anonima" t-esc="turno.placa_anonima"/>
+	                    			<td t-esc="turno.conductor_id.name"/>
+	                    			<td class="text-right">$<t t-esc="turno.valor"/></td>
+	                    		</tr>
+                    		</t>
+                    		<tr>
+                    			<th colspan="4">Total Despachos</th>
+                    			<th class="text-right">$<t t-esc="o.total_turno"/></th>
+                    		</tr>
+                    	</tbody>
+                    </table-->
+
+                </div>
+            </t>
+        </t>
+    </t>
+</template>
+</odoo>

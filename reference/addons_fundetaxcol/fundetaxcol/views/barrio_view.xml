@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+    	<record model='ir.ui.view' id='barrio_tree'>
+    		<field name='name'>barrio.tree</field>
+    		<field name='model'>fundetaxcol.barrio</field>
+    		<field name='arch' type='xml'>
+    			<tree>
+    				<field name="name"/>
+    			</tree>
+    		</field>
+    	</record>
+
+    	<record model="ir.ui.view" id="barrio_form">
+    		<field name="name">barrio.form</field>
+    		<field name="model">fundetaxcol.barrio</field>
+    		<field name="arch" type="xml">
+    			<form>
+    				<sheet>
+    					<group>
+    						<group>
+	    						<field name="name"/>
+	    					</group>
+	    					<group/>
+    					</group>
+    					<group string="Sectores">
+    						<field name="sector_ids" nolabel="1">
+    							<tree editable="bottom">
+    								<field name="name"/>
+                                    <field name="categoria_id"/>
+                                    <field name="icono" readonly="1" widget="image"/>
+    							</tree>
+    						</field>
+    					</group>
+    				</sheet>
+    			</form>
+    		</field>
+    	</record>
+        
+        <record id="action_barrio" model="ir.actions.act_window">
+        	<field name="name">Barrio</field>
+        	<field name="res_model">fundetaxcol.barrio</field>
+        	<field name="view_mode">tree,form</field>
+        	<field name="help" type="html">
+        		<p>
+        			Sin registros
+        		</p>
+        	</field>
+        </record>
+
+        <menuitem id="barrio_menu" name="Barrios" parent="fundetaxcol.administracion_menu" action="action_barrio"/>
+    </data>
+</odoo>

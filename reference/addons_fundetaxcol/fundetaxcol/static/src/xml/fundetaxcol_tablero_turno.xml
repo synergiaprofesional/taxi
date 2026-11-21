@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+	<t t-name="fundetaxcol.tablero.turnos">
+		<div class="title">
+			<t t-esc="widget.name" />
+		</div>
+		<dic class="fundetaxcol_turno_actual" />
+		<br />
+		<div class="fundetaxcol_turno_list" />
+	</t>
+
+	<t t-name="fundetaxcol.turno.actual">
+		<div class="o_turno_actual_container">
+			<t t-set="turno_actual" t-value="widget.turno_actual" />
+			<div class="o_turno_actual_internal" t-att-data-id="turno_actual ? turno_actual.id : 0">
+				<table width="100%" class="o_turno_actual_table">
+					<tr>
+						<th>TURNO</th>
+						<th>PLACA</th>
+						<th>CONDUCTOR</th>
+					</tr>
+					<tr>
+						<th>
+							<t t-esc="turno_actual ? turno_actual.sequence : '--'" />
+						</th>
+						<td>
+							<t t-esc="turno_actual ? turno_actual.vehiculo_id[1] : '-------------------'" />
+						</td>
+						<td>
+							<t t-esc="turno_actual ? turno_actual.conductor_id[1]: '-------------------'" />
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</t>
+
+	<t t-name="fundetaxcol.turno.list">
+		<div class="o_div_tablero_turnos">
+			<div class="turno-titulo">
+				<div class="box text-center">TURNO</div>
+				<div class="box">PLACA</div>
+				<div class="box">CONDUCTOR</div>
+				<div class="box">ESTADO</div>
+			</div>
+			<hr />
+			<div id="o_body_turnos">
+				<t t-foreach="widget.turnos" t-as="turno">
+					<div t-if="turno.state != 'actual'" t-att-data-id="turno.id" class="o_turno_id turno-contenido">
+						<div class="box text-center">
+							<t t-esc="turno.sequence" />
+						</div>
+						<div class="box">
+							<t t-esc="turno.vehiculo_id[1]" />
+						</div>
+						<div class="box">
+							<t t-esc="turno.conductor_id[1]" />
+						</div>
+						<div class="box text-capitalize">
+							<t t-esc="turno.state" />
+						</div>
+					</div>
+					<hr t-if="turno.state != 'actual'" />
+				</t>
+			</div>
+		</div>
+	</t>
+
+</templates>

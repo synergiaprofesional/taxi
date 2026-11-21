@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="wizard_report_temperatura" model="ir.ui.view">
+        <field name="name">Reporte de temperatura</field>
+        <field name="model">wizard.report.temperatura</field>
+        <field name="arch" type="xml">
+            <form>
+            	<sheet>
+                    <group>
+                		<group>
+                            <field name="fecha_inicio" />
+                            <field name="fecha_fin" />
+                            <field name="conductor_ids" widget="many2many_tags" domain="[('conductor','=',True)]" />
+    		            </group>
+                    </group>
+            	</sheet>
+                <footer>
+                    <button name="generate_report" string="Aceptar" type="object" class="btn-primary"/>
+                    <button string="Cancelar" class="btn-default" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_wizard_report_temperatura" model="ir.actions.act_window">
+        <field name="name">Temperatura</field>
+        <field name="res_model">wizard.report.temperatura</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem name="Temperatura" id="menu_action_wizard_report_temperatura" action="action_wizard_report_temperatura" parent="informe_menu"/>
+
+    <report
+        id="menu_reporte_temperatura"
+        string="Reporte"
+        model="wizard.report.temperatura"
+        report_type="qweb-pdf"
+        name="fundetaxcol.reporte_temperatura"
+    />
+
+    <template id="reporte_temperatura">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <div>
+                            <h3>Reporte de temperatura</h3>
+                            <div class="text-right"><t t-esc="o.fecha_inicio" /> - <t t-esc="o.fecha_fin" /></div>
+                        </div>
+                        <table class="table" width="100%">
+                            <thead>
+                                <th>Fecha</th>
+                                <th>Conductor</th>
+                                <th>Temperatura</th>
+                                <th>Usuario</th>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="o.item_ids" t-as="item">
+                                    <td t-esc="context_timestamp(datetime.datetime.strptime(item.temperatura_id.create_date, '%Y-%m-%d %H:%M:%S')).strftime('%Y-%m-%d %H:%M:%S')" />
+                                    <td t-esc="item.temperatura_id.conductor_id.name" />
+                                    <td t-esc="item.temperatura_id.temperatura" />
+                                    <td t-esc="item.temperatura_id.create_uid.name" />
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+	</template>
+    
+    <!-- Limpieza reporte -->
+    <record id="wizard_report_limpieza" model="ir.ui.view">
+        <field name="name">Reporte de limpieza</field>
+        <field name="model">wizard.report.limpieza</field>
+        <field name="arch" type="xml">
+            <form>
+            	<sheet>
+                    <group>
+                		<group>
+                            <field name="fecha_inicio" />
+                            <field name="fecha_fin" />
+                            <field name="vehiculo_ids" widget="many2many_tags" />
+    		            </group>
+                    </group>
+            	</sheet>
+                <footer>
+                    <button name="generate_report" string="Aceptar" type="object" class="btn-primary"/>
+                    <button string="Cancelar" class="btn-default" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_wizard_report_limpieza" model="ir.actions.act_window">
+        <field name="name">Limpieza</field>
+        <field name="res_model">wizard.report.limpieza</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem name="Limpieza" id="menu_action_wizard_report_limpieza" action="action_wizard_report_limpieza" parent="informe_menu"/>
+
+    <report
+        id="menu_reporte_limpieza"
+        string="Reporte"
+        model="wizard.report.limpieza"
+        report_type="qweb-pdf"
+        name="fundetaxcol.reporte_limpieza"
+    />
+
+    <template id="reporte_limpieza">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <div>
+                            <h3>Reporte de limpieza</h3>
+                            <div class="text-right"><t t-esc="o.fecha_inicio" /> - <t t-esc="o.fecha_fin" /></div>
+                        </div>
+                        <table class="table" width="100%">
+                            <thead>
+                                <th>Fecha</th>
+                                <th>Vehículo</th>
+                                <th>Usuario</th>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="o.item_ids" t-as="item">
+                                    <td t-esc="context_timestamp(datetime.datetime.strptime(item.limpieza_id.create_date, '%Y-%m-%d %H:%M:%S')).strftime('%Y-%m-%d %H:%M:%S')" />
+                                    <td t-esc="item.limpieza_id.vehiculo_id.name" />
+                                    <td t-esc="item.limpieza_id.create_uid.name" />
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+	</template>
+
+</odoo>

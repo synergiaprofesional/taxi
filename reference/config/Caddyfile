@@ -1,0 +1,71 @@
+{
+    auto_https disable_redirects
+}
+
+# 1. Soporte HTTP directo en puerto 80 (para la app y clientes sin HTTPS)
+http://fundetaxcol.co, http://www.fundetaxcol.co, :80 {
+    encode zstd gzip
+
+    # Socket.IO y endpoints del servicio Node.js (puerto 3000)
+    @node_rt {
+        path /socket.io/*
+        path /session
+        path /turn
+        path /dispatch
+        path /payment
+    }
+    reverse_proxy @node_rt 127.0.0.1:3000
+
+    # Longpolling de Odoo
+    @longpolling {
+        path /longpolling/*
+    }
+    reverse_proxy @longpolling 127.0.0.1:8072
+
+    # Aplicación principal Odoo (puerto 8069)
+    reverse_proxy 127.0.0.1:8069 {
+        header_up Host {host}
+        header_up X-Real-IP {remote_host}
+        header_up X-Forwarded-Proto http
+    }
+
+    log {
+        output file /var/log/caddy/access_http.log {
+            roll_size 20mb
+            roll_keep 5
+        }
+    }
+}
+
+# 2. Soporte HTTPS seguro en puerto 443 (con certificados SSL automáticos)
+https://fundetaxcol.co, https://www.fundetaxcol.co {
+    encode zstd gzip
+
+    @node_rt {
+        path /socket.io/*
+        path /session
+        path /turn
+        path /dispatch
+        path /payment
+    }
+    reverse_proxy @node_rt 127.0.0.1:3000
+
+    @longpolling {
+        path /longpolling/*
+    }
+    reverse_proxy @longpolling 127.0.0.1:8072
+
+    reverse_proxy 127.0.0.1:8069 {
+        header_up Host {host}
+        header_up X-Real-IP {remote_host}
+        header_up X-Forwarded-Proto https
+    }
+
+    log {
+        output file /var/log/caddy/access_https.log {
+            roll_size 20mb
+            roll_keep 5
+        }
+    }
+}
+

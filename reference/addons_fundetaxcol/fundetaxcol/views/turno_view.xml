@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<record model="ir.ui.view" id="turno_view_tree">
+			<field name="name">turno.asignar.tree</field>
+			<field name="model">fundetaxcol.turno</field>
+			<field name="arch" type="xml">
+				<tree create="false" delete="false">
+					<field name="name" invisible="1" />
+					<field name="sequence" />
+					<field name="company_id" invisible="1" />
+					<field name="fecha_asignacion" invisible="0" />
+					<field name="fecha_despacho" invisible="0" />
+					<field name="placa_anonima" invisible="1" />
+					<field name="vehiculo_id" />
+					<field name="tarifa_id" />
+					<field name="conductor_id" />
+					<field name="valor" />
+					<field name="tarifa_id" invisible="1" />
+					<field name="state" invisible="0" />
+					<field name="bahia_id" />
+				</tree>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="asignar_turno_form">
+			<field name="name">asignar_turno.form</field>
+			<field name="model">fundetaxcol.turno</field>
+			<field name="arch" type="xml">
+				<form>
+					<field name="company_id" invisible="1" />
+					<field name="fecha_asignacion" invisible="1" />
+					<field name="state" invisible="1" />
+					<field name="bahia_id" invisible="1" />
+					<field name="vehiculo_ids" invisible="1" />
+					<field name="fecha_despacho" invisible="1" />
+					<field name="state" invisible="1" />
+					<field name="conductor_ids" invisible="1" />
+					<header>
+						<button class="btn btn-primary" name="btn_guardar_turno" string="Guardar y salir" type="object" />
+						<button class="btn btn-primary" name="btn_despachar_turno" string="Despachar" type="object" />
+					</header>
+					<sheet>
+						<h1>
+							Turno #
+							<field name="sequence" readonly="1" />
+						</h1>
+						<group>
+							<group>
+								<field name="vehiculo_id" required="1" domain="[('active','=',True)]" options="{'no_create': True, 'no_open': True, 'no_create_edit': True}" />
+								<field name="conductor_id" required="1" domain="[('conductor','=',True)]" options="{'no_create': True, 'no_open': True, 'no_create_edit': True}" />
+							</group>
+							<group></group>
+						</group>
+					</sheet>
+					<!--footer>
+                        <button class="btn btn-primary" name="btn_guardar_turno" string="Guardar" type="object"/>
+                        <button class="btn btn-default" string="Cancelar" type="object" name="cancel" special="cancel"/>
+                    </footer-->
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="despachar_turno_form">
+			<field name="name">despachar.turno.form</field>
+			<field name="model">fundetaxcol.turno</field>
+			<field name="arch" type="xml">
+				<form>
+					<field name="fecha_despacho" invisible="1" />
+					<field name="state" invisible="1" />
+					<field name="anonimo" invisible="1" />
+					<field name="bahia_id" invisible="1" />
+					<field name="vehiculo_ids" invisible="1" />
+					<field name="conductor_ids" invisible="1" />
+					<header>
+						<button class="btn btn-primary" name="print_ticket_client" string="Imprimir" type="object" /> <!--print_ticket_client-->
+						<!--button class="btn btn-secondary" name="btn_cancel" string="Cancelar" type="object" special="cancel" /-->
+					</header>
+					<sheet>
+						<h1>
+							Turno #
+							<field name="sequence" readonly="1" />
+						</h1>
+						<group>
+							<group>
+								<field name="placa_anonima" attrs="{'invisible':[('anonimo','=',False)], 'required': [('anonimo','=',True)]}" />
+								<field name="tarifa_id" string="Ruta" required="1" />
+								<field name="vehiculo_id" domain="[('active','=',True)]" attrs="{'invisible': [('anonimo','=',True)], 'required': [('anonimo','=',False)]}" options="{'no_create': True, 'no_open': True, 'no_create_edit': True}" />
+								<!-- <field name="vehiculo_id" attrs="{'invisible': [('anonimo','=',True)], 'readonly': [('anonimo','=',False)]}"/> -->
+								<field name="conductor_id" required="1" domain="[('conductor','=',True)]" options="{'no_create': True, 'no_open': True, 'no_create_edit': True}" />
+								<!-- <field name="conductor_id" readonly="1"/> -->
+							</group>
+							<group />
+						</group>
+						<h1>
+							$
+							<field name="valor" readonly="1" />
+						</h1>
+					</sheet>
+					<!--footer>
+                        <button class="btn btn-primary" name="btn_imprimir" string="Aceptar" type="object"/>
+                        <button class="btn btn-default" string="Cancelar" type="object" name="cancel" special="cancel"/>
+                    </footer-->
+				</form>
+			</field>
+		</record>
+
+		<record id="action_cambiar_estado" model="ir.actions.server">
+			<field name="name">Reanudar Turno</field>
+			<field name="type">ir.actions.server</field>
+			<field name="model_id" ref="model_fundetaxcol_turno" />
+			<field name="binding_model_id" ref="model_fundetaxcol_turno" />
+			<field name="state">code</field>
+			<field name="code">record.cambiar_estado()</field>
+		</record>
+
+		<record id="action_cancelar_despacho" model="ir.actions.server">
+			<field name="name">Cancelar Despacho</field>
+			<field name="type">ir.actions.server</field>
+			<field name="model_id" ref="model_fundetaxcol_turno" />
+			<field name="binding_model_id" ref="model_fundetaxcol_turno" />
+			<field name="state">code</field>
+			<field name="code">record.cancelar_despacho()</field>
+		</record>
+
+		<!-- <record id="action_asignar_turno" model="ir.actions.act_window">
+			<field name="name">Turno</field>
+			<field name="res_model">fundetaxcol.turno</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+		</record> -->
+
+		<!-- <menuitem id="asignar_turno_menu" name="Asignar Turno" parent="fundetaxcol.modulo_menu" action="action_asignar_turno"/> -->
+	</data>
+</odoo>

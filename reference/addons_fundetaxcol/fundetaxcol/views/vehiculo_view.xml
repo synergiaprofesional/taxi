@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+    	<record model="ir.ui.view" id="vehiculo_tree">
+    		<field name="name">vehiculo.tree</field>
+    		<field name="model">fundetaxcol.vehiculo</field>
+    		<field name="arch" type='xml'>
+    			<tree>
+    				<field name="name"/>
+    				<field name="propietario_id"/>
+    				<field name="marca_vehiculo_id"/>
+                    <field name="tipo"/>
+    				<field name="tipo_combustible"/>
+    				<field name="modelo"/>
+    				<field name="cilindraje"/>
+                    <field name="ingreso"/>
+                    <!--field name="ingresos" invisible="1" /-->
+    			</tree>
+    		</field>
+    	</record>
+
+    	<record model="ir.ui.view" id="vehiculo_form">
+    		<field name="name">vehiculo.form</field>
+    		<field name="model">fundetaxcol.vehiculo</field>
+    		<field name="arch" type="xml">
+    			<form>
+                    <header>
+                        <button class="btn btn-primary" string="Calcular ingresos" name="action_calc_ing" type="object" />
+                    </header>
+    				<sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_view_pagos" type="object"
+                                    class="oe_stat_button" icon="fa-money">
+                                <field name="pago_count" widget="statinfo" string="Pagos"/>
+                            </button>
+                            <button name="action_view_despachos" type="object"
+                                    class="oe_stat_button" icon="fa-car">
+                                <field name="turno_count" widget="statinfo" string="Despachos"/>
+                            </button>
+                            <button name="toggle_active" type="object"
+                                    class="oe_stat_button" icon="fa-archive">
+                                <field name="active" widget="boolean_button"
+                                    options='{"terminology": "archive"}'/>
+                            </button>
+                        </div>
+    					<group>
+	    					<group>
+	    						<field name="name"/>
+	    						<field name="propietario_id" domain="[('conductor','=',True)]" context="{'form_view_ref':'fundetaxcol.conductor_form','default_conductor':1,}"/>
+	    						<field name="marca_vehiculo_id"/>
+                                <field name="ingreso" groups="base.group_system"/>
+                                <!--field name="ingresos" invisible="1" /-->
+	    					</group>
+	    					<group>
+                                <field name="tipo"/>
+	    						<field name="tipo_combustible"/>
+	    						<field name="modelo"/>
+	    						<field name="cilindraje"/>
+	    					</group>
+	    				</group>
+                        <notebook>
+                            <page string="Conductores">
+                                <field name="conductor_ids" nolabel="1" domain="[('conductor','=',True)]">
+                                    <tree editable="bottom">
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="conductor_id" required="1" options="{'no_create': True, 'no_open': True, 'no_create_edit': True}" />
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+    				</sheet>
+    			</form>
+    		</field>
+    	</record>
+
+        <record id="action_vehiculo" model="ir.actions.act_window">
+        	<field name="name">Vehículo</field>
+        	<field name="res_model">fundetaxcol.vehiculo</field>
+        	<field name="view_type">form</field>
+        	<field name="view_mode">tree,form</field>
+            <field name="limit">20</field>
+        	<field name="help" type="html">
+        		<p>
+        			Sin registros
+        		</p>
+        	</field>
+        </record>
+
+        <menuitem id="vehiculo_menu" name="Vehículos" parent="fundetaxcol.administracion_menu" action="action_vehiculo"/>
+    </data>
+</odoo>

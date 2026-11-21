@@ -1,0 +1,676 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+	<t t-name="fundetaxcol.app.title">
+		<div class="f_header">
+			<header>
+				<input type="checkbox" id="btn-menu"/>
+				<label for="btn-menu">
+					<img src="fundetaxcol/static/src/img/menu.png"/>
+				</label>
+				<nav class="menu">
+					<ul>
+						<li><a href="#" name="turnos">Turnos En espera</a></li>
+						<li><a href="#" name="asignar_turno">Asignar Turno</a></li>
+						<li><a href="#" name="turnos_despachados">Turnos Despachados</a></li>
+					</ul>
+				</nav>
+			</header>
+		</div>
+		<!--nav class="navbar navbar-inverse navbar-sticky-top" role="navigation">
+			<div class="navbar-header text-left">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target=".navbar-ex1-collapse">
+					<span class="sr-only">Desplegar navegación</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<span class="navbar-brand" style="color:#ffdb42"><strong>FUNDETAXCOL</strong></span>
+			</div>
+		</nav>
+		<div class="collapse navbar-collapse navbar-ex1-collapse">
+			<ul class="nav navbar-nav">
+				<li role="presentation"><a href="#" name="turnos">Turnos</a></li>
+				<li role="presentation"><a href="#" name="asignar_turno">Asignar Turno</a></li>
+			</ul>
+		</div-->
+	</t>
+
+	<t t-name="fundetaxcol.app">
+		<t t-call="fundetaxcol.app.title"/>
+		<div class="container-fluid">
+			<div class="f_content" id="content"/>
+		</div>
+	</t>
+
+	<t t-name="fundetaxcol.asignar.turno">
+		<t t-call="fundetaxcol.template.turno1">
+			<t t-set="mode" t-value="'edit'"/>
+			<t t-set="turno" t-value="widget.turno"/>
+		</t>
+	</t>
+
+	<t t-name="fundetaxcol.turno">
+		<t t-call="fundetaxcol.turno.list">
+			<t t-set="turno_selected" t-value="widget.turno"/>
+			<t t-set="turnos" t-value="widget.turnos"/>
+			<t t-set="vehiculos" t-value="widget.vehiculos"/>
+			<t t-set="conductores" t-value="widget.conductores"/>
+		</t>
+	</t>
+
+	<t t-name="fundetaxcol.despachar.turno">
+		<t t-call="fundetaxcol.template.turno1">
+			<t t-set="mode" t-value="'despacho'"/>
+			<t t-set="turno" t-value="widget.turno"/>
+		</t>
+	</t>
+
+	<t t-name="fundetaxcol.template.turno1">
+		<div class="border-lr5">
+			<div class="text-center card-img-20"><t t-esc="turno.sequence"/></div>
+			<div class="card-content">
+				<div class="row">
+					<div class="col-xs-1">
+						<img src="fundetaxcol/static/src/img/taxi.png"/>
+					</div>
+					<div t-if="mode=='readonly' || mode=='despacho'" class="col-xs-10">
+						<t t-esc="turno.vehiculo_id[1]"/>
+					</div>
+					<div t-if="mode=='edit'" class="col-xs-10">
+						<select class="form-control selectpicker" name="vehiculo_id" data-live-search="true">
+							<t t-foreach="widget.vehiculos" t-as="vehiculo">
+								<option t-att-value="vehiculo.id"><t t-esc="vehiculo.name"/></option>
+							</t>
+						</select>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-1">
+						<img src="fundetaxcol/static/src/img/taxi-driver.png"/>
+					</div>
+					<div t-if="mode=='readonly' || mode=='despacho'" class="col-xs-10">
+						<t t-esc="turno.conductor_id[1]"/>
+					</div>
+					<div t-if="mode=='edit'" class="col-xs-10">
+						<select class="form-control selectpicker" name="conductor_id" data-live-search="true">
+							<t t-foreach="widget.conductores" t-as="conductor">
+								<option t-att-value="conductor.id"><t t-esc="conductor.name"/></option>
+							</t>
+						</select>
+					</div>
+				</div>
+				<div class="row" t-if="mode=='readonly'">
+					<div class="col-xs-1">
+						<img src="fundetaxcol/static/src/img/clock.png" width="16px" height="16px"/>
+					</div>
+					<div class="col-xs-9">
+						<small><t t-esc="turno.fecha_asignacion"/></small>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-1">
+						<img src="fundetaxcol/static/src/img/placeholder.png" width="16px" height="16px"/>
+					</div>
+					<div t-if="mode=='readonly'" class="col-xs-10">
+						<small><i><t t-esc="turno.tarifa_id[1] || 'Sin ruta'"/></i></small>
+					</div>
+					<div t-if="mode=='edit' || mode=='despacho'" class="col-xs-10">
+						<select class="form-control selectpicker" name="tarifa_id" data-live-search="true">
+							<t t-foreach="widget.tarifas" t-as="tarifa">
+								<option t-att-value="tarifa.id"><t t-esc="tarifa.name"/> [$<t t-esc="tarifa.valor"/>]</option>
+							</t>
+						</select>
+					</div>
+				</div>
+			</div>
+		</div>
+	</t>
+
+	<t t-name="fundetaxcol.turno.list">
+		<t t-foreach="turnos" t-as="turno">
+			<t t-call="fundetaxcol.template.turno1">
+				<t t-set="mode" t-value="'readonly'"/>
+				<t t-set="turno" t-value="turno"/>
+			</t>
+			<!--t t-call="fundetaxcol.template.turno">
+				<t t-set="mode" t-value="'readonly'"/>
+				<t t-set="turno" t-value="turno"/>
+				<t t-set="x" t-value="true"/>
+			</t-->
+		</t>
+		<div class="navbar navbar-inverse navbar-fixed-bottom" style="display:flex;justify-content:center;">
+			<a t-if="turno_selected.state=='actual'" class="navbar-brand" href="#" name="despachar_turno"><img src="fundetaxcol/static/src/img/exit.png"/></a>
+			<a t-if="turno_selected.state=='actual'" class="navbar-brand" href="#" name="ceder_turno"><img src="fundetaxcol/static/src/img/right-arrow.png"/></a>
+			<a t-if="turno_selected.state=='actual'" class="navbar-brand" href="#" name="pausar_turno"><img src="fundetaxcol/static/src/img/pause-button.png"/></a>
+			<a t-if="turno_selected.state=='actual'" class="navbar-brand" href="#" name="cancelar_turno"><img src="fundetaxcol/static/src/img/cancel-button.png"/></a>
+			<a t-if="turno_selected.state=='pausa'" class="navbar-brand" href="#" name="reanudar_turno"><img src="fundetaxcol/static/src/img/play-button.png"/></a>
+		</div>
+	</t>
+
+	<t t-name="fundetaxcol.template.turno">
+		<div style="padding-left:6px;" name="fundetaxcol_turno" t-att-data-id="turno.id">
+			<table class="table">
+				<tr>
+					<td width="25%" t-if="mode=='readonly'" rowspan="3" class="text-center" style="border-radius:10%;vertical-align: middle !important;background:black;">
+						<h3 style="color:#ffdb42;"><t t-esc="turno.sequence"/></h3>
+					</td>
+					<td width="25%" t-if="mode=='edit'" rowspan="2" class="text-center" style="border-radius:10%;vertical-align: middle !important;background:black;">
+						<h3 style="color:#ffdb42;"><t t-esc="turno.sequence"/></h3>
+					</td>
+					<td >
+						<div class="row">
+							<div class="col-xs-1">
+								<img src="fundetaxcol/static/src/img/taxi.png"/>
+							</div>
+							<div t-if="mode=='readonly'" class="col-xs-10">
+								<t t-esc="turno.vehiculo_id[1]"/>
+							</div>
+							<div t-if="mode=='edit'" class="col-xs-10">
+								<select class="form-control selectpicker" name="vehiculo_id" data-live-search="true">
+									<t t-foreach="widget.vehiculos" t-as="vehiculo">
+										<option t-att-value="vehiculo.id"><t t-esc="vehiculo.name"/></option>
+									</t>
+								</select>
+							</div>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="row">
+							<div class="col-xs-1">
+								<img src="fundetaxcol/static/src/img/taxi-driver.png"/>
+							</div>
+							<div t-if="mode=='readonly'" class="col-xs-10">
+								<t t-esc="turno.conductor_id[1]"/>
+							</div>
+							<div t-if="mode=='edit'" class="col-xs-10">
+								<select class="form-control selectpicker" name="conductor_id" data-live-search="true">
+									<t t-foreach="widget.conductores" t-as="conductor">
+										<option t-att-value="conductor.id"><t t-esc="conductor.name"/></option>
+									</t>
+								</select>
+							</div>
+						</div>
+					</td>
+				</tr>
+				<tr t-if="mode=='readonly'">
+					<td>
+						<div class="row">
+							<div class="col-xs-1">
+								<img src="fundetaxcol/static/src/img/clock-circular-outline.png"/>
+							</div>
+							<div class="col-xs-9">
+								<small><t t-esc="turno.fecha_asignacion"/></small>
+							</div>
+						</div>
+					</td>
+				</tr>
+				<!--tr t-if="mode=='edit'">
+					<td>
+						<input class="btn btn-primary" type="button" value="Aceptar"/>
+					</td>
+					<td>
+						<input class="btn btn-secondary" type="button" value="Cancelar"/>
+					</td>
+				</tr-->
+			</table>
+		</div>
+	</t>
+
+	<t t-name="fundetaxcol.null">
+	</t>
+
+	<t t-name="fundetaxcol.print.cliente">
+		<div class="no_print">
+			<div class="receipt">
+				<table style="width:100%">
+					<tr>
+						<td colspan="2" class="text-center">
+							<h3 style="margin:0;"><t t-esc="widget.context.company.name"/></h3>
+						</td>
+						<td width="30%"/>
+					</tr>
+					<tr>
+						<td colspan="2" class="text-center">
+							<hr style="margin:0;"/>
+						</td>
+					</tr>
+					<tr>
+						<th class="text-center" colspan="2">Turno: <t t-esc="widget.context.sequence"/></th>
+					</tr>
+					<tr>
+						<td class="text-center" colspan="2">Usuario: <t t-esc="widget.context.user"/></td>
+					</tr>
+					<tr>
+						<td class="text-center" colspan="2">Destino: <t t-esc="widget.context.tarifa"/></td>
+					</tr>
+					<tr>
+						<td class="text-center" colspan="2">Tarifa sugerida: $ <t t-esc="widget.context.valor"/></td>
+					</tr>
+					<tr t-if="widget.context.nota">
+						<td class="text-center" colspan="2"><i><small><t t-esc="widget.context.nota"/></small></i></td>
+					</tr>
+					<tr>
+						<td t-if="!widget.context.anonimo" class="text-center" colspan="2">Vehículo: <t t-esc="widget.context.vehiculo"/></td>
+						<td t-if="widget.context.anonimo" class="text-center" colspan="2">Vehículo: <t t-esc="widget.context.placa_anonima"/></td>
+					</tr>
+					<tr>
+						<td class="text-center" colspan="2">Conductor: <t t-esc="widget.context.conductor"/></td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<hr style="margin:0;"/>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" class="text-center">
+							<small><i>Fecha - Hora</i></small>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" class="text-center">
+							<small><i><t t-esc="widget.context.fecha_despacho"/></i></small>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<hr style="margin:0;"/>
+						</td>
+					</tr>
+					<tr>
+						<td class="text-center" colspan="2">Tels: <t t-esc="widget.context.company.phone"/></td>
+					</tr>
+					<tr>
+						<td class="text-center" colspan="2"><t t-esc="widget.context.company.email"/></td>
+					</tr>
+					<tr>
+						<td class="text-center" colspan="2"><t t-esc="widget.context.company.website"/></td>
+					</tr>
+					<tr t-if="widget.context.company.report_footer">
+						<td class="text-center" colspan="2"><t t-esc="widget.context.company.report_footer"/></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</t>
+
+	<t t-name="fundetaxcol.print.pago">
+		<div class="no_print">
+			<div class="receipt">
+				<table style="width:100%">
+					<tr>
+						<td colspan="2" class="text-center">
+							<h3 style="margin:0;"><t t-esc="widget.context.company.name"/></h3>
+						</td>
+						<td width="30%"/>
+					</tr>
+					<tr>
+						<td class="text-center" colspan="2">Consecutivo: <t t-esc="widget.context.seq"/></td>
+					</tr>
+					<tr>
+						<td class="text-center" colspan="2">Fecha de pago: <t t-esc="widget.context.date"/></td>
+					</tr>
+					<tr>
+						<td class="text-center" colspan="2">Usuario: <t t-esc="widget.context.user"/></td>
+					</tr>
+					<tr>
+						<td class="text-center" colspan="2">Vehículo: <t t-esc="widget.context.car"/></td>
+					</tr>
+					<tr>
+						<td class="text-center" colspan="2">Conductor: <t t-esc="widget.context.driver"/></td>
+					</tr>
+					<tr>
+						<td colspan="2" class="text-center">
+							<h3 style="margin:0;">Conceptos</h3>
+						</td>
+					</tr>
+					<tr>
+						<th>Concepto</th>
+						<th class="text-right">Valor</th>
+					</tr>
+					<t t-foreach="widget.context.concepts" t-as="concepto">
+						<tr>
+							<td>
+								<t t-esc="concepto.name"/>
+							</td>
+							<td class="text-right">
+								$ <t t-esc="concepto.subtotal"/>
+							</td>
+						</tr>
+					</t>
+					<tr>
+						<td colspan="2">
+							<hr style="margin:0;"/>
+						</td>
+					</tr>
+
+					<tr>
+						<th>Total Pago</th>
+						<td class="text-right"><strong>$ <t t-esc="widget.context.total"/></strong></td>
+					</tr>
+
+					<tr>
+						<td colspan="2">
+							<hr style="margin:0;"/>
+						</td>
+					</tr>
+
+					<tr t-if="widget.context.ahorro_ids.length != 0">
+						<th colspan="2" class="text-center">Ahorros</th>
+					</tr>
+					<tr t-if="widget.context.ahorro_ids.length != 0">
+						<th>Concepto</th>
+						<th class="text-right">Valor</th>
+					</tr>
+					<t t-foreach="widget.context.ahorro_ids" t-as="concepto">
+						<tr>
+							<td>
+								<t t-esc="concepto.concepto"/>
+							</td>
+							<td class="text-right">
+								$ <t t-esc="concepto.valor"/>
+							</td>
+						</tr>
+					</t>
+					<tr>
+						<th>Total Ahorros</th>
+						<td class="text-right"><strong>$ <t t-esc="widget.context.ahorro"/></strong></td>
+					</tr>
+					<tr t-if="widget.context.ahorro_ids.length != 0">
+						<td colspan="2">
+							<hr style="margin:0;"/>
+						</td>
+					</tr>
+
+					<tr>
+						<td colspan="2" class="text-center">Ingresos (<t t-esc="widget.context.in"/>)</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<hr style="margin:0;"/>
+						</td>
+					</tr>
+					<tr>
+						<td class="text-center" colspan="2">Tels: <t t-esc="widget.context.company.phone"/></td>
+					</tr>
+					<tr>
+						<td class="text-center" colspan="2"><t t-esc="widget.context.company.email"/></td>
+					</tr>
+					<tr>
+						<td class="text-center" colspan="2"><t t-esc="widget.context.company.website"/></td>
+					</tr>
+					<t t-foreach="widget.context.company.report_footer" t-as="foot">
+						<tr>
+							<td class="text-center" colspan="2"><t t-esc="foot"/></td>
+						</tr>
+					</t>
+					
+				</table>
+			</div>
+		</div>
+	</t>
+
+	<!--t t-name="fundetaxcol.print.pago">
+		<div class="no_print">
+			<div class="receipt">
+				<table style="width:100%">
+					<tr>
+						<td colspan="2" class="text-center">
+							<h3 style="margin:0;"><t t-esc="widget.context.company.name"/></h3>
+						</td>
+					</tr>
+					<tr>
+						<td class="text-center" colspan="2">Consecutivo: <t t-esc="widget.context.consecutivo"/></td>
+					</tr>
+					<tr>
+						<td class="text-center" colspan="2">Fecha de pago: <t t-esc="widget.context.fecha"/></td>
+					</tr>
+					<tr>
+						<td class="text-center" colspan="2">Usuario: <t t-esc="widget.context.create_uid[1]"/></td>
+					</tr>
+					<tr>
+						<td class="text-center" colspan="2">Vehículo: <t t-esc="widget.context.vehiculo.name"/></td>
+					</tr>
+					<tr>
+						<td class="text-center" colspan="2">Conductor: <t t-esc="widget.context.conductor_id[1]"/></td>
+					</tr>
+					<tr>
+						<td colspan="2" class="text-center">
+							<h3 style="margin:0;">Conceptos</h3>
+						</td>
+					</tr>
+					<tr>
+						<th>Nombre</th>
+						<th class="text-right">Valor</th>
+					</tr>
+					<t t-foreach="widget.context.conceptos" t-as="concepto">
+						<tr>
+							<td>Hora
+								<t t-esc="concepto.concepto_id[1]"/>
+							</td>
+							<td class="text-right">
+								$ <t t-esc="concepto.subtotal"/>
+							</td>
+						</tr>
+					</t>
+					<tr>
+						<td colspan="2">
+							<hr style="margin:0;"/>
+						</td>
+					</tr>
+					<tr>
+						<th>Total</th>
+						<td class="text-right"><strong>$ <t t-esc="widget.context.valor"/></strong></td>
+					</tr>
+					<tr>
+						<td colspan="2" class="text-center">Ingresos (<t t-esc="widget.context.vehiculo.ingreso"/>)</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<hr style="margin:0;"/>
+						</td>
+					</tr>
+					<tr>
+						<td class="text-center" colspan="2">Tels: <t t-esc="widget.context.company.phone"/></td>
+					</tr>
+					<tr>
+						<td class="text-center" colspan="2"><t t-esc="widget.context.company.email"/></td>
+					</tr>
+					<tr>
+						<td class="text-center" colspan="2"><t t-esc="widget.context.company.website"/></td>
+					</tr>
+					<tr t-if="widget.context.company.report_footer">
+						<td class="text-center" colspan="2"><t t-esc="widget.context.company.report_footer"/></td>
+					</tr>
+					
+				</table>
+			</div>
+		</div>
+	</t-->
+
+	<t t-name="fundetaxcol.print.ticket">
+		<t t-call="fundetaxcol.print.ticket.pago"/>
+	</t>
+
+	<t t-name="fundetaxcol.print.ahorro">
+		<div class="no_print">
+			<div class="receipt">
+				<table style="width:100%">
+					<tr>
+						<td colspan="2" class="text-center">
+							<h3 style="margin:0;"><t t-esc="widget.context.company.name"/></h3>
+						</td>
+						<td width="30%"/>
+					</tr>
+					<tr>
+						<td colspan="2" class="text-center">
+							<hr style="margin:0;"/>
+						</td>
+					</tr>
+					<tr>
+						<td class="text-center" colspan="2"><strong>RETIRO AHORROS</strong></td>
+					</tr>
+					<tr>
+						<td class="text-center" colspan="2">Usuario: <t t-esc="widget.context.user" /></td>
+					</tr>
+					<tr>
+						<td class="text-center" colspan="2">Conductor: <t t-esc="widget.context.conductor" /></td>
+					</tr>
+					<tr>
+						<td class="text-center" colspan="2">Valor Retiro: $ <t t-esc="widget.context.valor" /></td>
+					</tr>
+					<tr t-if="widget.context.ahorro_ids.length != 0">
+						<td colspan="2">
+							<br/>
+						</td>
+					</tr>
+					<!--tr>
+						<td class="text-right" style="padding-left:16px;">Conductor: </td>
+						<td style="padding-left:16px;"><t t-esc="widget.context.conductor"/></td>
+					</tr>
+					<tr>
+						<td class="text-right" style="padding-left:16px;">Valor retiro: </td>
+						<td style="padding-left:16px;">$ <t t-esc="widget.context.valor"/></td>
+					</tr-->
+					<tr t-if="widget.context.ahorro_ids.length != 0">
+						<th width="35%" class="text-right" style="padding-left:16px;">Concepto</th>
+						<th style="padding-left:16px;">Valor</th>
+					</tr>
+					<t t-foreach="widget.context.ahorro_ids" t-as="concepto">
+						<tr>
+							<td width="35%" class="text-right" style="padding-left:16px;">
+								<t t-esc="concepto.concepto"/>
+							</td>
+							<td style="padding-left:16px;">
+								$ <t t-esc="concepto.valor"/>
+							</td>
+						</tr>
+					</t>
+					<tr t-if="widget.context.ahorro_ids.length != 0">
+						<td colspan="2">
+							<br/>
+						</td>
+					</tr>
+					<tr>
+						<td class="text-center" colspan="2"><strong>Total ahorros: $ <t t-esc="widget.context.restante" /></strong></td>
+					</tr>
+					<!--tr>
+						<td class="text-right" style="padding-left:16px;"><strong>Total Ahorros:</strong></td>
+						<td style="padding-left:16px;"><strong>$ <t t-esc="widget.context.restante"/></strong></td>
+					</tr-->
+					<tr>
+						<td colspan="2" class="text-center">
+							<small><i>Fecha Hora</i></small>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" class="text-center">
+							<small><i><t t-esc="widget.context.fecha"/></i></small>
+						</td>
+					</tr>
+					<tr>
+						<td class="text-center" colspan="2">Tels: <t t-esc="widget.context.company.phone"/></td>
+					</tr>
+					<tr>
+						<td class="text-center" colspan="2"><t t-esc="widget.context.company.email"/></td>
+					</tr>
+					<tr>
+						<td class="text-center" colspan="2"><t t-esc="widget.context.company.website"/></td>
+					</tr>
+					<tr t-if="widget.context.company.report_footer">
+						<td class="text-center" colspan="2"><t t-esc="widget.context.company.report_footer"/></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</t>
+
+	<t t-name="fundetaxcol.ahorro">
+		<div class="no_print">
+			<div class="receipt">
+				<table style="width:100%">
+					<tr>
+						<td colspan="2" class="text-center">
+							<h3 style="margin:0;"><t t-esc="widget.context.company.name"/></h3>
+						</td>
+						<td width="30%"/>
+					</tr>
+					<tr>
+						<td colspan="2" class="text-center">
+							<hr style="margin:0;"/>
+						</td>
+					</tr>
+					<tr>
+						<td class="text-center" colspan="2"><strong>AHORROS</strong></td>
+					</tr>
+					<tr>
+						<td class="text-center" colspan="2">Usuario: <t t-esc="widget.context.user" /></td>
+					</tr>
+					<tr>
+						<td class="text-center" colspan="2">Conductor: <t t-esc="widget.context.conductor" /></td>
+					</tr>
+					<tr>
+						<td class="text-center" colspan="2">Valor Total: $ <t t-esc="widget.context.valor" /></td>
+					</tr>
+					<tr t-if="widget.context.ahorro_ids.length != 0">
+						<td colspan="2">
+							<br/>
+						</td>
+					</tr>
+					<tr t-if="widget.context.ahorro_ids.length != 0">
+						<th width="35%" class="text-right" style="padding-left:16px;">Concepto</th>
+						<th style="padding-left:16px;">Valor</th>
+					</tr>
+					<t t-foreach="widget.context.ahorro_ids" t-as="concepto">
+						<tr>
+							<td width="35%" class="text-right" style="padding-left:16px;">
+								<t t-esc="concepto.concepto"/>
+							</td>
+							<td style="padding-left:16px;">
+								$ <t t-esc="concepto.valor"/>
+							</td>
+						</tr>
+					</t>
+					<tr t-if="widget.context.ahorro_ids.length != 0">
+						<td colspan="2">
+							<br/>
+						</td>
+					</tr>
+					<tr>
+						<td class="text-center" colspan="2"><strong>Total ahorros: $ <t t-esc="widget.context.ahorro" /></strong></td>
+					</tr>
+					<!--tr>
+						<td class="text-right" style="padding-left:16px;"><strong>Total Ahorros:</strong></td>
+						<td style="padding-left:16px;"><strong>$ <t t-esc="widget.context.restante"/></strong></td>
+					</tr-->
+					<tr>
+						<td colspan="2" class="text-center">
+							<small><i>Fecha Hora</i></small>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" class="text-center">
+							<small><i><t t-esc="widget.context.fecha"/></i></small>
+						</td>
+					</tr>
+					<tr>
+						<td class="text-center" colspan="2">Tels: <t t-esc="widget.context.company.phone"/></td>
+					</tr>
+					<tr>
+						<td class="text-center" colspan="2"><t t-esc="widget.context.company.email"/></td>
+					</tr>
+					<tr>
+						<td class="text-center" colspan="2"><t t-esc="widget.context.company.website"/></td>
+					</tr>
+					<tr t-if="widget.context.company.report_footer">
+						<td class="text-center" colspan="2"><t t-esc="widget.context.company.report_footer"/></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</t>
+
+</templates>

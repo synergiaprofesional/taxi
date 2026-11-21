@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="bahia_form">
+            <field name="name">bahia.form</field>
+            <field name="model">fundetaxcol.bahia</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" />
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="fundetaxcol_bahia_kanban">
+            <field name="name">fundetaxcol.bahia.kanban</field>
+            <field name="model">fundetaxcol.bahia</field>
+            <field name="arch" type="xml">
+                <kanban create="false" class="o_kanban_dashboard">
+                    <field name="name" />
+                    <field name="turno_actual_id" />
+                    <field name="turno_desorden" />
+                    <field name="sesion_bahia_id" />
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div>
+                                <div class="o_kanban_card_header">
+                                    <div class="o_kanban_card_header_title">
+                                        <div class="o_primary" style="padding-right:0;">
+                                            <strong>
+                                                <t t-esc="record.name.value" />
+                                            </strong>
+                                            <!--a name="get_turnos" type="object" style="float:right;"><small><i>Turnos</i></small></a-->
+                                        </div>
+                                    </div>
+                                    <div class="o_kanban_manage_button_section">
+                                        <a class="o_kanban_manage_toggle_button" href="#">
+                                            <i class="fa fa-ellipsis-v" />
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="container o_kanban_card_content">
+                                    <div>
+                                        <strong>
+                                            <t t-esc="record.turno_actual_id.value || 'Lista de turnos vacía'" />
+                                        </strong>
+                                    </div>
+                                    <a name="open_tablero_turnos" type="object" style="margin-bottom:8px;">
+                                        <small>
+                                            <i>Monitor de turnos</i>
+                                        </small>
+                                    </a>
+                                    <!--div t-if="record.turno_desorden.value" style="display:flex;padding-bottom:16px;">
+	                                	<a name="reiniciar_turnos" type="object"><small><i>Reiniciar Turnos</i></small></a>
+                                        <a name="open_tablero_turnos" style="margin-left:15px;" type="object"><small><i>Monitor</i></small></a>
+	                                </div-->
+                                </div>
+
+                                <div class="container o_kanban_card_manage_pane">
+                                    <div class="row">
+                                        <div class="col-xs-6">
+                                            <a name="get_turnos" type="object">
+                                                <small>
+                                                    <i>Turnos</i>
+                                                </small>
+                                            </a>
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <a name="reiniciar_turnos" type="object">
+                                                <small>
+                                                    <i>Reiniciar turnos</i>
+                                                </small>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-6">
+                                            <a name="get_turnos_despachados" type="object">
+                                                <small>
+                                                    <i>Cancelar despacho</i>
+                                                </small>
+                                            </a>
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <a name="crear_turno_anonimo" type="object">
+                                                <small>
+                                                    <i>Despacho anónimo</i>
+                                                </small>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-6">
+                                            <a name="btn_pagos" type="object">
+                                                <small>
+                                                    <i>Pagos</i>
+                                                </small>
+                                            </a>
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <a name="btn_ahorro" type="object">
+                                                <small>
+                                                    <kbd>Ahorro</kbd>
+                                                </small>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="o_kanban_card_footer">
+                                    <button class="btn btn-primary" name="open_new_pay" type="object">
+                                        <img src="fundetaxcol/static/src/img/dollar-coin-money.png" width="16px" height="16px" />
+                                    </button>
+                                    <button style="float:right;margin-left:2px;" t-if="record.turno_actual_id.value != false" class="btn btn-primary" name="cancelar_turno" type="object">
+                                        <img src="fundetaxcol/static/src/img/cancel-button.png" width="16px" height="16px" />
+                                    </button>
+                                    <button style="float:right;margin-left:2px;" t-if="record.turno_actual_id.value != false" class="btn btn-primary" name="pausar_turno" type="object">
+                                        <img src="fundetaxcol/static/src/img/pause-button.png" width="16px" height="16px" />
+                                    </button>
+                                    <button style="float:right;margin-left:2px;" t-if="record.turno_actual_id.value != false" class="btn btn-primary" name="ceder_turno" type="object">
+                                        <img src="fundetaxcol/static/src/img/right-arrow.png" width="16px" height="16px" />
+                                    </button>
+                                    <button style="float:right;margin-left:2px;" class="btn btn-primary" name="despachar_turno" type="object">
+                                        <img src="fundetaxcol/static/src/img/exit.png" width="16px" height="16px" />
+                                    </button>
+                                    <button style="float:right;margin-left:2px;" class="btn btn-primary" name="asignar_turno" type="object" help="Asignar Turno">
+                                        <img src="fundetaxcol/static/src/img/new.png" width="16px" height="16px" />
+                                    </button>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="fundetaxcol_sesion_bahia_tree">
+            <field name="name">fundetaxcol.sesion.bahia.tree</field>
+            <field name="model">fundetaxcol.sesion.bahia</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="bahia_id" required="1" />
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="fundetaxcol_sesion_bahia_form">
+            <field name="name">fundetaxcol.sesion.bahia.form</field>
+            <field name="model">fundetaxcol.sesion.bahia</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="bahia_id" required="1" />
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_bahia" model="ir.actions.act_window">
+            <field name="name">Bahía</field>
+            <field name="res_model">fundetaxcol.bahia</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p>
+                    Sin registros
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="bahia_menu" name="Bahías" parent="fundetaxcol.administracion_menu" action="action_bahia" />
+
+    </data>
+</odoo>

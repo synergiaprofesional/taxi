@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="transaccion_tree">
+        	<field name="name">transaccion.tree</field>
+        	<field name="model">fundetaxcol.transaccion</field>
+        	<field name="arch" type="xml">
+        		<tree>
+        			<field name="consecutivo"/>
+        			<field name="name"/>
+        			<field name="bahia_id"/>
+        			<field name="res_partner_id"/>
+        			<field name="valor" invisible="1"/>
+        			<field name="valor_real" sum="Total"/>
+        		</tree>
+        	</field>
+        </record>
+
+        <record model="ir.ui.view" id="transaccion_form">
+        	<field name="name">transaccion.form</field>
+        	<field name="model">fundetaxcol.transaccion</field>
+        	<field name="arch" type="xml">
+        		<form>
+        			<field name="tipo" invisible="1"/>
+        			<field name="secuencia_transaccion_id" invisible="1"/>
+        			<field name="valor_real" invisible="1"/>
+        			<sheet>
+        				<group>
+        					<h3 class="oe_read_only">Consecutivo #<field name="consecutivo"/> [<field name="fecha"/>]</h3>
+        				</group>
+        				<group>
+	        				<group>
+	        					<field name="bahia_id" widget="selection" domain="[('state','=','progreso')]" required="1" /> <!--Requerido en vista de transacciones-->
+	        					<field name="concepto_id"/>
+	        					<field name="res_partner_id" options="{'no_create': True, 'no_open': True, 'no_create_edit': True}" />
+	        				</group>
+	        				<group>
+	        					<field name="valor" attrs="{'readonly': [('tipo','=','valor_fijo')]}"/>
+	        					<field name="detalle"/>
+	        				</group>
+	        			</group>
+        			</sheet>
+        		</form>
+        	</field>
+        </record>
+
+        <record model="ir.ui.view" id="transaccion_ajuste_form">
+        	<field name="name">transaccion_ajuste.form</field>
+        	<field name="model">fundetaxcol.transaccion</field>
+        	<field name="arch" type="xml">
+        		<form string="Ajuste de transacciones">
+        			<field name="tipo" invisible="1"/>
+        			<field name="secuencia_transaccion_id" invisible="1"/>
+        			<field name="valor_real" invisible="1"/>
+        			<sheet>
+        				<group>
+	        				<group>
+	        					<field name="bahia_id" invisible="1"/>
+	        					<field name="concepto_id"/>
+	        					<field name="res_partner_id"/>
+	        				</group>
+	        				<group>
+	        					<field name="valor" attrs="{'readonly': [('tipo','=','valor_fijo')]}"/>
+	        					<field name="detalle"/>
+	        				</group>
+	        			</group>
+        			</sheet>
+        		</form>
+        	</field>
+        </record>
+
+        <record id="action_transaccion" model="ir.actions.act_window">
+        	<field name="name">Transacción</field>
+        	<field name="res_model">fundetaxcol.transaccion</field>
+        	<field name="view_type">form</field>
+        	<field name="view_mode">tree,form</field>
+        	<field name="view_ids" eval="[
+        		(5, 0, 0),
+        		(0, 0, {'view_mode': 'tree', 'view_id': ref('transaccion_tree')}),
+        		(0, 0, {'view_mode': 'form', 'view_id': ref('transaccion_form')}),
+        	]"/>
+            <field name="domain">[('retiro','=',False)]</field>
+        	<field name="help" type="html">
+        		<p>
+        			Aún no se han registrado Transacciones
+        		</p>
+        	</field>
+        </record>
+
+        <record model="ir.ui.view" id="transaccion_retiro_tree">
+            <field name="name">transaccion.retiro.tree</field>
+            <field name="model">fundetaxcol.transaccion</field>
+            <field name="arch" type="xml">
+                <tree create="false" delete="false">
+                    <field name="consecutivo"/>
+                    <field name="name"/>
+                    <field name="res_partner_id"/>
+                    <field name="valor"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="transaccion_retiro_form">
+            <field name="name">transaccion.retiro.form</field>
+            <field name="model">fundetaxcol.transaccion</field>
+            <field name="arch" type="xml">
+                <form create="false" edit="false">
+                    <field name="tipo" invisible="1"/>
+                    <field name="secuencia_transaccion_id" invisible="1"/>
+                    <field name="valor_real" invisible="1"/>
+                    <sheet>
+                        <group>
+                            <h3 class="oe_read_only">Consecutivo #<field name="consecutivo"/> [<field name="fecha"/>]</h3>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="concepto_id"/>
+                                <field name="res_partner_id" />
+                            </group>
+                            <group>
+                                <field name="valor" />
+                                <field name="detalle" />
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_transaccion_retiro" model="ir.actions.act_window">
+            <field name="name">Transacción Retiro</field>
+            <field name="res_model">fundetaxcol.transaccion</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('retiro','=',True)]</field>
+            <field name="view_ids" eval="[
+                (5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('transaccion_retiro_tree')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('transaccion_retiro_form')}),
+            ]"/>
+            <field name="help" type="html">
+                <p>
+                    Aún no se han registrado Transacciones de Retiro
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="transacion_menu" name="Transacciones" parent="fundetaxcol.modulo_menu" action="action_transaccion"/>
+        <menuitem id="transacion_retiro_menu" name="Transacciones De Retiro" parent="fundetaxcol.modulo_ahorro" action="action_transaccion_retiro"/>
+
+    </data>
+</odoo>

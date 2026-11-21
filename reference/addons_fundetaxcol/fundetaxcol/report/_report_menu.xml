@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report
+            id="report_sesion_bahia_menu"
+            string="Reporte Sesión Por Bahía"
+            model="fundetaxcol.sesion.bahia"
+            report_type="qweb-html"
+            name="fundetaxcol.report_sesion_bahia"
+        />
+
+        <report
+            id="report_sesion_menu"
+            string="Resumen de sesión"
+            model="fundetaxcol.sesion"
+            report_type="qweb-html"
+            name="fundetaxcol.report_sesion"
+        />
+
+        <record id="sheet_58mm" model="report.paperformat">
+            <field name="name">Formato 58mm</field>
+            <field name="format">custom</field>
+            <field name="page_height">200</field>
+            <field name="page_width">58</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">2</field>
+            <field name="margin_bottom">1</field>
+            <field name="margin_left">1</field>
+            <field name="margin_right">1</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report
+            id="menu_report_pago"
+            string="Reporte"
+            model="fundetaxcol.pago"
+            report_type="qweb-pdf"
+            name="fundetaxcol.report_pago"
+            paperformat="fundetaxcol.sheet_58mm"
+        />
+
+        <report
+            id="menu_report_despacho"
+            string="Reporte"
+            model="fundetaxcol.turno"
+            report_type="qweb-pdf"
+            name="fundetaxcol.report_despacho"
+            paperformat="fundetaxcol.sheet_58mm"
+        />
+
+    </data>
+</odoo>

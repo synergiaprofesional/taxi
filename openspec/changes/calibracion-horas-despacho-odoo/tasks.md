@@ -1,0 +1,26 @@
+# Tareas de Implementación: Calibración Canónica de Horas y Fecha de Despacho
+
+- [x] 1. Modificar `lib/models/turno_model.dart`:
+  - [x] 1.1 Agregar propiedad `final DateTime? fechaDespacho;` y parámetro de constructor `this.fechaDespacho`.
+  - [x] 1.2 Ajustar `parseDate(dynamic val)` para que parsee directamente sin forzar `'Z'`.
+  - [x] 1.3 Mapear `fechaDespacho` en `fromJson` y `toJson`.
+  - [x] 1.4 Incluir `fechaDespacho` en `copyWith` / getters.
+- [x] 2. Modificar `lib/models/payment_model.dart`:
+  - [x] 2.1 Ajustar `parseOdooDateTime(dynamic raw)` para parsear directamente sin forzar `'Z'`.
+- [x] 3. Modificar `lib/ui/widgets/despacho_card_widget.dart`:
+  - [x] 3.1 Usar `final fechaAMostrar = turno.fechaDespacho ?? turno.fechaCreacion;` para el formateo de hora.
+- [x] 4. Incrementar versión a `v2.1.20+22`:
+  - [x] 4.1 En `lib/core/config/app_version.dart`.
+  - [x] 4.2 En `pubspec.yaml`.
+- [x] 5. Ejecutar validaciones de sanidad:
+  - [x] 5.1 `flutter analyze` (0 issues).
+  - [x] 5.2 `flutter test` (22/22 passing).
+- [x] 6. Compilación y Despliegue Multi-Dispositivo:
+  - [x] 6.1 Compilar APK Release (`flutter build apk --release`).
+  - [x] 6.2 Desplegar y lanzar en Teléfono Xiaomi (`6tl7gupn9tnjdapb`).
+  - [x] 6.3 Desplegar y lanzar en Tablet Lenovo (`HA27VLYC`).
+  - [x] 6.4 Compilar y lanzar Windows Desktop Release (`synergia_movil.exe`).
+- [x] 7. Documentación Dual y Persistencia en Engram:
+  - [x] 7.1 Generar `Bitacoras/Bitacora 20261102 111200.md`.
+  - [x] 7.2 Actualizar `Bitacoras/Bitacora 02112026.md` y `Bitacoras/bitacoras.md`.
+  - [x] 7.3 Guardar en Engram con `mem_save`.

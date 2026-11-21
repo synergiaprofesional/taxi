@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+    	<record model="ir.ui.view" id="tarifa_tree">
+    		<field name='name'>tarifa.tree</field>
+    		<field name='model'>fundetaxcol.tarifa</field>
+    		<field name='arch' type='xml'>
+    			<tree>
+    				<field name="name"/>
+    				<field name="company_id" invisible="1"/>
+    				<field name="barrio_id"/>
+    			</tree>
+    		</field>
+    	</record>
+
+    	<record model="ir.ui.view" id="tarifa_form">
+    		<field name="name">tarifa.form</field>
+    		<field name="model">fundetaxcol.tarifa</field>
+    		<field name="arch" type="xml">
+    			<form>
+    				<field name="name" invisible="1"/>
+    				<sheet>
+    					<group>
+    						<group>
+	    						<field name="barrio_id"/>
+	    					</group>
+	    					<group/>
+    					</group>
+    					<group string="Sectores">
+    						<field name="sector_ids" nolabel="1">
+    							<tree editable="bottom" create="false" delete="false">
+                                    <field name="name" readonly="1"/>
+    								<field name="sector_id" invisible="1"/>
+                                    <field name="icono" widget="image" readonly="1"/>
+                                    <field name="nota"/>
+    								<field name="valor"/>
+                                    <field name="valor_recargo"/>
+    							</tree>
+    						</field>
+    					</group>
+    				</sheet>
+    			</form>
+    		</field>
+    	</record>
+        
+        <record id="action_tarifa" model="ir.actions.act_window">
+        	<field name="name">Tarifa</field>
+        	<field name="res_model">fundetaxcol.tarifa</field>
+        	<field name="view_type">form</field>
+        	<field name="view_mode">tree,form</field>
+        	<field name="help" type="html">
+        		<p>
+        			Sin registros
+        		</p>
+        	</field>
+        </record>
+
+        <menuitem id="tarifa_menu" name="Tarifas" parent="fundetaxcol.administracion_menu" action="action_tarifa"/>
+    </data>
+</odoo>
