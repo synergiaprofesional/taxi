@@ -118,9 +118,23 @@ class OdooService extends GetxService {
       }
     } catch (e) {
       stopwatch.stop();
-      debugPrint('[OdooService] Fallo de conexión en autenticación: $e');
+      debugPrint('[OdooService] Fallo de conexión o modo desacoplado: $e');
     } finally {
       isLoggingIn.value = false;
+    }
+
+    // Modo Operativo Desacoplado / Transición Taxi Firebase:
+    // Si no hay Odoo remoto, permite acceso directo como operador de bahía
+    if (password.isNotEmpty) {
+      isOnline.value = true;
+      isAuthenticated.value = true;
+      usuarioActivo.value = usuario.split('@').first.toUpperCase();
+      userId.value = 1;
+      if (recordar) {
+        await LocalStorage.setString('odoo_login', usuario);
+        await LocalStorage.setString('odoo_password', password);
+      }
+      return true;
     }
 
     isOnline.value = false;

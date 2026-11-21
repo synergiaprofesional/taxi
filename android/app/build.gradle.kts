@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.fundetaxcol.taxi"
+    namespace = "com.synergia.synergia_movil"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -15,8 +15,8 @@ android {
     }
 
     defaultConfig {
-        // Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.fundetaxcol.taxi"
+        // Application ID para Taxi - PídemeAquí
+        applicationId = "com.pidemeaqui.taxi"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion

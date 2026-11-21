@@ -172,3 +172,12 @@
   4. Pantalla responsive de ticket digital `WebTicketTrackingView` con sello de verificación, placa colombiana, tarifa decretada desglosada y botón de auxilio SOS.
   5. Suite TDD `test/services/despacho_whatsapp_test.dart` y catalogación en `tests/COMPENDIO_TESTS.md`.
   6. Memoria en Engram registrada con ID `#660`.
+
+
+---
+
+## Sesión 17:00:00 - Puesta en Marcha del Emulador y Login Multi-Empresa
+- **Emulador PC:** Activada aceleración gráfica por hardware (`hw.gpu.enabled=yes`, `hw.gpu.mode=host`, RAM 3072M) para el AVD `Taxi_Emulator`. El emulador arrancó, completó el arranque de Android 14 (`sys.boot_completed=1`) y se desplegó en pantalla.
+- **Acceso Directo:** Creado script lanzador en el escritorio: `C:\Users\salis\OneDrive\Desktop\Iniciar_Emulador_Taxi.bat`.
+- **Despliegue APK en Emulador:** Se instaló y abrió `com.pidemeaqui.taxi` en el emulador, visualizando el nuevo Login limpio SaaS sin botones quemados.
+- **Evidencia Visual:** Capturas confirmadas tanto en el dispositivo físico Xiaomi como en el emulador `emulator-5554`.

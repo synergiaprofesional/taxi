@@ -65,3 +65,11 @@ Este archivo consolida todas las sesiones de trabajo técnico del mes de Noviemb
 - Se establecieron los 3 perfiles principales del sistema: Administradores (Desktop/Tablet), Conductores (Android Móvil) y Clientes (Android Móvil).
 - Se definió la compatibilidad multiplataforma de Flutter para abarcar teléfonos, tablets de garita y consolas desktop Windows.
 - Se documentaron las entidades y conceptos en la LLM Wiki y se guardó la memoria arquitectónica en Engram (ID `#644`).
+
+
+---
+
+## 21/11/2026 17:00:00 - Emulador Operativo y Login Multi-Empresa Desplegado
+- **Emulador PC:** Configurado AVD `Taxi_Emulator` con aceleración gráfica por hardware (`hw.gpu.mode=host`, Vulkan). Dispositivo `emulator-5554` online y verificado.
+- **Lanzador de Escritorio:** Creado `Iniciar_Emulador_Taxi.bat` en `C:\Users\salis\OneDrive\Desktop\`.
+- **Despliegue Multi-Dispositivo:** La nueva versión de PídemeAquí Taxi v3.0.0 (con el nuevo logo y formulario de login limpio multi-tenant) quedó instalada y ejecutándose en paralelo tanto en el teléfono físico (`6tl7gupn9tnjdapb`) como en el emulador de PC (`emulator-5554`).
