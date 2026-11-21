@@ -1,7 +1,7 @@
 /// Helper utilitario para generación de enlaces y mensajes de seguimiento vía WhatsApp
 class WhatsAppTrackingHelper {
   /// Base URL canónica para el tracking web del pasajero
-  static const String defaultBaseUrl = 'https://taxi.fundetaxcol.co';
+  static const String defaultBaseUrl = 'https://pidemeaqui.com';
 
   /// Limpia y formatea un número de celular colombiano al estándar internacional 57XXXXXXXXXX
   static String formatearNumeroColombia(String numero) {

@@ -14,7 +14,7 @@ void main() {
 
     test('generarUrlWebTracking produce URL canónica de seguimiento', () {
       final url = WhatsAppTrackingHelper.generarUrlWebTracking('viaje_abc_789');
-      expect(url, equals('https://taxi.fundetaxcol.co/t/viaje_abc_789'));
+      expect(url, equals('https://pidemeaqui.com/t/viaje_abc_789'));
 
       final urlCustom = WhatsAppTrackingHelper.generarUrlWebTracking('viaje_xyz', baseUrl: 'https://m.taxi.co/');
       expect(urlCustom, equals('https://m.taxi.co/t/viaje_xyz'));
